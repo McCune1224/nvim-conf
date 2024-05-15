@@ -197,6 +197,11 @@ keymap("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 keymap("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 keymap("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Switch to Other Buffer" })
 
+-- Tabs
+keymap("n", "<leader>tc", "<cmd>tabnew<cr>", { desc = "Tab Create" })
+keymap("n", "<leader>tp", "<cmd>tabprevious<cr>", { desc = "Tab Previous" })
+keymap("n", "<leader>tn", "<cmd>tabnext<cr>", { desc = "Tab Next" })
+
 -- Clear search with <esc>
 keymap({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 

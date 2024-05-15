@@ -16,17 +16,6 @@ return {
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      local signs = {
-        Error = "✗",
-        Warning = "⚠",
-        Hint = "ℹ",
-        Information = "ℹ"
-      }
-
-      for type, icon in pairs(signs) do
-          vim.fn.sign_define("LspDiagnosticsSign" .. type, { text = icon, texthl = "LspDiagnosticsSign" .. type })
-      end
-      -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
       --
@@ -173,6 +162,17 @@ return {
             "/home/mckusa/.nix-profile/bin/clangd"
           },
         },
+         rust_analyzer = {
+          cmd = {
+           "/home/mckusa/.nix-profile/bin/rust-analyzer"
+          },
+        },
+
+        stylua = {
+          cmd = {
+            "/home/mckusa/.nix-profile/bin/stylua"
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -200,6 +200,12 @@ return {
           },
         },
       }
+      -- Autoformatting Setup
+      require("conform").setup {
+        -- formatters_by_ft = {
+        --   lua = { "stylua" },
+        -- },
+      }
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -212,9 +218,9 @@ return {
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-      })
+      -- vim.list_extend(ensure_installed, {
+      --   'stylua', -- Used to format Lua code
+      -- })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
