@@ -1,60 +1,70 @@
 return {
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     dependencies = {
-      "folke/neodev.nvim",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      'folke/neodev.nvim',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-      { "j-hui/fidget.nvim", opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Autoformatting
-      "stevearc/conform.nvim",
+      'stevearc/conform.nvim',
 
       -- Schema information
-      "b0o/SchemaStore.nvim",
+      'b0o/SchemaStore.nvim',
     },
     config = function()
-      require("neodev").setup {
-        -- library = {
-        --   plugins = { "nvim-dap-ui" },
-        --   types = true,
-        -- },
+      require('neodev').setup {
+        library = {
+          plugins = { 'nvim-dap-ui' },
+          types = true,
+        },
       }
 
       local capabilities = nil
-      if pcall(require, "cmp_nvim_lsp") then
-        capabilities = require("cmp_nvim_lsp").default_capabilities()
+      if pcall(require, 'cmp_nvim_lsp') then
+        capabilities = require('cmp_nvim_lsp').default_capabilities()
       end
 
-      local lspconfig = require "lspconfig"
+      local lspconfig = require 'lspconfig'
 
       local servers = {
         gopls = true,
         templ = true,
-        bashls = true,
-        lua_ls = true,
         svelte = true,
         cssls = true,
         html = true,
         htmx = true,
-        svelte = true,
         elixirls = true,
-
+        jedi_language_server = true,
+        ruff = true,
+        basedpyright = true,
+        arduino_language_server = true,
+        tailwindcss = true,
         -- Probably want to disable formatting for this lang server
         tsserver = true,
-         rust_analyzer = {
-        -- FIXME: This is a janky workaround with Mason not working with NixOS 
+
+        lua_ls = {
+          -- FIXME: This is a janky workaround with Mason not working with NixOS
+          mason = false,
           cmd = {
-           "/home/mckusa/.nix-profile/bin/rust-analyzer"
+            '/home/mckusa/.nix-profile/bin/lua-lsp',
+          },
+        },
+        rust_analyzer = {
+          -- FIXME: This is a janky workaround with Mason not working with NixOS
+          mason = false,
+          cmd = {
+            '/home/mckusa/.nix-profile/bin/rust-analyzer',
           },
         },
 
         jsonls = {
           settings = {
             json = {
-              schemas = require("schemastore").json.schemas(),
+              schemas = require('schemastore').json.schemas(),
               validate = { enable = true },
             },
           },
@@ -65,49 +75,50 @@ return {
             yaml = {
               schemaStore = {
                 enable = false,
-                url = "",
+                url = '',
               },
-              schemas = require("schemastore").yaml.schemas(),
+              schemas = require('schemastore').yaml.schemas(),
             },
           },
         },
 
         clangd = {
           init_options = { clangdFileStatus = true },
-          filetypes = { "c", "cpp" },
-        -- FIXME: This is a janky workaround with Mason not working with NixOS 
+          filetypes = { 'c', 'cpp' },
+          -- FIXME: This is a janky workaround with Mason not working with NixOS
+          mason = false,
           cmd = {
-            "/home/mckusa/.nix-profile/bin/clangd"
+            '/home/mckusa/.nix-profile/bin/clangd',
           },
         },
       }
 
       local servers_to_install = vim.tbl_filter(function(key)
         local t = servers[key]
-        if type(t) == "table" then
+        if type(t) == 'table' then
           return not t.manual_install
         else
           return t
         end
       end, vim.tbl_keys(servers))
 
-      require("mason").setup()
+      require('mason').setup()
       local ensure_installed = {
-        "stylua", -- Lua styling
-        "lua_ls", -- Lua LSP
-        "delve", -- Golang debugger
-        "omnisharp", -- C# LSP
+        -- "stylua", -- Lua styling
+        -- "lua_ls", -- Lua LSP
+        -- "delve", -- Golang debugger
+        -- "omnisharp", -- C# LSP
         -- "tailwind-language-server",
       }
 
       vim.list_extend(ensure_installed, servers_to_install)
-      require("mason-tool-installer").setup { ensure_installed = ensure_installed }
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       for name, config in pairs(servers) do
         if config == true then
           config = {}
         end
-        config = vim.tbl_deep_extend("force", {}, {
+        config = vim.tbl_deep_extend('force', {}, {
           capabilities = capabilities,
         }, config)
 
@@ -118,20 +129,20 @@ return {
         lua = true,
       }
 
-      vim.api.nvim_create_autocmd("LspAttach", {
+      vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(args)
           local bufnr = args.buf
-          local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id), 'must have valid client')
 
-          vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = 0 })
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-          vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+          vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = 0 })
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = 0 })
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = 0 })
+          vim.keymap.set('n', 'gT', vim.lsp.buf.type_definition, { buffer = 0 })
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = 0 })
 
-          vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+          vim.keymap.set('n', '<space>cr', vim.lsp.buf.rename, { buffer = 0 })
+          vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { buffer = 0 })
 
           local filetype = vim.bo[bufnr].filetype
           if disable_semantic_tokens[filetype] then
@@ -141,16 +152,18 @@ return {
       })
 
       -- Autoformatting Setup
-      require("conform").setup {
+      require('conform').setup {
         formatters_by_ft = {
-          lua = { "stylua" },
+          lua = { 'stylua' },
+          go = { 'goimports' },
+          python = { 'black' },
         },
       }
 
       -- Format on save/write
-      vim.api.nvim_create_autocmd("BufWritePre", {
+      vim.api.nvim_create_autocmd('BufWritePre', {
         callback = function(args)
-          require("conform").format {
+          require('conform').format {
             bufnr = args.buf,
             lsp_fallback = true,
             quiet = true,
