@@ -16,6 +16,7 @@ return {
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
+      -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
       --
@@ -145,7 +146,6 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -156,23 +156,7 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- Manually overwritting some paths as Mason freaks out and cannot find clangd despite being in my path...
-         clangd = {
-          cmd = {
-            "/home/mckusa/.nix-profile/bin/clangd"
-          },
-        },
-         rust_analyzer = {
-          cmd = {
-           "/home/mckusa/.nix-profile/bin/rust-analyzer"
-          },
-        },
-
-        stylua = {
-          cmd = {
-            "/home/mckusa/.nix-profile/bin/stylua"
-          },
-        },
+        -- clangd = {},
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -200,12 +184,6 @@ return {
           },
         },
       }
-      -- Autoformatting Setup
-      require("conform").setup {
-        -- formatters_by_ft = {
-        --   lua = { "stylua" },
-        -- },
-      }
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -218,9 +196,10 @@ return {
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
-      -- vim.list_extend(ensure_installed, {
-      --   'stylua', -- Used to format Lua code
-      -- })
+      vim.list_extend(ensure_installed, {
+        'stylua', -- Used to format Lua code
+        'goimports',
+      })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -237,5 +216,135 @@ return {
       }
     end,
   },
+
+  { -- Autoformat
+    'stevearc/conform.nvim',
+    lazy = false,
+    keys = {
+      {
+        '<leader>f',
+        function()
+          require('conform').format { async = true, lsp_fallback = true }
+        end,
+        mode = '',
+        desc = '[F]ormat buffer',
+      },
+    },
+    opts = {
+      notify_on_error = false,
+      format_on_save = function(bufnr)
+        -- Disable "format_on_save lsp_fallback" for languages that don't
+        -- have a well standardized coding style. You can add additional
+        -- languages here or re-enable it for the disabled ones.
+        local disable_filetypes = { c = true, cpp = true }
+        return {
+          timeout_ms = 500,
+          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+        }
+      end,
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        -- Conform can also run multiple formatters sequentially
+        python = { { 'isort', 'black' } },
+        go = { { 'goimports' } },
+        --
+        -- You can use a sub-list to tell conform to run *until* a formatter
+        -- is found.
+        javascript = { { 'prettierd', 'prettier' } },
+      },
+    },
+  },
+
+  {
+    'hrsh7th/nvim-cmp',
+    lazy = false,
+    priority = 100,
+    dependencies = {
+      'onsails/lspkind.nvim',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      {
+        'L3MON4D3/LuaSnip',
+        dependencies = { 'rafamadriz/friendly-snippets' },
+        build = 'make install_jsregexp',
+      },
+      'saadparwaiz1/cmp_luasnip',
+    },
+
+    config = function()
+      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+      vim.opt.shortmess:append 'c'
+
+      local lspkind = require 'lspkind'
+      lspkind.init {}
+
+      local cmp = require 'cmp'
+
+      require('luasnip.loaders.from_vscode').lazy_load()
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end,
+        },
+        formatting = {
+          expandable_indicator = true,
+          format = lspkind.cmp_format {
+            mode = 'symbol_text',
+            maxwidth = 50,
+            ellipsis_char = '...',
+          },
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'path' },
+          { name = 'buffer' },
+          { name = 'luasnip' },
+        },
+        mapping = cmp.mapping.preset.insert {
+          ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
+          ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
+          ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
+          ['<C-Space>'] = cmp.mapping.complete {}, -- show completion suggestions
+          -- ['<C-c>'] = cmp.mapping.abort(), -- close completion window
+          ['<C-e>'] = cmp.mapping.confirm { select = true }, -- select suggestion
+        },
+
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        experimental = {
+          ghost_text = true,
+        },
+      }
+
+      cmp.setup.filetype({ 'sql' }, {
+        sources = {
+          { name = 'vim-dadbod-completion' },
+          { name = 'buffer' },
+        },
+      })
+
+      local ls = require 'luasnip'
+      ls.config.set_config {
+        history = false,
+        updateevents = 'TextChanged,TextChangedI',
+      }
+
+      vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+        if ls.expand_or_jumpable() then
+          ls.expand_or_jump()
+        end
+      end, { silent = true })
+
+      vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+        if ls.jumpable(-1) then
+          ls.jump(-1)
+        end
+      end, { silent = true })
+    end,
+  },
 }
--- vim: ts=2 sts=2 sw=2 et
