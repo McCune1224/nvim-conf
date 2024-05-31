@@ -247,6 +247,7 @@ return {
         -- Conform can also run multiple formatters sequentially
         python = { { 'isort', 'black' } },
         go = { { 'goimports' } },
+        sql = { { 'sql-formatter', 'sqlfmt' } },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -297,10 +298,11 @@ return {
           },
         },
         sources = {
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-          { name = 'buffer' },
-          { name = 'luasnip' },
+          { name = 'nvim_lsp', group_index = 2 },
+          { name = 'path', group_index = 2 },
+          { name = 'copilot', group_index = 2 }, -- Copilot suggestions
+          { name = 'buffer', group_index = 2 },
+          { name = 'luasnip', group_index = 2 },
         },
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
