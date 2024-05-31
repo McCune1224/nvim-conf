@@ -278,7 +278,11 @@ return {
       vim.opt.shortmess:append 'c'
 
       local lspkind = require 'lspkind'
-      lspkind.init {}
+      lspkind.init {
+        symbol_map = {
+          Supermaven = '',
+        },
+      }
 
       local cmp = require 'cmp'
 
@@ -298,11 +302,11 @@ return {
           },
         },
         sources = {
-          { name = 'nvim_lsp', group_index = 2 },
-          { name = 'path', group_index = 2 },
-          { name = 'copilot', group_index = 2 }, -- Copilot suggestions
-          { name = 'buffer', group_index = 2 },
-          { name = 'luasnip', group_index = 2 },
+          { name = 'nvim_lsp' },
+          { name = 'path' },
+          { name = 'buffer' },
+          { name = 'luasnip' },
+          { name = 'supermaven' },
         },
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
