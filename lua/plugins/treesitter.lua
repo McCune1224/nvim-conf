@@ -3,7 +3,26 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'cpp', 'c_sharp', 'html', 'css', 'javascript', 'typescript', 'elixir', 'python', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'templ', 'go', 'rust' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'cpp',
+        'c_sharp',
+        'html',
+        'css',
+        'javascript',
+        'typescript',
+        'elixir',
+        'python',
+        'lua',
+        'luadoc',
+        'markdown',
+        'vim',
+        'vimdoc',
+        'templ',
+        'go',
+        'rust',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -29,6 +48,57 @@ return {
       --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      local configs = require 'nvim-treesitter.configs'
+      configs.setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+              ['aa'] = '@class.outer',
+              ['ia'] = '@class.inner',
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              [']f'] = '@function.outer',
+              [']o'] = '@loop.*',
+              [']]'] = '@class.outer',
+              [']['] = '@parameter.outer',
+              [']F'] = '@function.outer',
+            },
+            goto_next_end = {
+              [']F'] = '@function.outer',
+              [']O'] = '@loop.*',
+              [']['] = '@class.outer',
+              [']]'] = '@variable.outer',
+            },
+            goto_previous_start = {
+              ['[f'] = '@function.outer',
+              ['[o'] = '@loop.*',
+              ['[['] = '@class.outer',
+              ['[]'] = '@parameter.outer',
+            },
+            goto_previous_end = {
+              ['[F'] = '@function.outer',
+              ['[O'] = '@loop.*',
+              ['[]'] = '@class.outer',
+            },
+          },
+        },
+      }
     end,
   },
 }

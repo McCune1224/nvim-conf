@@ -1,25 +1,25 @@
 return {
   -- Add the following colorschemes to select from
   --
-  { "rktjmp/lush.nvim" },
+  { 'rktjmp/lush.nvim' },
   {
-    "mcchrish/zenbones.nvim",
+    'mcchrish/zenbones.nvim',
   },
-  { "ntk148v/komau.vim" },
-  { "davidosomething/vim-colors-meh" },
-  { "Mofiqul/vscode.nvim" },
-  { "rmehri01/onenord.nvim" },
-  { "rebelot/kanagawa.nvim" },
-  { "Mofiqul/dracula.nvim" },
-  { "fenetikm/falcon" },
+  { 'ntk148v/komau.vim' },
+  { 'davidosomething/vim-colors-meh' },
+  { 'Mofiqul/vscode.nvim' },
+  { 'rmehri01/onenord.nvim' },
+  { 'rebelot/kanagawa.nvim' },
+  { 'Mofiqul/dracula.nvim' },
+  { 'fenetikm/falcon' },
 
-  { "nyoom-engineering/oxocarbon.nvim" },
-  { "savq/melange-nvim" },
+  { 'nyoom-engineering/oxocarbon.nvim' },
+  { 'savq/melange-nvim' },
 
   {
-    "LazyVim/LazyVim",
+    'LazyVim/LazyVim',
     opts = {
-      colorscheme = "kanagawa-dragon",
+      colorscheme = 'kanagawa',
     },
   },
 }
