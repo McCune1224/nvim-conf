@@ -1,1 +1,6 @@
-return { "stevearc/dressing.nvim", event = "VeryLazy" } 
+return {
+  {
+    "stevearc/dressing.nvim",
+    opts = {},
+  },
+}

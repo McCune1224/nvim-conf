@@ -1,9 +1,26 @@
 return {
-    "folke/tokyonight.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      -- load the colorscheme here
-      vim.cmd([[colorscheme tokyonight]])
-    end,
-  }
+
+	{ "rktjmp/lush.nvim" },
+	{
+		"mcchrish/zenbones.nvim",
+	},
+	{ "ntk148v/komau.vim" },
+	{ "davidosomething/vim-colors-meh" },
+	{ "Mofiqul/vscode.nvim" },
+	{ "rmehri01/onenord.nvim" },
+	{ "Mofiqul/dracula.nvim" },
+	{ "fenetikm/falcon" },
+
+	{ "nyoom-engineering/oxocarbon.nvim" },
+	{ "savq/melange-nvim" },
+
+	{
+		"rebelot/kanagawa.nvim",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			-- load the colorscheme here
+			vim.cmd([[colorscheme kanagawa]])
+		end,
+	},
+}
