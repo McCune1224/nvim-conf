@@ -1,6 +1,9 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- https://github.com/MagicDuck/grug-far.nvim
+vim.g.maplocalleader = ','
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -111,9 +114,8 @@ keymap('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 keymap('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 keymap('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 keymap('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-keymap('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
-keymap('n', '<leader>`', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
-keymap('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Switch to Other Buffer' })
+keymap('n', '<leader>bd', '<cmd>bp|bd #<cr>', { desc = 'Delete Buffer Keep Window' })
+keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
 
 -- Tabs
 keymap('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'Tab Create' })
@@ -128,6 +130,7 @@ keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and Clear hl
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
 keymap('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / Clear hlsearch / Diff Update' })
+keymap('n', '<leader><esc>', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / Clear hlsearch / Diff Update' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 keymap('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next Search Result' })
@@ -146,7 +149,7 @@ keymap('i', ';', ';<c-g>u')
 keymap({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save File' })
 
 --keywordprg
-keymap('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
+-- keymap('n', '<leader>K', '<cmd>norm! K<cr>', { desc = 'Keywordprg' })
 
 -- better indenting
 keymap('v', '<', '<gv')
@@ -197,14 +200,22 @@ keymap("n", "<leader>w|", "<C-W>v", { desc = "Split Window Right", remap = true 
 keymap("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 keymap("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 
+-- -- tabs
+-- keymap("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+-- keymap("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+-- keymap("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+-- keymap("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+-- keymap("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+-- keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
 -- tabs
 keymap("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+keymap("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 keymap("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 keymap("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 keymap("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 keymap("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-
 
 
 -- [[ Plugin settings ]]

@@ -125,6 +125,7 @@ return {
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
+        --
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -133,6 +134,26 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        tailwindcss = {
+          capabilities = capabilities,
+          filetypes = { 'html', 'templ', 'astro', 'javascript', 'typescript', 'react' },
+          settings = {
+            tailwindCSS = {
+              includeLanguages = {
+                templ = 'html',
+              },
+            },
+          },
+        },
+
+        htmx = {
+          capabilities = capabilities,
+          filetypes = { 'html', 'templ' },
+        },
+        html = {
+          capabilities = capabilities,
+          filetypes = { 'html', 'templ' },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -277,8 +298,8 @@ return {
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
           ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
-          ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
+          -- ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
+          -- ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
           ['<C-Space>'] = cmp.mapping.complete {}, -- show completion suggestions
           ['<C-c>'] = cmp.mapping.abort(), -- close completion window
           ['<C-e>'] = cmp.mapping.confirm { select = true }, -- select suggestion
