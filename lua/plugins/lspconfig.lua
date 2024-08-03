@@ -134,26 +134,6 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
-        tailwindcss = {
-          capabilities = capabilities,
-          filetypes = { 'html', 'templ', 'astro', 'javascript', 'typescript', 'react' },
-          settings = {
-            tailwindCSS = {
-              includeLanguages = {
-                templ = 'html',
-              },
-            },
-          },
-        },
-
-        htmx = {
-          capabilities = capabilities,
-          filetypes = { 'html', 'templ' },
-        },
-        html = {
-          capabilities = capabilities,
-          filetypes = { 'html', 'templ' },
-        },
 
         lua_ls = {
           -- cmd = {...},
@@ -229,15 +209,20 @@ return {
         }
       end,
       formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        python = { { 'isort', 'black' } },
-        go = { { 'goimports' } },
-        sql = { { 'sql-formatter', 'sqlfmt' } },
+
+        -- {lsp_format}
+        --     `"never"`    never use the LSP for formatting (default)
+        --     `"fallback"` LSP formatting is used when no other formatters are available
+        --     `"prefer"`   use only LSP formatting when available
+        --     `"first"`    LSP formatting is used when available and then other formatters
+        --     `"last"`     other formatters are used then LSP formatting when
+        lua = { 'stylua', lsp_format = 'fallback' },
+        -- python = { 'isort', 'black', lsp_format = 'fallback' },
+        go = { 'goimports', lsp_format = 'last' },
+        sql = { 'sql-formatter', 'sqlfmt', stop_after_first = true, lsp_format = 'fallback' },
         --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
       },
     },
   },
@@ -251,6 +236,7 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
+      'nvim-tree/nvim-web-devicons',
       {
         'L3MON4D3/LuaSnip',
         dependencies = { 'rafamadriz/friendly-snippets' },
@@ -279,21 +265,12 @@ return {
             require('luasnip').lsp_expand(args.body)
           end,
         },
-        formatting = {
-          expandable_indicator = true,
-          format = lspkind.cmp_format {
-            mode = 'symbol_text',
-            maxwidth = 50,
-            ellipsis_char = '...',
-          },
-          fields = { 'kind', 'abbr', 'menu' },
-        },
         sources = {
-          { name = 'nvim_lsp', priority = 2 },
-          { name = 'buffer', priority = 3 },
-          { name = 'supermaven', priority = 3 },
-          { name = 'path', priority = 4 },
-          { name = 'luasnip', priority = 1 },
+          { name = 'nvim_lsp', priority = 1000 },
+          { name = 'luasnip', priority = 750 },
+          { name = 'buffer', priority = 500 },
+          { name = 'supermaven', priority = 250 },
+          { name = 'path', priority = 100 },
         },
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
@@ -309,6 +286,51 @@ return {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
+        formatting = {
+          fields = { 'kind', 'abbr', 'menu' },
+          format = function(entry, vim_item)
+            local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
+            local strings = vim.split(kind.kind, '%s', { trimempty = true })
+            kind.kind = ' ' .. (strings[1] or '') .. ' '
+            kind.menu = '    (' .. (strings[2] or '') .. ')'
+
+            return kind
+          end,
+        },
+        --
+        -- formatting = {
+        --   format = lspkind.cmp_format {
+        --     mode = 'text_symbol',
+        --     -- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        --     -- can also be a function to dynamically calculate max width such as
+        --     maxwidth = function()
+        --       return math.floor(0.45 * vim.o.columns)
+        --     end,
+        --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        --     show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+        --
+        --     -- The function below will be called before any actual modifications from lspkind
+        --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+        --     -- before = function (entry, vim_item)
+        --     --   ...
+        --     --   return vim_item
+        --     -- end
+        --   },
+        -- },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
+        },
+
         experimental = {
           ghost_text = true,
         },
@@ -328,13 +350,13 @@ return {
         updateevents = 'TextChanged,TextChangedI',
       }
 
-      vim.keymap.set({ 'i', 's' }, '<c-u>', function()
+      vim.keymap.set({ 'i', 's' }, '<c-d>', function()
         if ls.expand_or_jumpable() then
           ls.expand_or_jump()
         end
       end, { silent = true })
 
-      vim.keymap.set({ 'i', 's' }, '<c-d>', function()
+      vim.keymap.set({ 'i', 's' }, '<c-u>', function()
         if ls.jumpable(-1) then
           ls.jump(-1)
         end
