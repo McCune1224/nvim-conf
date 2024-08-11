@@ -109,13 +109,13 @@ keymap('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
 keymap('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move Down' })
 keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
 
--- buffers
-keymap('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-keymap('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-keymap('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-keymap('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-keymap('n', '<leader>bd', '<cmd>bp|bd #<cr>', { desc = 'Delete Buffer Keep Window' })
-keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
+-- buffers (Turn off for now as using barbar.nvim)
+-- keymap('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+-- keymap('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+-- keymap('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+-- keymap('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+-- keymap('n', '<leader>bd', '<cmd>bp|bd #<cr>', { desc = 'Delete Buffer Keep Window' })
+-- keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
 
 -- Tabs
 keymap('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'Tab Create' })

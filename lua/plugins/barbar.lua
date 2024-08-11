@@ -6,9 +6,13 @@ return {
   },
   init = function()
     vim.g.barbar_auto_setup = false
-    -- vim.keymap.set('n', '<leader>bn', '<Cmd>BufferOrderByBufferNumber<CR>', { desc = 'Buffer Pick' })
+
+    vim.keymap.set('n', '<leader>bn', '<Cmd>BufferOrderByBufferNumber<CR>', { desc = 'Buffer Pick' })
+    vim.keymap.set('n', '<leader>bd', '<Cmd>BufferClose<CR>', { desc = 'Close Buffer' })
+    vim.keymap.set('n', '<leader>br', '<Cmd>BufferRestore<CR>', { desc = 'Restore Buffer' })
+    vim.keymap.set('n', '<S-h>', '<Cmd>BufferPrevious<CR>', { desc = 'Prev Buffer' })
+    vim.keymap.set('n', '<S-l>', '<Cmd>BufferNext<CR>', { desc = 'Next Buffer' })
     vim.keymap.set('n', '<leader>bn', '<Cmd>BufferOrderByName<CR>', { desc = 'Order Buffer By Name' })
-    -- vim.keymap.set('n', '<leader>bd', '<Cmd>BufferOrderByDirectory<CR>', { desc = 'Order Buffer By Directory' })
     vim.keymap.set('n', '<leader>bl', '<Cmd>BufferOrderByLanguage<CR>', { desc = 'Order Buffer By Language' })
     vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = 'Pin Buffer' })
     vim.keymap.set('n', '<leader>bdo', '<Cmd>BufferCloseAllButCurrent<CR>', { desc = 'Delete All Other Buffers But Current' })
@@ -21,6 +25,9 @@ return {
     -- animation = true,
     -- insert_at_start = true,
     -- …etc.
+    sort = {
+      ignore_case = true,
+    },
   },
   version = '^1.0.0', -- optional: only update when a new 1.x version is released
 }
