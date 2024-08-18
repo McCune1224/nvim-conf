@@ -180,6 +180,13 @@ return {
           end,
         },
       }
+      -- No currently official gleam lsp for Mason, so manuall adding via lspconfig
+      -- require('lspconfig').gleam.setup {
+      --   cmd = { 'gleam', 'lsp' },
+      --   filetypes = { 'gleam' },
+      --   capabilities = capabilities,
+      -- }
+      require('lspconfig').gleam.setup {}
     end,
   },
 
