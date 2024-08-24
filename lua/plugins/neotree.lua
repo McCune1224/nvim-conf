@@ -16,7 +16,7 @@ return {
     filesystem = {
       window = {
         position = 'float',
-        -- width = 50,
+        width = vim.o.columns * 0.4,
         mappings = {
           ['<C-\\>'] = 'close_window',
         },
