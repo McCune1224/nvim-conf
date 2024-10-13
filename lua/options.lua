@@ -61,7 +61,11 @@ opt.fillchars = {
   eob = ' ',
 }
 
-opt.smoothscroll = true
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50"
+
+
+-- NIXOS NO LIKEY
+-- opt.smoothscroll = true
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
