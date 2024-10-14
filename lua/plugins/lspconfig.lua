@@ -116,19 +116,24 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        -- C/C++
         clangd = {},
+        -- Go
         gopls = {},
+        -- Gleam
         gleam = {},
+        -- Rust
         rust_analyzer = {},
+        -- Typescript
         ts_ls = {},
+        -- C# / .NET
         csharp_ls = {},
-        -- pyright = {},
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        --
 
+        -- Python
+        ruff = {},
+        pyright = {},
+
+        -- Lua
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -144,34 +149,6 @@ return {
           },
         },
       }
-
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        -- 'stylua', -- Used to format Lua code
-        -- 'goimports',
-      })
-
-      -- require('mason-lspconfig').setup {
-      --   handlers = {
-      --     function(server_name)
-      --       local server = servers[server_name] or {}
-      --       -- This handles overriding only values explicitly passed
-      --       -- by the server configuration above. Useful when disabling
-      --       -- certain features of an LSP (for example, turning off formatting for tsserver)
-      --       server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-      --       require('lspconfig')[server_name].setup(server)
-      --     end,
-      --   },
-      -- }
-      -- No currently official gleam lsp for Mason, so manuall adding via lspconfig
-      -- require('lspconfig').gleam.setup {
-      --   cmd = { 'gleam', 'lsp' },
-      --   filetypes = { 'gleam' },
-      --   capabilities = capabilities,
-      -- }
-      require('lspconfig').gleam.setup {}
       local lspconfig = require 'lspconfig'
       for server_name, server in pairs(servers) do
         lspconfig[server_name].setup(server)
@@ -246,12 +223,6 @@ return {
       vim.opt.shortmess:append 'c'
 
       local lspkind = require 'lspkind'
-      lspkind.init {
-        symbol_map = {
-          Supermaven = '',
-        },
-      }
-
       local cmp = require 'cmp'
 
       require('luasnip.loaders.from_vscode').lazy_load()
