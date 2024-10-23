@@ -115,20 +115,38 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      --https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs
       local servers = {
         -- C/C++
         clangd = {},
         -- Go
         gopls = {},
+        templ = {},
         -- Gleam
         gleam = {},
         -- Rust
         rust_analyzer = {},
         -- Typescript
         ts_ls = {},
+        -- SvelteKit
+        svelte = {},
+        html = {
+          filetypes = { 'html', 'templ' },
+        },
+        --Tailwindcss
+        --https://templ.guide/commands-and-tools/ide-support/#neovim--050
+        tailwindcss = {
+          filetypes = { 'templ', 'astro', 'javascript', 'typescript', 'react', 'svelte' },
+          settings = {
+            tailwindCSS = {
+              includeLanguages = {
+                templ = 'html',
+              },
+            },
+          },
+        },
         -- C# / .NET
         csharp_ls = {},
-
         -- Python
         ruff = {},
         pyright = {},
@@ -236,7 +254,6 @@ return {
           { name = 'nvim_lsp', priority = 1000 },
           { name = 'luasnip', priority = 750 },
           { name = 'buffer', priority = 500 },
-          { name = 'supermaven', priority = 250 },
           { name = 'path', priority = 100 },
         },
         mapping = cmp.mapping.preset.insert {
@@ -307,7 +324,6 @@ return {
         sources = {
           { name = 'vim-dadbod-completion' },
           { name = 'buffer' },
-          { name = 'supermaven' },
         },
       })
 

@@ -1,6 +1,7 @@
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+
     build = ':TSUpdate',
     opts = {
       ensure_installed = {
@@ -13,6 +14,7 @@ return {
         'javascript',
         'typescript',
         'elixir',
+        'gleam',
         'python',
         'lua',
         'luadoc',
@@ -31,6 +33,8 @@ return {
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
+        -- FIXME: Getting Some janky bugs with go right now and highlighting, too lazy to fix so turning off for now...
+        -- disable = { 'go', },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },

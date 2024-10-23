@@ -52,6 +52,7 @@ opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visu
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
+opt.foldenable = false -- disable folding
 opt.fillchars = {
   foldopen = '',
   foldclose = '',
@@ -61,8 +62,7 @@ opt.fillchars = {
   eob = ' ',
 }
 
-vim.opt.guicursor = "n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50"
-
+vim.opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50'
 
 -- NIXOS NO LIKEY
 -- opt.smoothscroll = true
