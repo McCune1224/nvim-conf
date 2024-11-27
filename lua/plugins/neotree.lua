@@ -9,7 +9,7 @@ return {
   },
 
   keys = {
-    { '<C-\\>', ':Neotree toggle<CR>', { desc = 'NeoTree toggle' } },
+    { '<C-e>', ':Neotree toggle<CR>', { desc = 'NeoTree toggle' } },
   },
 
   opts = {
@@ -18,7 +18,7 @@ return {
         position = 'float',
         width = vim.o.columns * 0.4,
         mappings = {
-          ['<C-\\>'] = 'close_window',
+          ['<C-e>'] = 'close_window',
         },
       },
     },

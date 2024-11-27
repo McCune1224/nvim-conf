@@ -51,6 +51,8 @@ opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
+
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 opt.wrap = false -- Disable line wrap
 opt.fillchars = {
   foldopen = '',
@@ -60,7 +62,6 @@ opt.fillchars = {
   diff = '╱',
   eob = ' ',
 }
-
 opt.smoothscroll = true
 
 -- Fix markdown indentation settings

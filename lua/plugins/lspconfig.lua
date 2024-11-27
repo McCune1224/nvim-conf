@@ -186,7 +186,16 @@ return {
       --   filetypes = { 'gleam' },
       --   capabilities = capabilities,
       -- }
-      require('lspconfig').gleam.setup {}
+      local lspconfig = require 'lspconfig'
+      lspconfig.gleam.setup {
+        capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
+      }
+      -- local gd_port = os.getenv 'GDScript_Port' or '6005'
+      -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
+      -- local gd_pipe = [[\\.\pipe\godot.pipe]]
+      lspconfig.gdscript.setup {
+        capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
+      }
     end,
   },
 
@@ -195,7 +204,7 @@ return {
     lazy = false,
     keys = {
       {
-        '<leader>f',
+        '<leader>F',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
@@ -256,13 +265,6 @@ return {
       vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
       vim.opt.shortmess:append 'c'
 
-      local lspkind = require 'lspkind'
-      lspkind.init {
-        symbol_map = {
-          Supermaven = '',
-        },
-      }
-
       local cmp = require 'cmp'
 
       require('luasnip.loaders.from_vscode').lazy_load()
@@ -273,11 +275,11 @@ return {
           end,
         },
         sources = {
-          { name = 'nvim_lsp', priority = 1000 },
-          { name = 'luasnip', priority = 750 },
-          { name = 'buffer', priority = 500 },
-          { name = 'supermaven', priority = 250 },
-          { name = 'path', priority = 100 },
+          { name = 'nvim_lsp', priority = 750, group_index = 1 },
+          { name = 'luasnip', priority = 1000, group_index = 1 },
+          { name = 'buffer', priority = 500, group_index = 2 },
+          -- { name = 'copilot', priority = 650, group_index = 2 },
+          { name = 'path', priority = 100, group_index = 3 },
         },
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
