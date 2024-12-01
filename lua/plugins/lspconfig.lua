@@ -117,11 +117,16 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       --https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs
       local servers = {
+        nixd = {},
         -- C/C++
         clangd = {},
         -- Go
         gopls = {},
         templ = {},
+        --Elixir
+        elixirls = {
+          cmd = { '/home/kusa/.nix-profile/bin/elixir-ls' },
+        },
         -- Gleam
         gleam = {},
         -- Rust
@@ -150,7 +155,6 @@ return {
         -- Python
         ruff = {},
         pyright = {},
-
         -- Lua
         lua_ls = {
           -- cmd = {...},
@@ -251,10 +255,11 @@ return {
           end,
         },
         sources = {
-          { name = 'nvim_lsp', priority = 1000 },
-          { name = 'luasnip', priority = 750 },
-          { name = 'buffer', priority = 500 },
-          { name = 'path', priority = 100 },
+          { name = 'nvim_lsp', priority = 750, group_index = 1 },
+          { name = 'luasnip', priority = 1000, group_index = 1 },
+          { name = 'buffer', priority = 500, group_index = 2 },
+          -- { name = 'copilot', priority = 650, group_index = 2 },
+          { name = 'path', priority = 100, group_index = 3 },
         },
         mapping = cmp.mapping.preset.insert {
           ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
