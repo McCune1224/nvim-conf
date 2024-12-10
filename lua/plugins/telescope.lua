@@ -74,20 +74,84 @@ return {
       pcall(require('telescope').load_extension, 'ui-select')
 
       -- See `:help telescope.builtin`
+      -- vim.keymap.set('n', '<leader>fh', builtin.help_tags(themes.get_ivy(opts)), { desc = '[F]ind [H]elp' })
+      -- vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
+      -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
+      -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
+      -- vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
+      -- vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
+      -- vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
+      -- vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
+      -- vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      -- vim.keymap.set('n', '<leader>fc', builtin.colorscheme, { desc = '[F]ind [C]olorscheme' })
+      -- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      -- vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = '[F] Find [S]ymbols' })
+      -- vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = '[F] Find [S]ymbols' })
+
+      local opts = {}
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
-      vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
-      vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
-      vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-      vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
-      vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader>fc', builtin.colorscheme, { desc = '[F]ind [C]olorscheme' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = '[F] Find [S]ymbols' })
-      vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = '[F] Find [S]ymbols' })
+      local themes = require 'telescope.themes'
+
+      vim.keymap.set('n', '<leader>fh', function()
+        builtin.help_tags(themes.get_ivy(opts))
+      end, { desc = '[F]ind [H]elp' })
+
+      vim.keymap.set('n', '<leader>fk', function()
+        builtin.keymaps(themes.get_ivy(opts))
+      end, { desc = '[F]ind [K]eymaps' })
+
+      vim.keymap.set('n', '<leader>ff', function()
+        builtin.find_files(themes.get_ivy(opts))
+      end, { desc = '[F]ind [F]iles' })
+
+      vim.keymap.set('n', '<leader>fs', function()
+        builtin.builtin(themes.get_ivy(opts))
+      end, { desc = '[F]ind [S]elect Telescope' })
+
+      vim.keymap.set('n', '<leader>fw', function()
+        builtin.diagnostics(themes.get_ivy {
+          prompt_title = 'Find Diagnostic Warnings',
+          search = 'warning',
+        })
+      end, { desc = '[F]ind Diagnostic [W]arnings' })
+
+      vim.keymap.set('n', '<leader>fg', function()
+        builtin.live_grep(themes.get_ivy(opts))
+      end, { desc = '[F]ind by [G]rep' })
+
+      vim.keymap.set('n', '<leader>fb', function()
+        builtin.live_grep(themes.get_ivy {
+          grep_open_files = true,
+        })
+      end, { desc = '[F]ind Within [B]uffers' })
+
+      vim.keymap.set('n', '<leader>fd', function()
+        builtin.diagnostics(themes.get_ivy(opts))
+      end, { desc = '[F]ind [D]iagnostics' })
+
+      vim.keymap.set('n', '<leader>fr', function()
+        builtin.resume(themes.get_ivy(opts))
+      end, { desc = '[F]ind [R]esume' })
+
+      vim.keymap.set('n', '<leader>f.', function()
+        builtin.oldfiles(themes.get_ivy(opts))
+      end, { desc = '[F]ind Recent Files ("." for repeat)' })
+
+      vim.keymap.set('n', '<leader>fc', function()
+        builtin.colorscheme(themes.get_ivy(opts))
+      end, { desc = '[F]ind [C]olorscheme' })
+
+      vim.keymap.set('n', '<leader><leader>', function()
+        builtin.buffers(themes.get_ivy(opts))
+      end, { desc = '[ ] Find existing buffers' })
+
+      vim.keymap.set('n', '<leader>fs', function()
+        builtin.lsp_document_symbols(themes.get_ivy(opts))
+      end, { desc = '[F] Find [S]ymbols' })
+
+      vim.keymap.set('n', '<leader>fS', function()
+        builtin.lsp_dynamic_workspace_symbols(themes.get_ivy(opts))
+      end, { desc = '[F] Find [S]ymbols' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()

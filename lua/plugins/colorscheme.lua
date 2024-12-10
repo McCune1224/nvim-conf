@@ -21,6 +21,13 @@ return {
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
+      -- Get current time to see if its 5pm or not:
+      local current_time = tonumber(os.date '%H')
+
+      if current_time >= 16 or current_time < 6 then
+        vim.cmd [[colorscheme no-clown-fiesta]]
+        return
+      end
       vim.cmd [[colorscheme kanagawa-lotus]]
     end,
   },

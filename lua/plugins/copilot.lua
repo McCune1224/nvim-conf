@@ -22,7 +22,7 @@ return {
       },
       suggestion = {
         enabled = true,
-        auto_trigger = false,
+        auto_trigger = true,
         hide_during_completion = true,
         debounce = 75,
         keymap = {
@@ -52,11 +52,19 @@ return {
 
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
+    branch = 'main',
     keys = {
       { '<leader>cc', ':CopilotChat<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', ':CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', ':CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
+      -- {
+      --   '<leader>cc',
+      --   function()
+      --     local actions = require 'CopilotChat.actions'
+      --     require('CopilotChat.integrations.telescope').pick(actions.prompt_actions())
+      --   end,
+      --   desc = 'CopilotChat - Prompt actions',
+      -- },
     },
     dependencies = {
       { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
