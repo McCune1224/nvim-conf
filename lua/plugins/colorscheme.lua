@@ -15,6 +15,7 @@ return {
   { 'nyoom-engineering/oxocarbon.nvim' },
   { 'savq/melange-nvim' },
   { 'blazkowolf/gruber-darker.nvim' },
+  { 'ellisonleao/gruvbox.nvim' },
   {
     'rebelot/kanagawa.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -26,7 +27,7 @@ return {
         vim.cmd [[colorscheme no-clown-fiesta]]
         return
       end
-      vim.cmd [[colorscheme kanagawa-lotus]]
+      vim.cmd [[colorscheme gruber-darker]]
     end,
   },
 }

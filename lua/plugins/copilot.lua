@@ -52,7 +52,7 @@ return {
 
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
+    branch = 'main',
     keys = {
       { '<leader>cc', ':CopilotChat<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', ':CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
