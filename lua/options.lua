@@ -52,16 +52,17 @@ opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visu
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 
+opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50'
 -- check if on windows and if so, set to use powershell:
 if vim.fn.has 'win32' == 1 then
   -- Set PowerShell as default shell
-  vim.opt.shell = 'powershell'
-  vim.opt.shellcmdflag =
+  opt.shell = 'powershell'
+  opt.shellcmdflag =
     '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-  vim.opt.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-  vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-  vim.opt.shellquote = ''
-  vim.opt.shellxquote = ''
+  opt.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  opt.shellquote = ''
+  opt.shellxquote = ''
 end
 
 -- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }

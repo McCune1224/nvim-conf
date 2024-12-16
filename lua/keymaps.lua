@@ -12,7 +12,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Add [D]iagnostic quickfix [L]ist' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -161,11 +161,14 @@ keymap('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
 -- new file
 keymap('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 
-keymap('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
-keymap('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
+-- Quickfix list
+-- keymap('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
+-- keymap('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
 
-keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
-keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+keymap('n', '<A-j>', vim.cmd.cnext, { desc = 'Next Quickfix' })
+keymap('n', '<A-k>', vim.cmd.cprevious, { desc = 'Next Quickfix' })
+-- keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+-- keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
@@ -222,9 +225,9 @@ keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 -- keymap("n", "<leader>e", "<cmd>Neotree toggle<cr>", {desc = "Open Neo-Tree"})
 
 -- Map Oil to <leader>e
-keymap("n", "<leader>e", function()
-  require("oil").toggle_float()
-end)
+-- keymap("n", "<leader>e", function()
+--   require("oil").toggle_float()
+-- end)
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
