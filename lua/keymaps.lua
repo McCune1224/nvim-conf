@@ -165,10 +165,10 @@ keymap('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 -- keymap('n', '<leader>xl', '<cmd>lopen<cr>', { desc = 'Location List' })
 -- keymap('n', '<leader>xq', '<cmd>copen<cr>', { desc = 'Quickfix List' })
 
-keymap('n', '<A-j>', vim.cmd.cnext, { desc = 'Next Quickfix' })
-keymap('n', '<A-k>', vim.cmd.cprevious, { desc = 'Next Quickfix' })
--- keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
--- keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+-- keymap('n', '<A-j>', vim.cmd.cnext, { desc = 'Next Quickfix' })
+-- keymap('n', '<A-k>', vim.cmd.cprevious, { desc = 'Next Quickfix' })
+keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
