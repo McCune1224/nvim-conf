@@ -74,6 +74,9 @@ return {
     opts = {
       -- See Configuration section for options
       model = 'claude-3.5-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+      window = {
+        layout = 'horizontal',
+      },
     },
     -- See Commands section for default commands if you want to lazy load on them
   },
