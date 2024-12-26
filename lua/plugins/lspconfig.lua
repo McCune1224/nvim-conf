@@ -6,6 +6,7 @@ return {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'saghen/blink.cmp',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -130,8 +131,8 @@ return {
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
+      -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      -- capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities(config.capabilities))
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -185,7 +186,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'goimports',
+        -- 'goimports',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -193,10 +194,12 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
+            local bl_capabilities = require('blink.cmp').get_lsp_capabilities()
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.capabilities = vim.tbl_deep_extend('force', {}, bl_capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
         },
@@ -264,133 +267,271 @@ return {
     },
   },
 
+  -- {
+  --   'hrsh7th/nvim-cmp',
+  --   lazy = false,
+  --   priority = 100,
+  --   dependencies = {
+  --     'onsails/lspkind.nvim',
+  --     'hrsh7th/cmp-nvim-lsp',
+  --     'hrsh7th/cmp-path',
+  --     'hrsh7th/cmp-buffer',
+  --     'nvim-tree/nvim-web-devicons',
+  --     {
+  --       'L3MON4D3/LuaSnip',
+  --       dependencies = { 'rafamadriz/friendly-snippets' },
+  --       build = 'make install_jsregexp',
+  --     },
+  --     'saadparwaiz1/cmp_luasnip',
+  --   },
+  --
+  --   config = function()
+  --     vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+  --     vim.opt.shortmess:append 'c'
+  --
+  --     local cmp = require 'cmp'
+  --
+  --     require('luasnip.loaders.from_vscode').lazy_load()
+  --     cmp.setup {
+  --       snippet = {
+  --         expand = function(args)
+  --           require('luasnip').lsp_expand(args.body)
+  --         end,
+  --       },
+  --       sources = {
+  --         { name = 'nvim_lsp', priority = 750, group_index = 1 },
+  --         { name = 'luasnip', priority = 1000, group_index = 1 },
+  --         { name = 'buffer', priority = 500, group_index = 2 },
+  --         -- { name = 'copilot', priority = 650, group_index = 2 },
+  --         { name = 'path', priority = 100, group_index = 3 },
+  --       },
+  --       mapping = cmp.mapping.preset.insert {
+  --         ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
+  --         ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
+  --         -- ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
+  --         -- ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
+  --         ['<C-Space>'] = cmp.mapping.complete {}, -- show completion suggestions
+  --         ['<C-c>'] = cmp.mapping.abort(), -- close completion window
+  --         ['<C-e>'] = cmp.mapping.confirm { select = true }, -- select suggestion
+  --       },
+  --
+  --       window = {
+  --         completion = cmp.config.window.bordered(),
+  --         documentation = cmp.config.window.bordered(),
+  --       },
+  --       formatting = {
+  --         fields = { 'kind', 'abbr', 'menu' },
+  --         format = function(entry, vim_item)
+  --           local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
+  --           local strings = vim.split(kind.kind, '%s', { trimempty = true })
+  --           kind.kind = ' ' .. (strings[1] or '') .. ' '
+  --           kind.menu = '    (' .. (strings[2] or '') .. ')'
+  --
+  --           return kind
+  --         end,
+  --       },
+  --       --
+  --       -- formatting = {
+  --       --   format = lspkind.cmp_format {
+  --       --     mode = 'text_symbol',
+  --       --     -- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+  --       --     -- can also be a function to dynamically calculate max width such as
+  --       --     maxwidth = function()
+  --       --       return math.floor(0.45 * vim.o.columns)
+  --       --     end,
+  --       --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+  --       --     show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+  --       --
+  --       --     -- The function below will be called before any actual modifications from lspkind
+  --       --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+  --       --     -- before = function (entry, vim_item)
+  --       --     --   ...
+  --       --     --   return vim_item
+  --       --     -- end
+  --       --   },
+  --       -- },
+  --       sorting = {
+  --         priority_weight = 2,
+  --         comparators = {
+  --           cmp.config.compare.offset,
+  --           cmp.config.compare.exact,
+  --           cmp.config.compare.score,
+  --           cmp.config.compare.recently_used,
+  --           cmp.config.compare.kind,
+  --           cmp.config.compare.sort_text,
+  --           cmp.config.compare.length,
+  --           cmp.config.compare.order,
+  --         },
+  --       },
+  --
+  --       experimental = {
+  --         ghost_text = true,
+  --       },
+  --     }
+  --
+  --     cmp.setup.filetype({ 'sql' }, {
+  --       sources = {
+  --         { name = 'vim-dadbod-completion' },
+  --         { name = 'buffer' },
+  --         { name = 'supermaven' },
+  --       },
+  --     })
+  --
+  --     local ls = require 'luasnip'
+  --     ls.config.set_config {
+  --       history = false,
+  --       updateevents = 'TextChanged,TextChangedI',
+  --     }
+  --
+  --     vim.keymap.set({ 'i', 's' }, '<c-d>', function()
+  --       if ls.expand_or_jumpable() then
+  --         ls.expand_or_jump()
+  --       end
+  --     end, { silent = true })
+  --
+  --     vim.keymap.set({ 'i', 's' }, '<c-u>', function()
+  --       if ls.jumpable(-1) then
+  --         ls.jump(-1)
+  --       end
+  --     end, { silent = true })
+  --   end,
+  -- },
   {
-    'hrsh7th/nvim-cmp',
-    lazy = false,
-    priority = 100,
-    dependencies = {
-      'onsails/lspkind.nvim',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-      'nvim-tree/nvim-web-devicons',
-      {
-        'L3MON4D3/LuaSnip',
-        dependencies = { 'rafamadriz/friendly-snippets' },
-        build = 'make install_jsregexp',
+
+    'saghen/blink.cmp',
+    -- optional: provides snippets for the snippet source
+    dependencies = { 'rafamadriz/friendly-snippets', 'giuxtaposition/blink-cmp-copilot' },
+
+    -- use a release tag to download pre-built binaries
+    version = '*',
+    -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+    -- build = 'cargo build --release',
+    -- If you use nix, you can build from source using latest nightly rust with:
+    -- build = 'nix run .#build-plugin',
+
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      -- 'default' for mappings similar to built-in completion
+      -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+      -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+      -- See the full "keymap" documentation for information on defining your own keymap.
+      --
+      keymap = {
+        preset = 'default',
+        ['<C-space>'] = { 'show' },
+        ['<C-s>'] = {
+          function(cmp)
+            cmp.show { providers = { 'snippets' } }
+          end,
+        }, -- show only snippets
+        ['<C-k>'] = { 'select_prev', 'fallback' }, -- previous suggestion
+        ['<C-j>'] = { 'select_next', 'fallback' }, -- next suggestion
+        ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<C-c>'] = { 'cancel', 'hide' }, -- close completion window
+        ['<C-e>'] = { 'select_and_accept' }, -- select suggestion
       },
-      'saadparwaiz1/cmp_luasnip',
-    },
+      signature = { enabled = true },
+      appearance = {
+        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- Useful for when your theme doesn't support blink.cmp
+        -- Will be removed in a future release
+        use_nvim_cmp_as_default = true,
+        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono',
+        kind_icons = {
+          Copilot = '',
+          Text = '󰉿',
+          Method = '󰊕',
+          Function = '󰊕',
+          Constructor = '󰒓',
 
-    config = function()
-      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-      vim.opt.shortmess:append 'c'
+          Field = '󰜢',
+          Variable = '󰆦',
+          Property = '󰖷',
 
-      local cmp = require 'cmp'
+          Class = '󱡠',
+          Interface = '󱡠',
+          Struct = '󱡠',
+          Module = '󰅩',
 
-      require('luasnip.loaders.from_vscode').lazy_load()
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-          end,
-        },
-        sources = {
-          { name = 'nvim_lsp', priority = 750, group_index = 1 },
-          { name = 'luasnip', priority = 1000, group_index = 1 },
-          { name = 'buffer', priority = 500, group_index = 2 },
-          -- { name = 'copilot', priority = 650, group_index = 2 },
-          { name = 'path', priority = 100, group_index = 3 },
-        },
-        mapping = cmp.mapping.preset.insert {
-          ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
-          ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
-          -- ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
-          -- ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
-          ['<C-Space>'] = cmp.mapping.complete {}, -- show completion suggestions
-          ['<C-c>'] = cmp.mapping.abort(), -- close completion window
-          ['<C-e>'] = cmp.mapping.confirm { select = true }, -- select suggestion
-        },
+          Unit = '󰪚',
+          Value = '󰦨',
+          Enum = '󰦨',
+          EnumMember = '󰦨',
 
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        formatting = {
-          fields = { 'kind', 'abbr', 'menu' },
-          format = function(entry, vim_item)
-            local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
-            local strings = vim.split(kind.kind, '%s', { trimempty = true })
-            kind.kind = ' ' .. (strings[1] or '') .. ' '
-            kind.menu = '    (' .. (strings[2] or '') .. ')'
+          Keyword = '󰻾',
+          Constant = '󰏿',
 
-            return kind
-          end,
+          Snippet = '󰩫',
+          Color = '󰏘',
+          File = '󰈔',
+          Reference = '󰬲',
+          Folder = '󰉋',
+          Event = '󱐋',
+          Operator = '󰪚',
+          TypeParameter = '󰬛',
         },
-        --
-        -- formatting = {
-        --   format = lspkind.cmp_format {
-        --     mode = 'text_symbol',
-        --     -- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        --     -- can also be a function to dynamically calculate max width such as
-        --     maxwidth = function()
-        --       return math.floor(0.45 * vim.o.columns)
-        --     end,
-        --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-        --     show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-        --
-        --     -- The function below will be called before any actual modifications from lspkind
-        --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-        --     -- before = function (entry, vim_item)
-        --     --   ...
-        --     --   return vim_item
-        --     -- end
-        --   },
-        -- },
-        sorting = {
-          priority_weight = 2,
-          comparators = {
-            cmp.config.compare.offset,
-            cmp.config.compare.exact,
-            cmp.config.compare.score,
-            cmp.config.compare.recently_used,
-            cmp.config.compare.kind,
-            cmp.config.compare.sort_text,
-            cmp.config.compare.length,
-            cmp.config.compare.order,
+      },
+
+      completion = {
+        ghost_text = { enabled = false },
+        menu = {
+          scrollbar = false,
+          border = 'none',
+          direction_priority = {
+            's',
+            'n',
+          },
+          draw = {
+            columns = {
+              { 'kind_icon', 'label_description', gap = 1 },
+              { 'label', 'kind', gap = 1 },
+            },
+            treesitter = { 'true' },
           },
         },
-
-        experimental = {
-          ghost_text = true,
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+          treesitter_highlighting = true,
+          window = {
+            border = 'none',
+            max_height = 80,
+            max_width = 80,
+            direction_priority = {
+              menu_north = { 'w', 'e', 'n', 's' },
+              menu_south = { 'w', 'e', 's', 'n' },
+            },
+          },
         },
-      }
+      },
 
-      cmp.setup.filetype({ 'sql' }, {
-        sources = {
-          { name = 'vim-dadbod-completion' },
-          { name = 'buffer' },
-          { name = 'supermaven' },
+      -- Default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, due to `opts_extend`
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        providers = {
+          copilot = {
+            name = 'copilot',
+            module = 'blink-cmp-copilot',
+            score_offset = 100,
+            async = true,
+            transform_items = function(_, items)
+              local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
+              local kind_idx = #CompletionItemKind + 1
+              CompletionItemKind[kind_idx] = 'Copilot'
+              for _, item in ipairs(items) do
+                item.kind = kind_idx
+              end
+              return items
+            end,
+          },
         },
-      })
-
-      local ls = require 'luasnip'
-      ls.config.set_config {
-        history = false,
-        updateevents = 'TextChanged,TextChangedI',
-      }
-
-      vim.keymap.set({ 'i', 's' }, '<c-d>', function()
-        if ls.expand_or_jumpable() then
-          ls.expand_or_jump()
-        end
-      end, { silent = true })
-
-      vim.keymap.set({ 'i', 's' }, '<c-u>', function()
-        if ls.jumpable(-1) then
-          ls.jump(-1)
-        end
-      end, { silent = true })
-    end,
+      },
+    },
+    opts_extend = { 'sources.default' },
   },
 }
