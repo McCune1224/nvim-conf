@@ -25,6 +25,9 @@ return {
           return vim.fn.executable 'make' == 1
         end,
       },
+
+      -- Plugin for quick flie swapping / bookmarking
+      { 'ThePrimeagen/harpoon', branch = 'harpoon2' },
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
@@ -57,8 +60,12 @@ return {
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+        --   layout_strategy = 'vertical',
+        --   layout_config = {
+        --     height = vim.o.lines,
+        --     width = vim.o.columns,
+        --     prompt_position = 'bottom',
+        --     preview_height = 0.4,
         --   },
         -- },
         -- pickers = {}
@@ -91,10 +98,42 @@ return {
       local opts = {}
       local builtin = require 'telescope.builtin'
       local themes = require 'telescope.themes'
+      local harpoon = require 'harpoon'
+      local conf = require('telescope.config').values
+
+      local function toggle_telescope(harpoon_files)
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
+
+        require('telescope.pickers')
+          .new({}, {
+            prompt_title = 'Harpoon',
+            finder = require('telescope.finders').new_table {
+              results = file_paths,
+            },
+
+            layout_strategy = 'vertical',
+            layout_config = {
+              height = vim.o.lines,
+              width = vim.o.columns,
+              prompt_position = 'bottom',
+              preview_height = 0.7,
+            },
+            previewer = conf.file_previewer {},
+            sorter = conf.generic_sorter {},
+          })
+          :find()
+      end
 
       vim.keymap.set('n', '<leader>fh', function()
-        builtin.help_tags(themes.get_ivy(opts))
-      end, { desc = '[F]ind [H]elp' })
+        toggle_telescope(harpoon:list())
+      end, { desc = '[F]ind [H]arpoon' })
+
+      -- vim.keymap.set('n', '<leader>fh', function()
+      --   builtin.help_tags(themes.get_ivy(opts))
+      -- end, { desc = '[F]ind [H]elp' })
 
       vim.keymap.set('n', '<leader>fk', function()
         builtin.keymaps(themes.get_ivy(opts))

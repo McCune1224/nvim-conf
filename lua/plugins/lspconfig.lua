@@ -396,6 +396,7 @@ return {
   --     end, { silent = true })
   --   end,
   -- },
+
   {
 
     'saghen/blink.cmp',
@@ -423,6 +424,11 @@ return {
         ['<C-s>'] = {
           function(cmp)
             cmp.show { providers = { 'snippets' } }
+          end,
+        }, -- show only snippets
+        ['<C-l>'] = {
+          function(cmp)
+            cmp.show { providers = { 'lsp' } }
           end,
         }, -- show only snippets
         ['<C-k>'] = { 'select_prev', 'fallback' }, -- previous suggestion
