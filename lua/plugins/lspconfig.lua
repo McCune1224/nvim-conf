@@ -512,7 +512,7 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'dadbod' },
         providers = {
           copilot = {
             name = 'copilot',
@@ -529,6 +529,7 @@ return {
               return items
             end,
           },
+          dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
         },
       },
     },
