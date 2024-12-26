@@ -217,9 +217,9 @@ return {
       -- local gd_port = os.getenv 'GDScript_Port' or '6005'
       -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
       -- local gd_pipe = [[\\.\pipe\godot.pipe]]
-      lspconfig.gdscript.setup {
-        capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
-      }
+      -- lspconfig.gdscript.setup {
+      --   capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
+      -- }
     end,
   },
 
