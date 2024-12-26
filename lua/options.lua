@@ -26,7 +26,7 @@ opt.number = true -- Print line number
 opt.pumblend = 20 -- Popup blend
 opt.pumheight = 20 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
-opt.scrolloff = 15 -- Lines of context
+opt.scrolloff = 24 -- Lines of context
 opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
@@ -52,7 +52,7 @@ opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visu
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 
-opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50'
+opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50' -- underscore '_' cursor while on insert mode
 -- check if on windows and if so, set to use powershell:
 if vim.fn.has 'win32' == 1 then
   -- Set PowerShell as default shell
@@ -64,7 +64,6 @@ if vim.fn.has 'win32' == 1 then
   opt.shellquote = ''
   opt.shellxquote = ''
 end
-
 -- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 opt.wrap = false -- Disable line wrap
 opt.fillchars = {
