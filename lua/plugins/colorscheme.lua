@@ -13,6 +13,7 @@ return {
   { 'savq/melange-nvim' },
   { 'blazkowolf/gruber-darker.nvim' },
   { 'rebelot/kanagawa.nvim' },
+  { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'rebelot/kanagawa.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -25,7 +26,7 @@ return {
       --   vim.cmd [[colorscheme vscode]]
       --   return
       -- end
-      vim.cmd [[colorscheme kanagawa-dragon]]
+      vim.cmd [[colorscheme rose-pine]]
     end,
   },
 }

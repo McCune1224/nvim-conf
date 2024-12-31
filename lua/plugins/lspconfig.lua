@@ -472,7 +472,7 @@ return {
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
         kind_icons = {
-          Copilot = '',
+          Copilot = '',
           Text = '󰉿',
           Method = '󰊕',
           Function = '󰊕',
