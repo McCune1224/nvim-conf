@@ -425,12 +425,18 @@ return {
           function(cmp)
             cmp.show { providers = { 'snippets' } }
           end,
-        }, -- show only snippets
+        }, -- show only snippets options
         ['<C-l>'] = {
           function(cmp)
             cmp.show { providers = { 'lsp' } }
           end,
-        }, -- show only snippets
+        }, -- show only lsp options
+        ['<C-a>'] = {
+          function(cmp)
+            cmp.show { providers = { 'copilot' } }
+          end,
+        }, -- show only copilot option
+
         ['<C-k>'] = { 'select_prev', 'fallback' }, -- previous suggestion
         ['<C-j>'] = { 'select_next', 'fallback' }, -- next suggestion
         ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
@@ -523,7 +529,7 @@ return {
           copilot = {
             name = 'copilot',
             module = 'blink-cmp-copilot',
-            score_offset = 100,
+            score_offset = -1, -- Never have this be in position 1. 9/10 times this hijacks the first item (i.e lsp option) and is annoying
             async = true,
             transform_items = function(_, items)
               local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
