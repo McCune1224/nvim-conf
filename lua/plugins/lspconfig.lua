@@ -130,7 +130,8 @@ return {
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
       -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       -- capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities(config.capabilities))
       -- Enable the following language servers
@@ -194,12 +195,11 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
-            local bl_capabilities = require('blink.cmp').get_lsp_capabilities()
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            server.capabilities = vim.tbl_deep_extend('force', {}, bl_capabilities, server.capabilities or {})
+            server.capabilities = vim.tbl_deep_extend('force', {}, blink_capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
         },
@@ -211,8 +211,14 @@ return {
       --   capabilities = capabilities,
       -- }
       local lspconfig = require 'lspconfig'
-      lspconfig.gleam.setup {
-        capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
+      lspconfig.gleam.setup {}
+      lspconfig.gdscript.setup {}
+      lspconfig.gdscript.setup = {
+        name = 'godot',
+        cmd = { 'nc', '127.0.0.1', '6005' },
+        filetypes = { 'gd', 'gdscript', 'gdscript3' },
+        root_dir = require('lspconfig.util').root_pattern('project.godot', '.git'),
+        capabilities = blink_capabilities,
       }
       -- local gd_port = os.getenv 'GDScript_Port' or '6005'
       -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
