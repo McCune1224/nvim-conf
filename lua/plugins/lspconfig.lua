@@ -220,14 +220,18 @@ return {
       -- }
       local lspconfig = require 'lspconfig'
       lspconfig.gleam.setup {}
-      lspconfig.gdscript.setup {}
-      lspconfig.gdscript.setup = {
-        name = 'godot',
-        cmd = { 'nc', '127.0.0.1', '6005' },
-        filetypes = { 'gd', 'gdscript', 'gdscript3' },
-        root_dir = require('lspconfig.util').root_pattern('project.godot', '.git'),
-        capabilities = blink_capabilities,
-      }
+      if vim.fn.has 'win32' then
+        lspconfig.gdscript.setup {}
+      else
+        lspconfig.gdscript.setup = {
+          name = 'godot',
+          cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+          capabilities = blink_capabilities,
+          -- filetypes = { 'gd', 'gdscript', 'gdscript3' },
+          -- cmd = { 'nc', '127.0.0.1', '6005' },
+          -- root_dir = require('lspconfig.util').root_pattern('project.godot', '.git'),
+        }
+      end
       -- local gd_port = os.getenv 'GDScript_Port' or '6005'
       -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
       -- local gd_pipe = [[\\.\pipe\godot.pipe]]
