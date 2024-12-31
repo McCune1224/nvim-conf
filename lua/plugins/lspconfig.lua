@@ -506,7 +506,7 @@ return {
         ghost_text = { enabled = false },
         menu = {
           scrollbar = false,
-          border = 'none',
+          border = 'rounded',
           direction_priority = {
             's',
             'n',
@@ -524,7 +524,7 @@ return {
           auto_show_delay_ms = 500,
           treesitter_highlighting = true,
           window = {
-            border = 'none',
+            border = 'rounded',
             max_height = 80,
             max_width = 80,
             direction_priority = {

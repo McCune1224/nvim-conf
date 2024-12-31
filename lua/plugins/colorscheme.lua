@@ -4,12 +4,9 @@ return {
   {
     'mcchrish/zenbones.nvim',
   },
-  { 'ntk148v/komau.vim' },
   { 'davidosomething/vim-colors-meh' },
   { 'Mofiqul/vscode.nvim' },
   { 'rmehri01/onenord.nvim' },
-  { 'Mofiqul/dracula.nvim' },
-  { 'fenetikm/falcon' },
   { 'xero/miasma.nvim' },
   { 'aktersnurra/no-clown-fiesta.nvim' },
   { 'nyoom-engineering/oxocarbon.nvim' },
@@ -28,7 +25,7 @@ return {
       --   vim.cmd [[colorscheme vscode]]
       --   return
       -- end
-      vim.cmd [[colorscheme no-clown-fiesta]]
+      vim.cmd [[colorscheme kanagawa-dragon]]
     end,
   },
 }
