@@ -56,7 +56,7 @@ opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50' -- underscore '_'
 -- check if on windows and if so, set to use powershell:
 if vim.fn.has 'win32' == 1 then
   -- Set PowerShell as default shell
-  opt.shell = 'powershell'
+  opt.shell = 'pwsh'
   opt.shellcmdflag =
     '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
   opt.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'

@@ -5,6 +5,7 @@ return {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'saghen/blink.cmp',
 
@@ -189,7 +190,10 @@ return {
       --
       --  You can press `g?` for help in this menu.
       require('mason').setup()
-
+      require('mason-nvim-dap').setup {
+        ensure_installed = { 'python', 'delve', 'elixir', 'coreclr' },
+        handlers = {}, -- sets up dap in the predefined manner
+      }
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})

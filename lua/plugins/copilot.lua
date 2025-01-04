@@ -54,9 +54,9 @@ return {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'main',
     keys = {
-      { '<leader>cc', ':CopilotChat<CR>', desc = 'CopilotChat - Open' },
-      { '<leader>ce', ':CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
-      { '<leader>cf', ':CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
+      { '<leader>cc', mode = { 'v', 'n' }, ':CopilotChat<CR>', desc = 'CopilotChat - Open' },
+      { '<leader>ce', mode = { 'v', 'n' }, ':CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
+      { '<leader>cf', mode = { 'v', 'n' }, ':CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
       -- {
       --   '<leader>cc',
       --   function()
