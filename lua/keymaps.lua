@@ -9,10 +9,14 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Add [D]iagnostic quickfix [L]ist' })
+-- vim.keymap.set('n', '[d', function()
+--   vim.diagnostic.jump { count = -1, float = true }
+-- end, { desc = 'Go to previous [D]iagnostic message' })
+-- vim.keymap.set('n', ']d', function()
+--   vim.diagnostic.jump { count = 1, float = true }
+-- end, { desc = 'Go to next [D]iagnostic message' })
+-- vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = '[D]iagnostic [E]rror messages' })
+-- vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = '[D]iagnostic quickfix [L]ist' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -172,10 +176,22 @@ keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  local next_diag = function(sev)
+    vim.diagnostic.jump { count = 1, float = true, severity = sev }
+  end
+  local prev_diag = function(sev)
+    vim.diagnostic.jump { count = 1, float = true, severity = sev }
+  end
+  -- local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go { severity = severity }
+  if next then
+    return function()
+      next_diag(severity)
+    end
+  else
+    return function()
+      prev_diag(severity)
+    end
   end
 end
 keymap('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
@@ -189,10 +205,10 @@ keymap('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
 -- stylua: ignore start
 
 -- quit
-keymap("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+keymap("n", "<leader>qq", "<cmd>qa<cr>", { desc = "[Q]uick [Q]uit" })
 
 -- highlights under cursor
-keymap("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+keymap("n", "<leader>ui", vim.show_pos, { desc = "[U]nder cursor [I]nspection (Treesitter)" })
 
 
 -- windows
@@ -243,5 +259,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-keymap("n", "<leader>db", "<cmd>DBUIToggle<cr>", { desc = "Open Dadbod UI toggle" })
 -- vim: ts=2 sts=2 sw=2 et

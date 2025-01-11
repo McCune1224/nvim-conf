@@ -8,7 +8,7 @@ return {
 
     keys = {
       {
-        '<leader>do',
+        '<leader>db',
         '<cmd>DBUIToggle<cr>',
         desc = 'Database Open',
       },

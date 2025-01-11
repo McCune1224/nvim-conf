@@ -21,6 +21,6 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>cs', '<cmd>AerialToggle!<CR>')
+    vim.keymap.set('n', '<leader>cs', '<cmd>AerialToggle!<CR>', { desc = '[C]ode [S]ymbols' })
   end,
 }
