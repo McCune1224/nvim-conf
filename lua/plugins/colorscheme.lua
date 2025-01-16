@@ -21,11 +21,11 @@ return {
     config = function()
       -- load the colorscheme here
       -- Get current time to see if its 5pm or not:
-      -- local current_time = tonumber(os.date '%H')
-      -- if current_time >= 16 or current_time < 6 then
-      --   vim.cmd [[colorscheme vscode]]
-      --   return
-      -- end
+      local current_time = tonumber(os.date '%H')
+      if current_time >= 16 or current_time < 11 then
+        vim.cmd [[colorscheme rose-pine-dawn]]
+        return
+      end
       vim.cmd [[colorscheme rose-pine]]
     end,
   },
