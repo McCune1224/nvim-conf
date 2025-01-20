@@ -4,7 +4,6 @@ return {
   event = 'VimEnter',
   opts = function()
     local logo = [[
-
                       .,-:;//;:=,,                               
                   . :H@@@MM@M#H/.,+%;,,                          
                ,/X+ +M@@M@MM%=,-%HMMM@X/,,                       
@@ -26,8 +25,8 @@ return {
                  ,:+$+-,/H#MMMMMMM@= =,,                         
                        =++%%%%+/:-.,                             
   ]]
-
-    logo = string.rep('\n', 8) .. logo .. '\n\n'
+    -- logo = string.rep('\n', 8) .. logo .. '\n\n'
+    logo = string.rep('\n', 8) .. logo .. '\n'
 
     local builtin = require 'telescope.builtin'
     local opts = {
