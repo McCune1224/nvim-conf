@@ -57,6 +57,24 @@ return {
       { '<leader>cc', mode = { 'v', 'n' }, ':CopilotChat<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', mode = { 'v', 'n' }, ':CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', mode = { 'v', 'n' }, ':CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
+      {
+        '<leader>cq',
+        function()
+          local input = vim.fn.input 'Quick Chat: '
+          if input ~= '' then
+            require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
+          end
+        end,
+        desc = 'CopilotChat - Quick chat',
+      },
+      {
+        '<leader>co',
+        function()
+          local actions = require 'CopilotChat.actions'
+          require('CopilotChat.integrations.snacks').pick(actions.prompt_actions())
+        end,
+        desc = 'CopilotChat - Prompt actions',
+      },
       -- {
       --   '<leader>cc',
       --   function()

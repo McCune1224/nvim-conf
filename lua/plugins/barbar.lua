@@ -47,10 +47,10 @@ return {
       vim.keymap.set('n', '<S-l>', '<Cmd>BufferNext<CR>', { desc = 'Next Buffer' })
 
       -- Closing Buffers
-      vim.keymap.set('n', '<leader>bdc', '<Cmd>BufferClose<CR>', { desc = '[B]uffer [D]elete [C]urrent' })
-      vim.keymap.set('n', '<leader>bdo', '<Cmd>BufferCloseAllButCurrent<CR>', { desc = '[B]uffer [D]elete [O]thers' })
-      vim.keymap.set('n', '<leader>bdv', '<Cmd>BufferCloseAllButVisible<CR>', { desc = '[B]uffer [D]elete non-[V]isible' })
-      vim.keymap.set('n', '<leader>bdp', '<Cmd>BufferCloseAllButCurrentOrPinned<CR>', { desc = '[B]uffer [D]elete non-[P]inned & Current' })
+      vim.keymap.set('n', '<leader>bd', '<Cmd>BufferClose<CR>', { desc = '[B]uffer [D]elete [C]urrent' })
+      vim.keymap.set('n', '<leader>bD', '<Cmd>BufferCloseAllButCurrent<CR>', { desc = '[B]uffer [D]elete [O]thers' })
+      vim.keymap.set('n', '<leader>bv', '<Cmd>BufferCloseAllButVisible<CR>', { desc = '[B]uffer [D]elete non-[V]isible' })
+      vim.keymap.set('n', '<leader>bP', '<Cmd>BufferCloseAllButCurrentOrPinned<CR>', { desc = '[B]uffer [D]elete non-[P]inned & Current' })
       vim.keymap.set('n', '<leader>br', '<Cmd>BufferRestore<CR>', { desc = '[B]uffer [R]estore' })
 
       vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = '[B]uffer [P]in' })
