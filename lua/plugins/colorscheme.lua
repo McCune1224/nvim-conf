@@ -13,6 +13,7 @@ return {
   { 'savq/melange-nvim' },
   { 'blazkowolf/gruber-darker.nvim' },
   { 'rebelot/kanagawa.nvim' },
+  { 'slugbyte/lackluster.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'rebelot/kanagawa.nvim',

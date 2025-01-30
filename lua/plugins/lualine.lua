@@ -4,15 +4,18 @@ return {
 
     opts = {
 
+      -- '█' '█'  -- solid blocks
+      -- '▊' '▊'  -- partial blocks
+      -- '▌' '▐'  -- half blocks
       options = {
         -- theme = bubbles_theme,
         -- component_separators = { left = '', right = '' },
         -- section_separators = { left = '', right = '' },
-
         -- component_separators = { left = '|', right = '|' },
         -- section_separators = { left = '', right = '' },
+        -- sdfhklsf
         component_separators = { '' },
-        section_separators = { left = '', right = '' },
+        section_separators = { left = '█', right = '█' },
         -- component_separators = { left = '', right = '' },
 
         -- section_separators = { left = '', right = '' },
@@ -21,8 +24,11 @@ return {
       sections = {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diagnostics' },
+        lualine_b = {
+          'branch',
+        },
         lualine_c = {
+          { 'diagnostics' },
           '%=',
           { 'filename', path = 1 },
           { 'aerial' },
