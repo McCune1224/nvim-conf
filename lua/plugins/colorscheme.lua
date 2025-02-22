@@ -27,7 +27,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme vscode]]
+      vim.cmd [[colorscheme melange]]
     end,
   },
 }

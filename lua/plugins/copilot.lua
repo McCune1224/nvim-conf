@@ -3,7 +3,11 @@ return {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
     build = ':Copilot auth',
+    -- Turning this off to allow for cmp completion to handle
     event = 'InsertEnter',
+    -- config = function(_, _)
+    --   vim.g.copilot_proxy_strict_ssl = false
+    -- end,
     opts = {
       panel = {
         enabled = false,
@@ -35,17 +39,17 @@ return {
         },
       },
       filetypes = {
-        yaml = false,
-        markdown = false,
+        -- yaml = false,
+        -- markdown = false,
         help = false,
         gitcommit = false,
         gitrebase = false,
         hgcommit = false,
         svn = false,
         cvs = false,
-        ['.'] = false,
+        -- ['.'] = false,
       },
-      -- copilot_node_command = 'node', -- Node.js version must be > 18.x
+      copilot_node_command = 'node', -- Node.js version must be > 18.x
       -- server_opts_overrides = {},
     },
   },

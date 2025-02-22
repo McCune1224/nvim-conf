@@ -25,11 +25,6 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- vim.fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
-          -- vim.fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
-          -- vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'DiagnosticSignInfo' })
-          -- vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })
-
           -- Custom Diagnostic Symbols
           local x = vim.diagnostic.severity
           vim.diagnostic.config {
@@ -247,18 +242,11 @@ return {
       -- }
       local lspconfig = require 'lspconfig'
       lspconfig.gleam.setup {}
-      if vim.fn.has 'win32' then
-        lspconfig.gdscript.setup {}
-      else
-        lspconfig.gdscript.setup = {
-          name = 'godot',
-          cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
-          capabilities = blink_capabilities,
-          -- filetypes = { 'gd', 'gdscript', 'gdscript3' },
-          -- cmd = { 'nc', '127.0.0.1', '6005' },
-          -- root_dir = require('lspconfig.util').root_pattern('project.godot', '.git'),
-        }
-      end
+      lspconfig.gdscript.setup = {
+        name = 'godot',
+        cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+        capabilities = blink_capabilities,
+      }
       -- local gd_port = os.getenv 'GDScript_Port' or '6005'
       -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
       -- local gd_pipe = [[\\.\pipe\godot.pipe]]
@@ -560,7 +548,8 @@ return {
           copilot = {
             name = 'copilot',
             module = 'blink-copilot',
-            score_offset = -3,
+            -- score_offset = -3,
+            score_offset = -100,
             async = true,
             opts = {
               max_completions = 3,

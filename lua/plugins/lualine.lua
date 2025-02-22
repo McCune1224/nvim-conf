@@ -15,9 +15,12 @@ return {
         -- section_separators = { left = '', right = '' },
         -- sdfhklsf
         component_separators = { '' },
-        section_separators = { left = '█', right = '█' },
+        -- component_separators = { left = '|', right = '|' },
+        section_separators = { left = '', right = '' },
         -- component_separators = { left = '', right = '' },
 
+        -- '█' '█'  -- solid blocks
+        -- section_separators = { left = '█', right = '█' },
         -- section_separators = { left = '', right = '' },
         -- theme = 'no-clown-fiesta',
       },
