@@ -95,7 +95,7 @@ return {
     -- build = 'make tiktoken', -- Only on MacOS or Linux
     opts = {
       -- See Configuration section for options
-      model = 'claude-3.5-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+      model = 'claude-3.7-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
       window = {
         layout = 'horizontal',
         height = 0.4,
