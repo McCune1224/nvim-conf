@@ -452,6 +452,13 @@ return {
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
       -- See the full "keymap" documentation for information on defining your own keymap.
       --
+      cmdline = {
+        completion = {
+          menu = {
+            auto_show = true,
+          },
+        },
+      },
       keymap = {
         preset = 'default',
         ['<C-space>'] = { 'show' },
@@ -487,9 +494,9 @@ return {
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
-        kind_icons = {
-          Copilot = '',
-        },
+        -- kind_icons = {
+        --   Copilot = '',
+        -- },
       },
 
       completion = {
@@ -554,6 +561,14 @@ return {
             opts = {
               max_completions = 3,
               max_attempts = 4,
+              kind_name = 'Copilot', ---@type string | false
+              kind_icon = ' ', ---@type string | false
+              kind_hl = false, ---@type string | false
+              debounce = 200, ---@type integer | false
+              auto_refresh = {
+                backward = true,
+                forward = true,
+              },
             },
           },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },

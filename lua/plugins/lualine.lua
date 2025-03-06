@@ -28,6 +28,7 @@ return {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
         lualine_a = { 'mode' },
         lualine_b = {
+
           'branch',
         },
         lualine_c = {
