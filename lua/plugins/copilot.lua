@@ -30,11 +30,20 @@ local function delete_old_chat_files()
   end
 end
 
+--- Lists and displays Copilot chat history in a picker UI
+---
+--- This function:
+--- 1. Cleans up old chat history files (older than 30 days)
+--- 2. Scans for JSON chat history files
+--- 3. Displays them in a picker with:
+---    - Preview of chat contents
+---    - Ability to load previous chats (Enter key)
+---    - Ability to delete chat files ('dd' keybinding)
+--- 4. Sorts files by date (newest first)
 local function list_chat_history()
   local snacks = require 'snacks'
   local chat = require 'CopilotChat'
   local scandir = require 'plenary.scandir'
-
   -- Delete old chat files first
   delete_old_chat_files()
 
@@ -109,8 +118,8 @@ local function list_chat_history()
       end
 
       vim.g.copilot_chat_title = item.basename
-      vim.cmd 'WindowToggleMaximize forceOpen'
-      vim.cmd 'vsplit'
+      -- vim.cmd 'WindowToggleMaximize forceOpen'
+      -- vim.cmd 'split'
 
       chat.open()
       chat.load(item.basename)
@@ -212,10 +221,11 @@ end
 return {
   {
     'zbirenbaum/copilot.lua',
+    -- lazy = true,
+    event = 'InsertEnter',
     cmd = 'Copilot',
     build = ':Copilot auth',
     -- Turning this off to allow for cmp completion to handle
-    event = 'InsertEnter',
     -- config = function(_, _)
     --   vim.g.copilot_proxy_strict_ssl = false
     -- end,
@@ -241,7 +251,7 @@ return {
         hide_during_completion = true,
         debounce = 75,
         keymap = {
-          accept = '<C-l>',
+          accept = '<C-a>',
           accept_word = false,
           accept_line = false,
           next = '<C-h>',
@@ -261,7 +271,13 @@ return {
         -- ['.'] = false,
       },
       copilot_node_command = 'node', -- Node.js version must be > 18.x
-      -- server_opts_overrides = {},
+      -- server_opts_overrides = {
+      --   trace = 'verbose',
+      --   -- The following is a workaround if nothing else works
+      --   nodeModuleOpts = {
+      --     NODE_TLS_REJECT_UNAUTHORIZED = '0',
+      --   },
+      -- },
     },
   },
 

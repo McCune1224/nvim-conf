@@ -505,8 +505,8 @@ return {
           scrollbar = false,
           border = 'rounded',
           direction_priority = {
-            's',
             'n',
+            's',
           },
           draw = {
             columns = {
@@ -536,6 +536,7 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'dadbod' },
+        -- default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod' },
         providers = {
           -- copilot = {
           --   name = 'copilot',
