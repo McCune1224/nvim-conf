@@ -15,6 +15,7 @@ return {
   { 'rebelot/kanagawa.nvim' },
   { 'slugbyte/lackluster.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
+  { 'sainnhe/gruvbox-material' },
   {
     'rebelot/kanagawa.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -27,7 +28,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme melange]]
+      vim.cmd [[colorscheme gruvbox-material]]
     end,
   },
 }
