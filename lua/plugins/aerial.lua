@@ -9,7 +9,7 @@ return {
       attach_mode = 'global',
       backends = { 'treesitter', 'lsp', 'markdown', 'man' },
       layout = {
-        min_width = 30,
+        min_width = math.floor(vim.o.columns * 0.3),
         default_direction = 'prefer_right',
       },
       show_guides = true,

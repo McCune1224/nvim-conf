@@ -90,7 +90,7 @@ return {
       pcall(require('telescope').load_extension, 'ui-select')
 
       -- See `:help telescope.builtin`
-      -- vim.keymap.set('n', '<leader>fh', builtin.help_tags(themes.get_ivy(opts)), { desc = '[F]ind [H]elp' })
+      -- vim.keymap.set('n', '<leader>fh', builtin.help_tags(custom_theme(opts)), { desc = '[F]ind [H]elp' })
       -- vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
       -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
       -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
@@ -109,6 +109,24 @@ return {
       local themes = require 'telescope.themes'
       local harpoon = require 'harpoon'
       local conf = require('telescope.config').values
+      local function custom_theme(opts)
+        opts = opts or {}
+
+        local theme_opts = {
+          theme = 'ivy',
+
+          sorting_strategy = 'ascending',
+
+          layout_strategy = 'vertical',
+          layout_config = {
+            height = vim.o.lines,
+            width = math.floor(0.7 * vim.o.columns),
+            prompt_position = 'bottom',
+            preview_height = 0.7,
+          },
+        }
+        return vim.tbl_deep_extend('force', theme_opts, opts)
+      end
 
       local function toggle_telescope(harpoon_files)
         local file_paths = {}
@@ -141,64 +159,64 @@ return {
       end, { desc = '[F]ind [H]arpoon' })
 
       -- vim.keymap.set('n', '<leader>fh', function()
-      --   builtin.help_tags(themes.get_ivy(opts))
+      --   builtin.help_tags(custom_theme(opts))
       -- end, { desc = '[F]ind [H]elp' })
 
       vim.keymap.set('n', '<leader>fk', function()
-        builtin.keymaps(themes.get_ivy(opts))
+        builtin.keymaps(custom_theme(opts))
       end, { desc = '[F]ind [K]eymaps' })
 
       vim.keymap.set('n', '<leader>ff', function()
-        builtin.find_files(themes.get_ivy(opts))
+        builtin.find_files(custom_theme(opts))
       end, { desc = '[F]ind [F]iles' })
 
       vim.keymap.set('n', '<leader>fs', function()
-        builtin.builtin(themes.get_ivy(opts))
+        builtin.builtin(custom_theme(opts))
       end, { desc = '[F]ind [S]elect Telescope' })
 
       vim.keymap.set('n', '<leader>fw', function()
-        builtin.diagnostics(themes.get_ivy {
+        builtin.diagnostics(custom_theme {
           prompt_title = 'Find Diagnostic Warnings',
           search = 'warning',
         })
       end, { desc = '[F]ind Diagnostic [W]arnings' })
 
       vim.keymap.set('n', '<leader>fg', function()
-        builtin.live_grep(themes.get_ivy(opts))
+        builtin.live_grep(custom_theme(opts))
       end, { desc = '[F]ind by [G]rep' })
 
       vim.keymap.set('n', '<leader>fb', function()
-        builtin.live_grep(themes.get_ivy {
+        builtin.live_grep(custom_theme {
           grep_open_files = true,
         })
       end, { desc = '[F]ind Within [B]uffers' })
 
       vim.keymap.set('n', '<leader>fd', function()
-        builtin.diagnostics(themes.get_ivy(opts))
+        builtin.diagnostics(custom_theme(opts))
       end, { desc = '[F]ind [D]iagnostics' })
 
       vim.keymap.set('n', '<leader>fr', function()
-        builtin.resume(themes.get_ivy(opts))
+        builtin.resume(custom_theme(opts))
       end, { desc = '[F]ind [R]esume' })
 
       vim.keymap.set('n', '<leader>f.', function()
-        builtin.oldfiles(themes.get_ivy(opts))
+        builtin.oldfiles(custom_theme(opts))
       end, { desc = '[F]ind Recent Files ("." for repeat)' })
 
       -- vim.keymap.set('n', '<leader>fc', function()
-      --   builtin.colorscheme(themes.get_ivy(opts))
+      --   builtin.colorscheme(custom_theme(opts))
       -- end, { desc = '[F]ind [C]olorscheme' })
 
       vim.keymap.set('n', '<leader><leader>', function()
-        builtin.buffers(themes.get_ivy(opts))
+        builtin.buffers(custom_theme(opts))
       end, { desc = '[ ] Find existing buffers' })
 
       vim.keymap.set('n', '<leader>fs', function()
-        builtin.lsp_document_symbols(themes.get_ivy(opts))
+        builtin.lsp_document_symbols(custom_theme(opts))
       end, { desc = '[F] Find [S]ymbols' })
 
       vim.keymap.set('n', '<leader>fS', function()
-        builtin.lsp_dynamic_workspace_symbols(themes.get_ivy(opts))
+        builtin.lsp_dynamic_workspace_symbols(custom_theme(opts))
       end, { desc = '[F] Find [S]ymbols' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -221,7 +239,7 @@ return {
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+        builtin.find_files(custom_theme { cwd = vim.fn.stdpath 'config' })
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
