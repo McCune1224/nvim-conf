@@ -4,6 +4,7 @@
 -- you do for a plugin at the top level, you can do for a dependency.
 --
 -- Use the `dependencies` key to specify the dependencies of a particular plugin
+--
 
 return {
   { -- Fuzzy Finder (files, lsp, etc)
@@ -118,12 +119,13 @@ return {
           sorting_strategy = 'ascending',
 
           layout_strategy = 'vertical',
-          layout_config = {
-            height = vim.o.lines,
-            width = math.floor(0.7 * vim.o.columns),
-            prompt_position = 'bottom',
-            preview_height = 0.7,
-          },
+          layout_config = { height = 0.95 },
+          -- layout_config = {
+          --   height = vim.o.lines,
+          --   width = math.floor(0.7 * vim.o.columns),
+          --   prompt_position = 'bottom',
+          --   preview_height = 0.7,
+          -- },
         }
         return vim.tbl_deep_extend('force', theme_opts, opts)
       end
@@ -162,85 +164,85 @@ return {
       --   builtin.help_tags(custom_theme(opts))
       -- end, { desc = '[F]ind [H]elp' })
 
-      vim.keymap.set('n', '<leader>fk', function()
-        builtin.keymaps(custom_theme(opts))
-      end, { desc = '[F]ind [K]eymaps' })
-
-      vim.keymap.set('n', '<leader>ff', function()
-        builtin.find_files(custom_theme(opts))
-      end, { desc = '[F]ind [F]iles' })
-
-      vim.keymap.set('n', '<leader>fs', function()
-        builtin.builtin(custom_theme(opts))
-      end, { desc = '[F]ind [S]elect Telescope' })
-
-      vim.keymap.set('n', '<leader>fw', function()
-        builtin.diagnostics(custom_theme {
-          prompt_title = 'Find Diagnostic Warnings',
-          search = 'warning',
-        })
-      end, { desc = '[F]ind Diagnostic [W]arnings' })
-
-      vim.keymap.set('n', '<leader>fg', function()
-        builtin.live_grep(custom_theme(opts))
-      end, { desc = '[F]ind by [G]rep' })
-
-      vim.keymap.set('n', '<leader>fb', function()
-        builtin.live_grep(custom_theme {
-          grep_open_files = true,
-        })
-      end, { desc = '[F]ind Within [B]uffers' })
-
-      vim.keymap.set('n', '<leader>fd', function()
-        builtin.diagnostics(custom_theme(opts))
-      end, { desc = '[F]ind [D]iagnostics' })
-
-      vim.keymap.set('n', '<leader>fr', function()
-        builtin.resume(custom_theme(opts))
-      end, { desc = '[F]ind [R]esume' })
-
-      vim.keymap.set('n', '<leader>f.', function()
-        builtin.oldfiles(custom_theme(opts))
-      end, { desc = '[F]ind Recent Files ("." for repeat)' })
-
-      -- vim.keymap.set('n', '<leader>fc', function()
-      --   builtin.colorscheme(custom_theme(opts))
-      -- end, { desc = '[F]ind [C]olorscheme' })
-
-      vim.keymap.set('n', '<leader><leader>', function()
-        builtin.buffers(custom_theme(opts))
-      end, { desc = '[ ] Find existing buffers' })
-
-      vim.keymap.set('n', '<leader>fs', function()
-        builtin.lsp_document_symbols(custom_theme(opts))
-      end, { desc = '[F] Find [S]ymbols' })
-
-      vim.keymap.set('n', '<leader>fS', function()
-        builtin.lsp_dynamic_workspace_symbols(custom_theme(opts))
-      end, { desc = '[F] Find [S]ymbols' })
-
-      -- Slightly advanced example of overriding default behavior and theme
-      -- vim.keymap.set('n', '<leader>/', function()
-      --   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-      --   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      --     winblend = 10,
-      --     previewer = true,
+      -- vim.keymap.set('n', '<leader>fk', function()
+      --   builtin.keymaps(custom_theme(opts))
+      -- end, { desc = '[F]ind [K]eymaps' })
+      --
+      -- vim.keymap.set('n', '<leader>ff', function()
+      --   builtin.find_files(custom_theme(opts))
+      -- end, { desc = '[F]ind [F]iles' })
+      --
+      -- vim.keymap.set('n', '<leader>fs', function()
+      --   builtin.builtin(custom_theme(opts))
+      -- end, { desc = '[F]ind [S]elect Telescope' })
+      --
+      -- vim.keymap.set('n', '<leader>fw', function()
+      --   builtin.diagnostics(custom_theme {
+      --     prompt_title = 'Find Diagnostic Warnings',
+      --     search = 'warning',
       --   })
-      -- end, { desc = '[/] Fuzzily search in current buffer' })
-
-      -- It's also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about particular keys
-      -- vim.keymap.set('n', '<leader>s/', function()
-      --   builtin.live_grep {
+      -- end, { desc = '[F]ind Diagnostic [W]arnings' })
+      --
+      -- vim.keymap.set('n', '<leader>fg', function()
+      --   builtin.live_grep(custom_theme(opts))
+      -- end, { desc = '[F]ind by [G]rep' })
+      --
+      -- vim.keymap.set('n', '<leader>fb', function()
+      --   builtin.live_grep(custom_theme {
       --     grep_open_files = true,
-      --     prompt_title = 'Live Grep in Open Files',
-      --   }
-      -- end, { desc = '[S]earch [/] in Open Files' })
-
-      -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files(custom_theme { cwd = vim.fn.stdpath 'config' })
-      end, { desc = '[S]earch [N]eovim files' })
+      --   })
+      -- end, { desc = '[F]ind Within [B]uffers' })
+      --
+      -- vim.keymap.set('n', '<leader>fd', function()
+      --   builtin.diagnostics(custom_theme(opts))
+      -- end, { desc = '[F]ind [D]iagnostics' })
+      --
+      -- vim.keymap.set('n', '<leader>fr', function()
+      --   builtin.resume(custom_theme(opts))
+      -- end, { desc = '[F]ind [R]esume' })
+      --
+      -- vim.keymap.set('n', '<leader>f.', function()
+      --   builtin.oldfiles(custom_theme(opts))
+      -- end, { desc = '[F]ind Recent Files ("." for repeat)' })
+      --
+      -- -- vim.keymap.set('n', '<leader>fc', function()
+      -- --   builtin.colorscheme(custom_theme(opts))
+      -- -- end, { desc = '[F]ind [C]olorscheme' })
+      --
+      -- vim.keymap.set('n', '<leader><leader>', function()
+      --   builtin.buffers(custom_theme(opts))
+      -- end, { desc = '[ ] Find existing buffers' })
+      --
+      -- vim.keymap.set('n', '<leader>fs', function()
+      --   builtin.lsp_document_symbols(custom_theme(opts))
+      -- end, { desc = '[F] Find [S]ymbols' })
+      --
+      -- vim.keymap.set('n', '<leader>fS', function()
+      --   builtin.lsp_dynamic_workspace_symbols(custom_theme(opts))
+      -- end, { desc = '[F] Find [S]ymbols' })
+      --
+      -- -- Slightly advanced example of overriding default behavior and theme
+      -- -- vim.keymap.set('n', '<leader>/', function()
+      -- --   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+      -- --   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      -- --     winblend = 10,
+      -- --     previewer = true,
+      -- --   })
+      -- -- end, { desc = '[/] Fuzzily search in current buffer' })
+      --
+      -- -- It's also possible to pass additional configuration options.
+      -- --  See `:help telescope.builtin.live_grep()` for information about particular keys
+      -- -- vim.keymap.set('n', '<leader>s/', function()
+      -- --   builtin.live_grep {
+      -- --     grep_open_files = true,
+      -- --     prompt_title = 'Live Grep in Open Files',
+      -- --   }
+      -- -- end, { desc = '[S]earch [/] in Open Files' })
+      --
+      -- -- Shortcut for searching your Neovim configuration files
+      -- vim.keymap.set('n', '<leader>sn', function()
+      --   builtin.find_files(custom_theme { cwd = vim.fn.stdpath 'config' })
+      -- end, { desc = '[S]earch [N]eovim files' })
     end,
   },
 }

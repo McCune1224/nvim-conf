@@ -24,12 +24,16 @@ return {
   opts = {
     width = math.floor(0.6 * vim.o.columns),
     buffers = {
-      scratchPad = {
-        enabled = true,
-        pathToFile = '~/Documents/zen_notes.md',
-      },
-      bo = {
-        filetype = 'md',
+      colors = { blend = -0.8 },
+      left = {
+        scratchPad = {
+          enabled = true,
+          pathToFile = '~/Documents/nvim_scratchpad.md',
+          -- pathToFile = nil,
+        },
+        bo = {
+          filetype = 'md',
+        },
       },
     },
   },

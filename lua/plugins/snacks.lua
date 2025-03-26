@@ -20,6 +20,10 @@ return {
     words = { enabled = true },
     picker = {
       enabled = true,
+      layout = {
+        preset = 'top',
+        -- preset = 'ivy_split',
+      },
     },
     -- toggle = { enabled = true, which_key = true },
     -- zen = { enabled = true },
@@ -27,130 +31,173 @@ return {
   keys = {
     -- PICKER
     {
+      '<leader>ff',
+      function()
+        Snacks.picker.files {}
+      end,
+      desc = '[F]ind [F]ile',
+    },
+    {
+      '<leader>E',
+      function()
+        Snacks.picker.explorer()
+      end,
+      desc = 'Filetree [E]xplorer',
+    },
+    {
       '<leader>,',
       function()
         Snacks.picker.buffers()
       end,
-      desc = 'Buffers',
+      desc = '[,] Buffers',
     },
     {
       '<leader>/',
       function()
         Snacks.picker.grep()
       end,
-      desc = 'Grep',
+      desc = '[/] Grep',
+    },
+    {
+      '<leader>fg',
+      function()
+        Snacks.picker.grep_buffers()
+      end,
+      desc = '[F]ind [G]rep Buffers',
+    },
+    {
+      '<leader>ft',
+      function()
+        Snacks.picker.treesitter()
+      end,
+      desc = '[F]ind [T]reesitter',
+    },
+
+    {
+      '<leader>fi',
+      function()
+        Snacks.picker.icons()
+      end,
+      desc = '[F]ind [I]cons',
     },
     {
       '<leader>:',
       function()
         Snacks.picker.command_history()
       end,
-      desc = 'Command History',
+      desc = '[:] Command History',
     },
     {
-      '<leader>sq',
+      '<leader>fq',
       function()
         Snacks.picker.qflist()
       end,
-      desc = '[S]earch [Q]uickfix',
+      desc = '[F]ind [Q]uickfix',
     },
     {
-      '<leader>s"',
+      '<leader>f"',
       function()
         Snacks.picker.registers()
       end,
-      desc = '[S]earch ["]Registers',
+      desc = '[F]ind ["]Registers',
     },
     {
-      '<leader>sa',
+      '<leader>fa',
       function()
         Snacks.picker.autocmds()
       end,
-      desc = '[S]earch [A]utocmd',
+      desc = '[F]ind [A]utocmd',
     },
     {
-      '<leader>sc',
+      '<leader>fc',
       function()
         Snacks.picker.command_history()
       end,
-      desc = 'Command History',
+      desc = '[F]ind [H]istory',
     },
     {
-      '<leader>sC',
+      '<leader>fC',
       function()
         Snacks.picker.commands()
       end,
-      desc = 'Commands',
+      desc = '[F]ind [C]ommands',
     },
     {
-      '<leader>sd',
+      '<leader>fd',
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = '[F]ind [D]iagnostics (buffer only)',
+    },
+    {
+      '<leader>fD',
       function()
         Snacks.picker.diagnostics()
       end,
-      desc = 'Diagnostics',
+      desc = '[F]ind [D]iagnostics',
     },
     {
-      '<leader>sh',
+      '<leader>fH',
       function()
         Snacks.picker.help()
       end,
-      desc = 'Help Pages',
+      desc = '[F]ind [H]elp Page',
     },
     {
-      '<leader>sH',
+      '<leader>fh',
       function()
-        Snacks.picker.highlights()
+        Snacks.picker.cliphist()
       end,
-      desc = 'Highlights',
+      desc = '[F]ind Clipboard [H]istory',
     },
     {
-      '<leader>sj',
+      '<leader>fj',
       function()
         Snacks.picker.jumps()
       end,
-      desc = 'Jumps',
+      desc = '[F]ind [J]umps',
     },
     {
-      '<leader>sk',
+      '<leader>fk',
       function()
         Snacks.picker.keymaps()
       end,
-      desc = 'Keymaps',
+      desc = '[F]ind [K]eymaps',
     },
     {
-      '<leader>sl',
+      '<leader>fl',
       function()
         Snacks.picker.loclist()
       end,
-      desc = 'Location List',
+      desc = '[F]ind Location List',
     },
     {
-      '<leader>sM',
+      '<leader>fM',
       function()
         Snacks.picker.man()
       end,
-      desc = 'Man Pages',
+      desc = '[F]ind [M]an',
     },
     {
-      '<leader>sm',
+      '<leader>fm',
       function()
         Snacks.picker.marks()
       end,
-      desc = 'Marks',
+      desc = '[F]ind [M]arks',
     },
     {
-      '<leader>sR',
+      '<leader>fR',
       function()
         Snacks.picker.resume()
       end,
-      desc = 'Resume',
+      desc = '[F]ind [R]esume',
     },
     {
-      '<leader>sq',
+      '<leader>fq',
       function()
         Snacks.picker.qflist()
       end,
-      desc = 'Quickfix List',
+      desc = '[F]ind [Q]uickfix',
     },
     {
       '<leader>fc',
@@ -159,6 +206,21 @@ return {
       end,
       desc = '[F]ind [C]olorscheme',
     },
+    {
+      '<leader>fd',
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = '[F]ind [D]ecalarations',
+    },
+    {
+      '<leader>fD',
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = '[F]ind [D]ecalarations',
+    },
+
     -- Words
     {
       ']]',

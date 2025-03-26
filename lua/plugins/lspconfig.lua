@@ -34,9 +34,10 @@ return {
             float = { border = 'single' },
           }
           -- function that lets us more easily define mappings specific for LSP related items. It sets the mode, buffer and description for us each time.
-          local builtin = require 'telescope.builtin'
-          local themes = require 'telescope.themes'
-          local opts = {}
+          -- local builtin = require 'telescope.builtin'
+          -- local themes = require 'telescope.themes'
+          local snacks = require 'snacks'
+
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
@@ -44,38 +45,56 @@ return {
           -- Jump to the definition of the word under your cursor.
           --  To jump back, press <C-t>.
           -- map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          -- map('gd', function()
+          --   builtin.lsp_definitions(themes.get_ivy(opts))
+          -- end, '[G]oto [D]efinition')
           map('gd', function()
-            builtin.lsp_definitions(themes.get_ivy(opts))
+            snacks.picker.lsp_definitions()
           end, '[G]oto [D]efinition')
 
           -- Find references for the word under your cursor.
           -- map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          -- map('gr', function()
+          --   builtin.lsp_references(themes.get_ivy(opts))
+          -- end, '[G]oto [R]eferences')
           map('gr', function()
-            builtin.lsp_references(themes.get_ivy(opts))
+            snacks.picker.lsp_references()
           end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           -- map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          -- map('gI', function()
+          --   builtin.lsp_implementations(themes.get_ivy(opts))
+          -- end, '[G]oto [I]mplementation')
           map('gI', function()
-            builtin.lsp_implementations(themes.get_ivy(opts))
+            snacks.picker.lsp_implementations()
           end, '[G]oto [I]mplementation')
 
           -- Jump to the type of the word under your cursor.
           -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+          -- map('<leader>D', function()
+          --   builtin.lsp_type_definitions(themes.get_ivy(opts))
+          -- end, 'Type [D]efinition')
           map('<leader>D', function()
-            builtin.lsp_type_definitions(themes.get_ivy(opts))
+            snacks.picker.lsp_type_definitions()
           end, 'Type [D]efinition')
 
           -- Fuzzy find all the symbols in your current document.
           -- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          -- map('<leader>ds', function()
+          --   builtin.lsp_document_symbols(themes.get_ivy(opts))
+          -- end, '[D]ocument [S]ymbols')
           map('<leader>ds', function()
-            builtin.lsp_document_symbols(themes.get_ivy(opts))
+            snacks.picker.lsp_symbols()
           end, '[D]ocument [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           -- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          -- map('<leader>ws', function()
+          --   builtin.lsp_dynamic_workspace_symbols(themes.get_ivy(opts))
+          -- end, '[W]orkspace [S]ymbols')
           map('<leader>ws', function()
-            builtin.lsp_dynamic_workspace_symbols(themes.get_ivy(opts))
+            snacks.picker.lsp_workspace_symbols()
           end, '[W]orkspace [S]ymbols')
 
           -- Rename the variable under your cursor.

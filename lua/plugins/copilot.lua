@@ -285,7 +285,7 @@ return {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'main',
     keys = {
-      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChatOpen<CR>', desc = 'CopilotChat - Open' },
+      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChatToggle<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', mode = { 'v', 'n' }, '<CMD>CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', mode = { 'v', 'n' }, '<CMD>CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
       { '<leader>ch', mode = { 'v', 'n' }, list_chat_history, desc = 'CopilotChat - History' },
@@ -345,7 +345,7 @@ return {
       -- See Configuration section for options
       model = 'claude-3.7-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
       window = {
-        layout = 'horizontal',
+        layout = 'vertical',
         -- height = 0.5,
       },
       -- sticky = {

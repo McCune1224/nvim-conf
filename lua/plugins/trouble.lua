@@ -1,4 +1,10 @@
 -- better diagnostics list and others
+--
+vim.api.nvim_create_autocmd('QuickFixCmdPost', {
+  callback = function()
+    vim.cmd [[Trouble qflist open]]
+  end,
+})
 return {
   'folke/trouble.nvim',
   opts = {
@@ -40,11 +46,11 @@ return {
       '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
       desc = 'Buffer Diagnostics (Trouble)',
     },
-    {
-      '<leader>cs',
-      '<cmd>Trouble symbols toggle focus=false<cr>',
-      desc = 'Symbols (Trouble)',
-    },
+    -- {
+    --   '<leader>cs',
+    --   '<cmd>Trouble symbols toggle focus=false<cr>',
+    --   desc = 'Symbols (Trouble)',
+    -- },
     {
       '<leader>cl',
       '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
