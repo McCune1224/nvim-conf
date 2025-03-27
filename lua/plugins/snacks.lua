@@ -16,6 +16,7 @@ return {
     layout = { enabled = true },
     quickfile = { enabled = true },
     -- scroll = { enabled = true },
+    scratch = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
     picker = {
@@ -29,13 +30,56 @@ return {
     -- zen = { enabled = true },
   },
   keys = {
+    -- Scratchpad
+
+    {
+      '<leader>.',
+      function()
+        Snacks.scratch()
+      end,
+      desc = 'Toggle Scratch Buffer',
+    },
+    {
+      '<leader>S',
+      function()
+        Snacks.scratch.select()
+      end,
+      desc = 'Select Scratch Buffer',
+    },
+
     -- PICKER
+
+    {
+      '<leader><leader>',
+      function()
+        Snacks.picker.smart()
+      end,
+      desc = 'Toggle Scratch Buffer',
+    },
     {
       '<leader>ff',
       function()
         Snacks.picker.files {}
       end,
-      desc = '[F]ind [F]ile',
+      desc = '[F]ind [F]ile (Workspace)',
+    },
+    {
+      '<leader>fF',
+      function()
+        Snacks.picker.files {
+          cwd = vim.fn.expand '%:p:h',
+        }
+      end,
+      desc = '[F]ind [F]ile (cwd)',
+    },
+    {
+      '<leader>fs',
+      function()
+        Snacks.picker.files {
+          cwd = vim.fn.stdpath 'config',
+        }
+      end,
+      desc = '[F]ind [S]ettings',
     },
     {
       '<leader>E',
@@ -220,10 +264,17 @@ return {
       end,
       desc = '[F]ind [D]ecalarations',
     },
+    {
+      '<leader>fw',
+      function()
+        Snacks.picker.grep_word()
+      end,
+      desc = '[F]ind [W]ords',
+    },
 
     -- Words
     {
-      ']]',
+      '<leader>]]',
       function()
         Snacks.words.jump(vim.v.count1)
       end,
@@ -231,7 +282,7 @@ return {
       mode = { 'n', 't' },
     },
     {
-      '[[',
+      '<leader>[[',
       function()
         Snacks.words.jump(-vim.v.count1)
       end,
