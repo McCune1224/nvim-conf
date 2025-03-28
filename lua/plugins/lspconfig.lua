@@ -472,6 +472,9 @@ return {
       -- See the full "keymap" documentation for information on defining your own keymap.
       --
       cmdline = {
+        keymap = {
+          preset = 'inherit',
+        },
         completion = {
           menu = {
             auto_show = true,

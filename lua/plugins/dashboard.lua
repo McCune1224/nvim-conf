@@ -44,7 +44,7 @@ return {
         -- { action = "lua Snacks.picker.files",                                  desc = " Find file",       icon = " ", key = "f" },
         { action = picker.files,desc = " Find file",icon = " ", key = "f" },
         { action = "ene | startinsert",desc = " New file",icon = " ", key = "n" },
-        { action = picker.recent,desc = " Recent files",icon = " ", key = "r" },
+        -- { action = picker.recent,desc = " Recent files",icon = " ", key = "r" },
         { action = picker.grep,desc = " Find text",icon = " ", key = "g" },
         { action = function() picker.files { cwd = vim.fn.stdpath 'config' } end ,desc = " Config",icon = " ", key = "c" },
         { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "R" },
@@ -54,7 +54,8 @@ return {
         footer = function()
           local stats = require('lazy').stats()
           local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          return { '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms' }
+          -- return { '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms' }
+          return { '⚡ Neovim loaded in ' .. ms .. 'ms' }
         end,
       },
     }

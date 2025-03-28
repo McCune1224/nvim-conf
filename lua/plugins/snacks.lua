@@ -12,6 +12,7 @@ return {
     -- dashboard = { enabled = true },
     -- indent = { enabled = true },
     input = { enabled = true },
+    image = { enabled = true },
     -- notifier = { enabled = true },
     layout = { enabled = true },
     quickfile = { enabled = true },
@@ -84,7 +85,9 @@ return {
     {
       '<leader>E',
       function()
-        Snacks.picker.explorer()
+        Snacks.picker.explorer {
+          layout = { layout = { position = 'right' } },
+        }
       end,
       desc = 'Filetree [E]xplorer',
     },
