@@ -24,8 +24,8 @@ opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- opt.listchars = { trail = '·', nbsp = '␣' }
 opt.mouse = 'a' -- Enable mouse mode
 opt.number = true -- Print line number
-opt.pumblend = 20 -- Popup blend
-opt.pumheight = 20 -- Maximum number of entries in a popup
+-- opt.pumblend = 20 -- Popup blend
+-- opt.pumheight = 20 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
 -- opt.scrolloff = 8 -- Lines of context
 opt.scrolloff = math.floor(0.2 * vim.o.lines)

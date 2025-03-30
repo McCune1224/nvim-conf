@@ -83,7 +83,7 @@ return {
       desc = '[F]ind [S]ettings',
     },
     {
-      '<leader>E',
+      '<leader>e',
       function()
         Snacks.picker.explorer {
           layout = { layout = { position = 'right' } },

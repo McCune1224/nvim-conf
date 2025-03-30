@@ -12,7 +12,8 @@ return {
     -- Optional dependencies
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      vim.keymap.set('n', '<leader>e', '<cmd>Oil --float --preview<CR>', { desc = 'Open [E]xplorer' })
+      -- vim.keymap.set('n', '<leader>e', '<cmd>Oil --float --preview<CR>', { desc = 'Open [E]xplorer' })
+      vim.keymap.set('n', '<leader>E', '<cmd>Oil<CR>', { desc = 'Open [E]xplorer' })
       require('oil').setup {
         use_default_keymaps = true,
         -- keymaps = {

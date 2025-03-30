@@ -3,11 +3,17 @@ return {
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      { 'igorlfs/nvim-dap-view', opts = { windows = {
-        terminal = {
-          hide = { 'go', 'godot' },
+      {
+        'igorlfs/nvim-dap-view',
+        opts = {
+          windows = {
+            terminal = {
+              hide = { 'go' },
+              -- hide = { 'go', 'godot' },
+            },
+          },
         },
-      } } },
+      },
       ...,
     },
     config = function()
@@ -108,7 +114,7 @@ return {
       -- vim.api.nvim_set_keymap('n', '<leader>av', '<cmd>lua require"dapui".eval()<CR>', { noremap = true, silent = true, desc = '[A]dapter e[V]al' })
       vim.api.nvim_set_keymap('n', '<leader>ac', '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true, desc = '[A]dapter [C]ontinue' })
       vim.api.nvim_set_keymap('n', '<leader>ao', '<cmd>lua require"dap".step_over()<CR>', { noremap = true, silent = true, desc = '[A]dapater [O]ver' })
-      vim.api.nvim_set_keymap('n', '<leader>ai', '<cmd>lua require"dap".step_into()<CR>', { noremap = true, silent = true, desc = '[A]dapter [O]ut' })
+      vim.api.nvim_set_keymap('n', '<leader>ai', '<cmd>lua require"dap".step_into()<CR>', { noremap = true, silent = true, desc = '[A]dapter [I]n' })
       vim.api.nvim_set_keymap('n', '<leader>aO', '<cmd>lua require"dap".step_out()<CR>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap(
         'n',
