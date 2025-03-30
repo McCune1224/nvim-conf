@@ -38,7 +38,8 @@ return {
           { 'aerial' },
         },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
-        lualine_x = { 'copilot' },
+        -- lualine_x = { 'copilot' },
+        lualine_x = {},
         lualine_y = { 'trouble', 'progress' },
         lualine_z = {
           'location',
@@ -60,7 +61,9 @@ return {
       --     'location',
       --   },
       -- },
-      tabline = {},
+      -- tabline = { lualine_a = { 'buffers' }, lualine_b = { '' }, lualine_z = { 'lsp_status' } },
+      -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { 'diagnostics' }, lualine_y = { 'lsp_status' } },
+      -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },
       extensions = { 'quickfix', 'trouble', 'neo-tree', 'symbols-outline', 'oil' },
     },
 
