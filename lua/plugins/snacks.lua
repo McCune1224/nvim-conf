@@ -55,12 +55,14 @@ return {
       function()
         Snacks.picker.smart()
       end,
-      desc = 'Toggle Scratch Buffer',
+      desc = "'Smart' File Picker",
     },
     {
       '<leader>ff',
       function()
-        Snacks.picker.files {}
+        Snacks.picker.files {
+          cwd = vim.fn.getcwd(),
+        }
       end,
       desc = '[F]ind [F]ile (Workspace)',
     },
@@ -82,15 +84,15 @@ return {
       end,
       desc = '[F]ind [S]ettings',
     },
-    {
-      '<leader>e',
-      function()
-        Snacks.picker.explorer {
-          layout = { layout = { position = 'right' } },
-        }
-      end,
-      desc = 'Filetree [E]xplorer',
-    },
+    -- {
+    --   '<leader>e',
+    --   function()
+    --     Snacks.picker.explorer {
+    --       layout = { layout = { position = 'right' } },
+    --     }
+    --   end,
+    --   desc = 'Filetree [E]xplorer',
+    -- },
     {
       '<leader>,',
       function()

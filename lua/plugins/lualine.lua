@@ -26,11 +26,9 @@ return {
       },
       sections = {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
-        lualine_a = { 'mode' },
-        lualine_b = {
+        lualine_a = { 'mode', 'progress' },
 
-          'branch',
-        },
+        lualine_b = {},
         lualine_c = {
           { 'diagnostics' },
           '%=',
@@ -40,9 +38,10 @@ return {
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
         lualine_x = {},
-        lualine_y = { 'trouble', 'progress' },
+        lualine_y = { 'trouble' },
         lualine_z = {
-          'location',
+          -- 'diff',
+          'branch',
         },
       },
       -- inactive_sections = {
@@ -62,7 +61,7 @@ return {
       --   },
       -- },
       -- tabline = { lualine_a = { 'buffers' }, lualine_b = { '' }, lualine_z = { 'lsp_status' } },
-      -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { 'diagnostics' }, lualine_y = { 'lsp_status' } },
+      winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
       -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },
       extensions = { 'quickfix', 'trouble', 'neo-tree', 'symbols-outline', 'oil' },
     },
