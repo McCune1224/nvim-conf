@@ -61,7 +61,7 @@ return {
       --   },
       -- },
       -- tabline = { lualine_a = { 'buffers' }, lualine_b = { '' }, lualine_z = { 'lsp_status' } },
-      winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
+      -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
       -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },
       extensions = { 'quickfix', 'trouble', 'neo-tree', 'symbols-outline', 'oil' },
     },
