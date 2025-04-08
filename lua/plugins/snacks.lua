@@ -20,6 +20,7 @@ return {
     scratch = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    lazygit = { enabled = true },
     picker = {
       enabled = true,
       layout = {
@@ -292,6 +293,15 @@ return {
         Snacks.words.jump(-vim.v.count1)
       end,
       desc = 'Prev Reference',
+      mode = { 'n', 't' },
+    },
+    -- Lazygit
+    {
+      '<leader>gg',
+      function()
+        Snacks.lazygit.open()
+      end,
+      desc = 'Open Lazygit',
       mode = { 'n', 't' },
     },
   },
