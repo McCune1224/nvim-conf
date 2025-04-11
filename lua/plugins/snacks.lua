@@ -24,8 +24,10 @@ return {
     picker = {
       enabled = true,
       layout = {
-        preset = 'top',
-        -- preset = 'ivy_split',
+        -- preset = 'top',
+        -- preset = 'vscode',
+        -- preset = 'dropdown',
+        preset = 'ivy_split',
       },
     },
     -- toggle = { enabled = true, which_key = true },
