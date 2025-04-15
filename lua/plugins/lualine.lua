@@ -16,7 +16,7 @@ return {
         -- sdfhklsf
         component_separators = { '' },
         -- component_separators = { left = '|', right = '|' },
-        section_separators = { left = '', right = '' },
+        -- section_separators = { left = '', right = '' },
         -- component_separators = { left = '', right = '' },
 
         -- '█' '█'  -- solid blocks
@@ -26,18 +26,18 @@ return {
       },
       sections = {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
-        lualine_a = { 'mode', 'progress' },
+        lualine_a = { 'mode' },
 
         lualine_b = {},
         lualine_c = {
           { 'diagnostics' },
           '%=',
-          { 'filename', path = 1 },
-          { 'aerial' },
+          -- { 'filename', path = 1 },
+          -- { 'aerial' },
         },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
-        lualine_x = {},
+        lualine_x = { 'diff' },
         lualine_y = { 'trouble' },
         lualine_z = {
           -- 'diff',
@@ -60,7 +60,14 @@ return {
       --     'location',
       --   },
       -- },
-      -- tabline = { lualine_a = { 'buffers' }, lualine_b = { '' }, lualine_z = { 'lsp_status' } },
+      --
+
+      tabline = {
+        lualine_a = { { 'filename', path = 1 } },
+        lualine_b = { 'aerial' },
+        lualine_y = { { 'tabs', show_modified_status = false } },
+        lualine_z = { 'progress' },
+      },
       -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
       -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },
       extensions = { 'quickfix', 'trouble', 'neo-tree', 'symbols-outline', 'oil' },
