@@ -28,17 +28,17 @@ return {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
         lualine_a = { 'mode' },
 
-        lualine_b = {},
+        lualine_b = { 'diagnostics' },
         lualine_c = {
-          { 'diagnostics' },
+          -- { 'diagnostics' },
           '%=',
           -- { 'filename', path = 1 },
           -- { 'aerial' },
         },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
-        lualine_x = { 'diff' },
-        lualine_y = { 'trouble' },
+        lualine_x = {},
+        lualine_y = { 'diff' },
         lualine_z = {
           -- 'diff',
           'branch',
@@ -65,8 +65,9 @@ return {
       tabline = {
         lualine_a = { { 'filename', path = 1 } },
         lualine_b = { 'aerial' },
-        lualine_y = { { 'tabs', show_modified_status = false } },
-        lualine_z = { 'progress' },
+        -- lualine_y = { { 'tabs', show_modified_status = false, use_mode_colors = true } },
+        lualine_y = { 'progress' },
+        lualine_z = { { 'tabs', show_modified_status = false, use_mode_colors = true } },
       },
       -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
       -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },
