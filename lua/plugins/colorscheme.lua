@@ -16,6 +16,7 @@ return {
   { 'slugbyte/lackluster.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   { 'sainnhe/gruvbox-material' },
+  { 'catppuccin/nvim' },
   {
     'rebelot/kanagawa.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
