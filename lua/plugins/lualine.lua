@@ -7,68 +7,56 @@ return {
       -- '█' '█'  -- solid blocks
       -- '▊' '▊'  -- partial blocks
       -- '▌' '▐'  -- half blocks
+      -- '█' '█'  -- solid blocks
       options = {
         -- theme = bubbles_theme,
         -- component_separators = { left = '', right = '' },
-        -- section_separators = { left = '', right = '' },
         -- component_separators = { left = '|', right = '|' },
-        -- section_separators = { left = '', right = '' },
-        -- sdfhklsf
-        component_separators = { '' },
-        -- component_separators = { left = '|', right = '|' },
-        section_separators = { left = '', right = '' },
         -- component_separators = { left = '', right = '' },
+        -- component_separators = { left = '|', right = '|' },
+        component_separators = { '' },
 
-        -- '█' '█'  -- solid blocks
+        section_separators = { left = '', right = '' },
         -- section_separators = { left = '█', right = '█' },
         -- section_separators = { left = '', right = '' },
-        -- section_separators = { left = '', right = '' },
-        -- theme = 'no-clown-fiesta',
+        -- section_separators = { left = '', right = '' },
+        -- section_separators = { left = '', right = '' },
       },
       sections = {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
-        lualine_a = { 'mode' },
-
-        lualine_b = { 'diagnostics' },
+        lualine_a = {},
+        lualine_b = {},
         lualine_c = {
-          -- { 'diagnostics' },
-          '%=',
-          -- { 'filename', path = 1 },
-          -- { 'aerial' },
+          { 'tabs', show_modified_status = false, use_mode_colors = true },
+          { 'filename', path = 1 },
+          'diagnostics',
         },
+        -- lualine_c = {
+        --   -- { 'diagnostics' },
+        --   '%=',
+        --   -- { 'aerial' },
+        --   -- { 'filename', path = 1 },
+        --   -- { 'aerial' },
+        -- },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
-        lualine_x = {},
-        lualine_y = { 'diff' },
+        lualine_x = { 'branch', 'diff' },
+        lualine_y = {},
         lualine_z = {
           -- 'diff',
-          'branch',
+          -- 'branch',
         },
       },
-      -- inactive_sections = {
-      --   -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
-      --   lualine_a = { 'filename' },
-      --   lualine_b = { 'diagnostics', 'branch' },
-      --   lualine_c = {
-      --     '%=',
-      --     { 'filename' },
-      --     { 'aerial' } --[[ add your center compoentnts here in place of this comment ]],
-      --   },
-      --   -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
-      --   lualine_x = {},
-      --   lualine_y = { 'quickfix', 'progress' },
-      --   lualine_z = {
-      --     'location',
-      --   },
-      -- },
-      --
 
       tabline = {
-        lualine_a = { { 'filename', path = 1 } },
-        lualine_b = { 'aerial' },
+        lualine_c = { 'aerial' },
+        --
+        lualine_x = { 'progress', 'searchcount' },
+        -- lualine_y = {},
+        -- lualine_z = { {} },
+
         -- lualine_y = { { 'tabs', show_modified_status = false, use_mode_colors = true } },
-        lualine_y = { 'progress' },
-        lualine_z = { { 'tabs', show_modified_status = false, use_mode_colors = true } },
+        -- lualine_z = {''},
       },
       -- winbar = { lualine_a = { 'searchcount' }, lualine_c = { '' }, lualine_y = { '' } },
       -- inactive_winbar = { lualine_a = {}, lualine_c = { 'diagnostics' } },

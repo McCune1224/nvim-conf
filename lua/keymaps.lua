@@ -116,6 +116,8 @@ keymap('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
 -- buffers (Turn off for now as using barbar.nvim)
 -- keymap('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 -- keymap('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+keymap('n', '<leader>bd', '<cmd>bp|bd #<cr>', { desc = 'Delete Buffer Keep Window' })
+keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
 -- keymap('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 -- keymap('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 -- keymap('n', '<leader>bd', '<cmd>bp|bd #<cr>', { desc = 'Delete Buffer Keep Window' })
@@ -180,7 +182,7 @@ local diagnostic_goto = function(next, severity)
     vim.diagnostic.jump { count = 1, float = true, severity = sev }
   end
   local prev_diag = function(sev)
-    vim.diagnostic.jump { count = 1, float = true, severity = sev }
+    vim.diagnostic.jump { count = -1, float = true, severity = sev }
   end
   -- local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil

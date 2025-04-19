@@ -290,6 +290,7 @@ return {
       { '<leader>ce', mode = { 'v', 'n' }, '<CMD>CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', mode = { 'v', 'n' }, '<CMD>CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
       { '<leader>ch', mode = { 'v', 'n' }, list_chat_history, desc = 'CopilotChat - History' },
+      { '<leader>cm', mode = { 'v', 'n' }, '<CMD>CopilotChatModels<CR>', desc = 'CopilotChat - Models' },
       {
         '<leader>cq',
         function()
@@ -328,14 +329,6 @@ return {
         end,
         desc = 'CopilotChat - Eggbert',
       },
-      -- {
-      --   '<leader>cc',
-      --   function()
-      --     local actions = require 'CopilotChat.actions'
-      --     require('CopilotChat.integrations.telescope').pick(actions.prompt_actions())
-      --   end,
-      --   desc = 'CopilotChat - Prompt actions',
-      -- },
     },
     dependencies = {
       { 'zbirenbaum/copilot.lua' }, -- or zbirenbaum/copilot.lua
