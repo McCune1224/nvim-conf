@@ -9,6 +9,7 @@ return {
       -- '▌' '▐'  -- half blocks
       -- '█' '█'  -- solid blocks
       options = {
+        globalstatus = false,
         -- theme = bubbles_theme,
         -- component_separators = { left = '', right = '' },
         -- component_separators = { left = '|', right = '|' },
@@ -27,9 +28,10 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {
-          { 'tabs', show_modified_status = false, use_mode_colors = true },
           { 'filename', path = 1 },
           'diagnostics',
+          'progress',
+          'searchcount',
         },
         -- lualine_c = {
         --   -- { 'diagnostics' },
@@ -40,7 +42,7 @@ return {
         -- },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
-        lualine_x = { 'branch', 'diff' },
+        lualine_x = { 'diff' },
         lualine_y = {},
         lualine_z = {
           -- 'diff',
@@ -51,7 +53,7 @@ return {
       tabline = {
         lualine_c = { 'aerial' },
         --
-        lualine_x = { 'progress', 'searchcount' },
+        lualine_x = { 'branch', { 'tabs', show_modified_status = false, use_mode_colors = true } },
         -- lualine_y = {},
         -- lualine_z = { {} },
 
