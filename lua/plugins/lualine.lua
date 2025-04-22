@@ -51,9 +51,9 @@ return {
       },
 
       tabline = {
-        lualine_c = { 'aerial' },
+        lualine_c = { { 'tabs', show_modified_status = false, use_mode_colors = true }, 'aerial' },
         --
-        lualine_x = { 'branch', { 'tabs', show_modified_status = false, use_mode_colors = true } },
+        lualine_x = { 'branch' },
         -- lualine_y = {},
         -- lualine_z = { {} },
 

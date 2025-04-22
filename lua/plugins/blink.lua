@@ -55,6 +55,8 @@ return {
       ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
       ['<C-c>'] = { 'cancel', 'hide' }, -- close completion window
       ['<C-e>'] = { 'select_and_accept' }, -- select suggestion
+      ['[s'] = { 'snippet_backward' }, -- move to previous snippet position
+      [']s'] = { 'snippet_backward' }, -- move to next snippet position
     },
     signature = { enabled = true },
     appearance = {
