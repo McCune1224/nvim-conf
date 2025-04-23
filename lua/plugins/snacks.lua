@@ -175,18 +175,18 @@ return {
       desc = '[F]ind [C]ommands',
     },
     {
-      '<leader>fd',
+      '<leader>fe',
       function()
         Snacks.picker.diagnostics_buffer()
       end,
-      desc = '[F]ind [D]iagnostics (buffer only)',
+      desc = '[F]ind diagnostic [E]rrors (buffer only)',
     },
     {
-      '<leader>fD',
+      '<leader>fE',
       function()
         Snacks.picker.diagnostics()
       end,
-      desc = '[F]ind [D]iagnostics',
+      desc = '[F]ind diagnostic [E]rrors',
     },
     {
       '<leader>fH',
@@ -270,7 +270,7 @@ return {
       function()
         Snacks.picker.lsp_definitions()
       end,
-      desc = '[F]ind [D]ecalarations',
+      desc = '[F]ind [D]efinition',
     },
     {
       '<leader>fw',
@@ -279,7 +279,6 @@ return {
       end,
       desc = '[F]ind [W]ords',
     },
-
     -- Words
     {
       '<leader>]]',

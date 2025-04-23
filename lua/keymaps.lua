@@ -173,8 +173,26 @@ keymap('n', '<leader>fn', '<cmd>enew<cr>', { desc = 'New File' })
 
 -- keymap('n', '<A-j>', vim.cmd.cnext, { desc = 'Next Quickfix' })
 -- keymap('n', '<A-k>', vim.cmd.cprevious, { desc = 'Next Quickfix' })
-keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
-keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
+keymap('n', '[q', function()
+  local qf = vim.fn.getqflist { idx = 0, size = 0 }
+  if qf.idx == 1 then
+    vim.cmd 'cfirst'
+  else
+    vim.cmd 'cprev'
+  end
+end, { desc = 'Previous Quickfix (wraps)' })
+
+keymap('n', ']q', function()
+  local qf = vim.fn.getqflist { idx = 0, size = 0 }
+  if qf.idx == qf.size then
+    vim.cmd 'clast'
+  else
+    vim.cmd 'cnext'
+  end
+end, { desc = 'Next Quickfix (wraps)' })
+
+-- keymap('n', '[q', vim.cmd.cprev, { desc = 'Previous Quickfix' })
+-- keymap('n', ']q', vim.cmd.cnext, { desc = 'Next Quickfix' })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

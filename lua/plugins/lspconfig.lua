@@ -104,6 +104,13 @@ return {
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
+          local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+          ---@diagnostic disable-next-line: duplicate-set-field
+          function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+            opts = opts or {}
+            opts.border = 'single' -- Or any other border
+            return orig_util_open_floating_preview(contents, syntax, opts, ...)
+          end
           -- Opens a popup that displays documentation about the word under your cursor
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
