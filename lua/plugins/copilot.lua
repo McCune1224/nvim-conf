@@ -214,7 +214,8 @@ local function save_chat(response)
     end,
     headless = true, -- disable updating chat buffer and history with this question
     -- model = vim.fn.getenv 'COPILOT_MODEL_CHEAP',
-    model = 'gpt-4o-mini',
+    -- model = 'gpt-4o-mini',
+    model = 'gemini-2.5-pro',
   })
 end
 

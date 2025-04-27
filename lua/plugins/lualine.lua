@@ -51,7 +51,15 @@ return {
       },
 
       tabline = {
-        lualine_c = { { 'tabs', show_modified_status = false, use_mode_colors = true }, 'aerial' },
+        lualine_c = {
+          { 'tabs', show_modified_status = false, use_mode_colors = true },
+          {
+            require('noice').api.statusline.mode.get,
+            cond = require('noice').api.statusline.mode.has,
+            -- color = { fg = '#ff9e64' },
+          },
+          'aerial',
+        },
         --
         lualine_x = { 'branch' },
         -- lualine_y = {},

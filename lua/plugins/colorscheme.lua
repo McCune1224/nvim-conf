@@ -14,6 +14,7 @@ return {
   { 'blazkowolf/gruber-darker.nvim' },
   { 'rebelot/kanagawa.nvim' },
   { 'slugbyte/lackluster.nvim' },
+  { 'sainnhe/gruvbox-material' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'rebelot/kanagawa.nvim',
