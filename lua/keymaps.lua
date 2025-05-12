@@ -230,6 +230,14 @@ keymap("n", "<leader>qq", "<cmd>qa<cr>", { desc = "[Q]uick [Q]uit" })
 -- highlights under cursor
 keymap("n", "<leader>ui", vim.show_pos, { desc = "[U]nder cursor [I]nspection (Treesitter)" })
 
+-- Light/Dark mode toggle
+vim.keymap.set('n', '<leader>td', function()
+  if vim.o.background == "dark" then
+    vim.o.background = "light"
+  else
+    vim.o.background = "dark"
+  end
+end, { desc = "[T]oggle [D]ark mode" })
 
 -- windows
 keymap("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })

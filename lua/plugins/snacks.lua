@@ -177,9 +177,16 @@ return {
     {
       '<leader>fe',
       function()
-        Snacks.picker.diagnostics_buffer()
+        Snacks.picker.diagnostics_buffer { severity = vim.diagnostic.severity.ERROR }
       end,
       desc = '[F]ind diagnostic [E]rrors (buffer only)',
+    },
+    {
+      '<leader>fE',
+      function()
+        Snacks.picker.diagnostics { severity = vim.diagnostic.severity.ERROR }
+      end,
+      desc = '[F]ind diagnostic [E]rrors',
     },
     {
       '<leader>fE',

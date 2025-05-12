@@ -29,10 +29,12 @@ return {
         lualine_b = {},
         lualine_c = {
           { 'filename', path = 1 },
-          'diagnostics',
           'progress',
           'searchcount',
+          'location',
+          'diagnostics',
         },
+
         -- lualine_c = {
         --   -- { 'diagnostics' },
         --   '%=',

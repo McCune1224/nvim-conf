@@ -8,7 +8,7 @@ return {
       'jay-babu/mason-nvim-dap.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'saghen/blink.cmp',
-
+      'folke/snacks.nvim',
       -- Useful status updates for LSP.
       -- -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       -- { 'j-hui/fidget.nvim', opts = {} },
@@ -93,9 +93,9 @@ return {
           -- map('<leader>ws', function()
           --   builtin.lsp_dynamic_workspace_symbols(themes.get_ivy(opts))
           -- end, '[W]orkspace [S]ymbols')
-          map('<leader>ws', function()
+          map('<leader>dS', function()
             snacks.picker.lsp_workspace_symbols()
-          end, '[W]orkspace [S]ymbols')
+          end, '[D]ocument [S]ymbols (Global)')
 
           -- Rename the variable under your cursor.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -280,50 +280,6 @@ return {
       --   capabilities = vim.tbl_deep_extend('force', {}, capabilities, lspconfig.gdscript.capabilities or {}), -- cmd = gd_cmd,
       -- }
     end,
-  },
-
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    lazy = false,
-    keys = {
-      {
-        '<leader>df',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-        desc = '[D]ocument [F]ormat ',
-      },
-    },
-    opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
-
-        -- {lsp_format}
-        --     `"never"`    never use the LSP for formatting (default)
-        --     `"fallback"` LSP formatting is used when no other formatters are available
-        --     `"prefer"`   use only LSP formatting when available
-        --     `"first"`    LSP formatting is used when available and then other formatters
-        --     `"last"`     other formatters are used then LSP formatting when
-        lua = { 'stylua', lsp_format = 'fallback' },
-        -- python = { 'isort', 'black', lsp_format = 'fallback' },
-        go = { 'goimports', lsp_format = 'last' },
-        sql = { 'sql-formatter', 'sqlfmt', stop_after_first = true, lsp_format = 'fallback' },
-        --
-        javascript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
-      },
-    },
   },
 
   -- {

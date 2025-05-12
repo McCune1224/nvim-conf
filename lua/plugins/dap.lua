@@ -8,8 +8,8 @@ return {
         opts = {
           windows = {
             terminal = {
-              hide = { 'go' },
-              -- hide = { 'go', 'godot' },
+              -- hide = { 'go' },
+              hide = { 'go', 'godot' },
             },
           },
         },

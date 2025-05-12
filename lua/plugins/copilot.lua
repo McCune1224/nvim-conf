@@ -286,6 +286,13 @@ return {
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'main',
+    selection = function(source)
+      local selection = require 'CopilotChat.select'
+      return selection.buffer(source) or selection.visual(source)
+    end,
+    sticky = {
+      '#buffer',
+    },
     keys = {
       { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChatToggle<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', mode = { 'v', 'n' }, '<CMD>CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
@@ -319,9 +326,9 @@ return {
           local input = vim.fn.input 'Eggbert Chat:'
           if input ~= '' then
             require('CopilotChat').ask(input, {
-              system_prompt = 'You are a helpful assistant for a programmer at the level of someone with a B.S. in CS. The Programmer is familar with C# but not with the Godot Game Engine. This is their first game',
+              system_prompt = 'You are a helpful programming assistant. The user has a B.S. in Computer Science and is experienced with C#, but is new to the Godot Game Engine. They are creating their first game in Godot 4.3 using C#. The game is inspired by Undertale, with a combat system similar to The Binding of Isaac. Provide clear, practical guidance and explanations tailored to their background. ',
               selection = require('CopilotChat.select').buffer,
-              context = 'This is involving a Game made in Godot 4.3 with C# . The game in question is like Undertale. It has an overworld style and aesthetic to that of Undertale, but the combat loop is that of like a bullet-hell game.',
+              context = '',
               sticky = {
                 '#files',
               },

@@ -15,6 +15,7 @@ return {
   { 'rebelot/kanagawa.nvim' },
   { 'slugbyte/lackluster.nvim' },
   { 'sainnhe/gruvbox-material' },
+  { 'webhooked/kanso.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'rebelot/kanagawa.nvim',
