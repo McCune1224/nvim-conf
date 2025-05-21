@@ -29,7 +29,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme no-clown-fiesta]]
+      vim.cmd [[colorscheme gruvbox-material]]
     end,
   },
 }
