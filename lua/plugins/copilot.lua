@@ -286,15 +286,12 @@ return {
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'main',
-    selection = function(source)
-      local selection = require 'CopilotChat.select'
-      return selection.buffer(source) or selection.visual(source)
-    end,
-    sticky = {
-      '#buffer',
-    },
+    -- selection = function(source)
+    --   local selection = require 'CopilotChat.select'
+    --   return selection.buffer(source) or selection.visual(source)
+    -- end,
     keys = {
-      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChatToggle<CR>', desc = 'CopilotChat - Open' },
+      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChat<CR>', desc = 'CopilotChat - Open' },
       { '<leader>ce', mode = { 'v', 'n' }, '<CMD>CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', mode = { 'v', 'n' }, '<CMD>CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
       { '<leader>ch', mode = { 'v', 'n' }, list_chat_history, desc = 'CopilotChat - History' },
@@ -351,9 +348,9 @@ return {
         layout = 'vertical',
         -- height = 0.5,
       },
-      -- sticky = {
-      --   '#files',
-      -- },
+      highlight_headers = false,
+      separator = '___',
+      error_header = '> [!ERROR] Error',
       callback = function(response)
         save_chat(response)
       end,
