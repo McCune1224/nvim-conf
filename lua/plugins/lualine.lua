@@ -1,5 +1,4 @@
 return {
-  { 'AndreM222/copilot-lualine' },
   {
 
     opts = {
@@ -34,7 +33,6 @@ return {
           'location',
           'diagnostics',
         },
-
         -- lualine_c = {
         --   -- { 'diagnostics' },
         --   '%=',
@@ -51,15 +49,24 @@ return {
           -- 'branch',
         },
       },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename', 'location' },
+        lualine_x = { 'diff' },
+        lualine_y = {},
+        lualine_z = { 'branch' },
+      },
 
       tabline = {
         lualine_c = {
           { 'tabs', show_modified_status = false, use_mode_colors = true },
-          {
-            require('noice').api.statusline.mode.get,
-            cond = require('noice').api.statusline.mode.has,
-            -- color = { fg = '#ff9e64' },
-          },
+          --
+          -- {
+          --   require('noice').api.statusline.mode.get,
+          --   cond = require('noice').api.statusline.mode.has,
+          --   -- color = { fg = '#ff9e64' },
+          -- },
           'aerial',
         },
         --
