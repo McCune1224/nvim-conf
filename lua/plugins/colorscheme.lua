@@ -15,9 +15,11 @@ return {
   { 'rebelot/kanagawa.nvim' },
   { 'slugbyte/lackluster.nvim' },
   { 'sainnhe/gruvbox-material' },
+  { 'bettervim/yugen.nvim' },
+  { 'webhooked/kanso.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
-    'webhooked/kanso.nvim',
+    'stevedylandev/darkmatter-nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
@@ -28,7 +30,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme kanso-ink]]
+      vim.cmd [[colorscheme darkmatter]]
     end,
   },
 }

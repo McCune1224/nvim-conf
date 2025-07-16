@@ -51,7 +51,7 @@ opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visu
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 
-opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50' -- underscore '_' cursor while on insert mode
+-- opt.guicursor = 'n-v-c:block,i-ci-ve:hor20,r-cr:hor20,o:hor50' -- underscore '_' cursor while on insert mode
 -- check if on windows and if so, set to use powershell:
 if vim.fn.has 'win32' == 1 then
   -- Set PowerShell as default shell

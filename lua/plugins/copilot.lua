@@ -214,8 +214,8 @@ local function save_chat(response)
     end,
     headless = true, -- disable updating chat buffer and history with this question
     -- model = vim.fn.getenv 'COPILOT_MODEL_CHEAP',
-    -- model = 'gpt-4o-mini',
-    model = 'gemini-2.5-pro',
+    model = 'gpt-4o-mini',
+    -- model = 'gemini-2.5-pro',
   })
 end
 
@@ -291,7 +291,7 @@ return {
     --   return selection.buffer(source) or selection.visual(source)
     -- end,
     keys = {
-      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChat<CR>', desc = 'CopilotChat - Open' },
+      { '<leader>cc', mode = { 'v', 'n' }, '<CMD>CopilotChatToggle<CR>', desc = 'CopilotChat - Toggle' },
       { '<leader>ce', mode = { 'v', 'n' }, '<CMD>CopilotChatExplain<CR>', desc = 'CopilotChat - Explain' },
       { '<leader>cf', mode = { 'v', 'n' }, '<CMD>CopilotChatFix<CR>', desc = 'CopilotChat - Fix' },
       { '<leader>ch', mode = { 'v', 'n' }, list_chat_history, desc = 'CopilotChat - History' },
@@ -355,6 +355,12 @@ return {
         save_chat(response)
       end,
       history_path = CHAT_HISTORY_DIR,
+      mappings = {
+        reset = {
+          normal = '<C-x>',
+          insert = '<C-x>',
+        },
+      },
     },
     -- See Commands section for default commands if you want to lazy load on them
   },
