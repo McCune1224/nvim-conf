@@ -8,7 +8,6 @@ return {
   { 'Mofiqul/vscode.nvim' },
   { 'rmehri01/onenord.nvim' },
   { 'xero/miasma.nvim' },
-  { 'aktersnurra/no-clown-fiesta.nvim' },
   { 'nyoom-engineering/oxocarbon.nvim' },
   { 'savq/melange-nvim' },
   { 'blazkowolf/gruber-darker.nvim' },
@@ -17,9 +16,10 @@ return {
   { 'sainnhe/gruvbox-material' },
   { 'bettervim/yugen.nvim' },
   { 'webhooked/kanso.nvim' },
+  { 'stevedylandev/darkmatter-nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
-    'stevedylandev/darkmatter-nvim',
+    'aktersnurra/no-clown-fiesta.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
@@ -30,7 +30,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme darkmatter]]
+      vim.cmd [[colorscheme no-clown-fiesta]]
     end,
   },
 }

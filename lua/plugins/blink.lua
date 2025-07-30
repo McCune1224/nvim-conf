@@ -3,7 +3,7 @@ return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
   -- dependencies = { 'rafamadriz/friendly-snippets', 'giuxtaposition/blink-cmp-copilot' },
-  dependencies = { 'rafamadriz/friendly-snippets', 'fang2hou/blink-copilot' },
+  dependencies = { 'rafamadriz/friendly-snippets', 'fang2hou/blink-copilot', 'Kaiser-Yang/blink-cmp-avante' },
 
   -- use a release tag to download pre-built binaries
   version = '*',
@@ -109,13 +109,18 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       -- default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'dadbod' },
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'lazydev' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'lazydev', 'avante' },
       providers = {
         lazydev = {
           name = 'LazyDev',
           module = 'lazydev.integrations.blink',
           -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
+        },
+        avante = {
+          module = 'blink-cmp-avante',
+          name = 'Avante',
+          opts = {},
         },
         copilot = {
           name = 'copilot',

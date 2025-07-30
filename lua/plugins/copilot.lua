@@ -214,7 +214,8 @@ local function save_chat(response)
     end,
     headless = true, -- disable updating chat buffer and history with this question
     -- model = vim.fn.getenv 'COPILOT_MODEL_CHEAP',
-    model = 'gpt-4o-mini',
+    -- model = 'gpt-4o-mini',
+    model = 'gemini-2.0-flash-001',
     -- model = 'gemini-2.5-pro',
   })
 end
@@ -343,14 +344,14 @@ return {
     opts = {
       -- See Configuration section for options
       -- model = 'claude-3.7-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
-      model = 'gpt-4.1',
+      -- model = 'gpt-4.1',
       window = {
         layout = 'vertical',
         -- height = 0.5,
       },
       highlight_headers = false,
-      separator = '___',
-      error_header = '> [!ERROR] Error',
+      -- separator = '___',
+      -- error_header = '> [!ERROR] Error',
       callback = function(response)
         save_chat(response)
       end,
