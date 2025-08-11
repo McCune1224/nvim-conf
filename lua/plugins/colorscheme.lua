@@ -16,10 +16,11 @@ return {
   { 'sainnhe/gruvbox-material' },
   { 'bettervim/yugen.nvim' },
   { 'webhooked/kanso.nvim' },
+  { 'aktersnurra/no-clown-fiesta.nvim' },
   { 'stevedylandev/darkmatter-nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
-    'aktersnurra/no-clown-fiesta.nvim',
+    'webhooked/kanso.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
@@ -30,7 +31,7 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme no-clown-fiesta]]
+      vim.cmd [[colorscheme kanso-zen]]
     end,
   },
 }

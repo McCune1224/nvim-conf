@@ -27,6 +27,7 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {
+          -- { 'filename', path = 1 },
           { 'filename', path = 1 },
           'progress',
           'searchcount',
@@ -52,7 +53,10 @@ return {
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { 'filename', 'location' },
+        lualine_c = {
+          { 'filename', path = 1 },
+          'location',
+        },
         lualine_x = { 'diff' },
         lualine_y = {},
         lualine_z = { 'branch' },

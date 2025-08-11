@@ -6,6 +6,9 @@ return {
       {
         'igorlfs/nvim-dap-view',
         opts = {
+          winbar = {
+            default_section = 'repl',
+          },
           windows = {
             terminal = {
               -- hide = { 'go' },
@@ -17,6 +20,13 @@ return {
       ...,
     },
     config = function()
+      vim.api.nvim_create_autocmd({ 'FileType' }, {
+        pattern = { 'dap-view', 'dap-view-term', 'dap-repl' }, -- dap-repl is set by `nvim-dap`
+        callback = function(evt)
+          vim.keymap.set('n', 'q', '<C-w>q', { buffer = evt.buf })
+        end,
+      })
+
       local dap = require 'dap'
       local dv = require 'dap-view'
       -- Godot
@@ -30,8 +40,6 @@ return {
         {
           type = 'godot',
           request = 'launch',
-          hasl,
-          dkghsadklgs,
           name = 'Launch scene',
           project = '${workspaceFolder}',
           launch_scene = true,
@@ -110,17 +118,17 @@ return {
       -- Keybindings
       -- { '<leader>au', function() require('dapui').toggle {} end, desc = '[A]dapter [U]I', },
       -- { '<leader>av', function() require('dapui').eval() end, desc = '[A]dapter e[V]al', mode = { 'n', 'v' }, },
-      vim.api.nvim_set_keymap('n', '<leader>au', '<cmd>DapViewToggle<CR>', { noremap = true, silent = true, desc = '[A]dapter [U]I' })
+      vim.api.nvim_set_keymap('n', '<leader>pu', '<cmd>DapViewToggle<CR>', { noremap = true, silent = true, desc = '[P]rogram [U]I' })
       -- vim.api.nvim_set_keymap('n', '<leader>av', '<cmd>lua require"dapui".eval()<CR>', { noremap = true, silent = true, desc = '[A]dapter e[V]al' })
-      vim.api.nvim_set_keymap('n', '<leader>ac', '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true, desc = '[A]dapter [C]ontinue' })
-      vim.api.nvim_set_keymap('n', '<leader>ao', '<cmd>lua require"dap".step_over()<CR>', { noremap = true, silent = true, desc = '[A]dapater [O]ver' })
-      vim.api.nvim_set_keymap('n', '<leader>ai', '<cmd>lua require"dap".step_into()<CR>', { noremap = true, silent = true, desc = '[A]dapter [I]n' })
-      vim.api.nvim_set_keymap('n', '<leader>aO', '<cmd>lua require"dap".step_out()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>pc', '<cmd>lua require"dap".continue()<CR>', { noremap = true, silent = true, desc = '[P]rogram [C]ontinue' })
+      vim.api.nvim_set_keymap('n', '<leader>po', '<cmd>lua require"dap".step_over()<CR>', { noremap = true, silent = true, desc = '[P]rogram [O]ver' })
+      vim.api.nvim_set_keymap('n', '<leader>pi', '<cmd>lua require"dap".step_into()<CR>', { noremap = true, silent = true, desc = '[P]rogram [I]n' })
+      vim.api.nvim_set_keymap('n', '<leader>pO', '<cmd>lua require"dap".step_out()<CR>', { noremap = true, silent = true, desc = '[P]rogram [O]ut' })
       vim.api.nvim_set_keymap(
         'n',
-        '<leader>ab',
+        '<leader>pb',
         '<cmd>lua require"dap".toggle_breakpoint()<CR>',
-        { noremap = true, silent = true, desc = '[A]dapter [B]reakpoint' }
+        { noremap = true, silent = true, desc = '[P]rogram [B]reakpoint' }
       )
       -- vim.api.nvim_set_keymap(
       --   'n',
@@ -130,12 +138,12 @@ return {
       -- )
       vim.api.nvim_set_keymap(
         'n',
-        '<leader>ap',
+        '<leader>pp',
         '<cmd>lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>',
-        { noremap = true, silent = true, desc = '[A]dapter [P]rint' }
+        { noremap = true, silent = true, desc = '[P]rogram [P]rint' }
       )
       -- vim.api.nvim_set_keymap('n', '<leader>ar', '<cmd>lua require"dap".repl.open()<CR>', { noremap = true, silent = true, desc = '[A]dapter [R]epl' })
-      vim.api.nvim_set_keymap('n', '<leader>ar', '<cmd>DapToggleRepl<CR>', { noremap = true, silent = true, desc = '[A]dapter [R]epl' })
+      vim.api.nvim_set_keymap('n', '<leader>pr', '<cmd>DapToggleRepl<CR>', { noremap = true, silent = true, desc = '[P]rogram [R]epl' })
       -- vim.api.nvim_set_keymap('n', '<leader>al', '<cmd>lua require"dap".run_last()<CR>', { noremap = true, silent = true, '[A]dapter [L]ast' })
     end,
   },
