@@ -28,7 +28,7 @@ return {
     -- Add other optional dependencies as needed
   },
   ---@module 'avante'
-  ---@type avante.ConfigA
+  ---@type avante.Config
   opts = {
     provider = 'copilot',
     -- provider = 'openrouter',
@@ -36,6 +36,8 @@ return {
       openrouter_deepseek = OpenRouterProviderGenerator 'deepseek/deepseek-r1-0528',
       openrouter_kiwi = OpenRouterProviderGenerator 'moonshotai/kimi-k2',
       openrouter_qwen3 = OpenRouterProviderGenerator 'qwen/qwen3-coder',
+      openrouter_grok = OpenRouterProviderGenerator 'x-ai/grok-code-fast-1',
+
       -- perplexity = {
       --   -- Inherit OpenAI-compatible structure
       --   __inherited_from = 'openai',
