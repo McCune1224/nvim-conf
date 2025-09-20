@@ -29,10 +29,11 @@ return {
         lualine_c = {
           -- { 'filename', path = 1 },
           { 'filename', path = 1 },
-          'progress',
           'searchcount',
-          'location',
           'diagnostics',
+          'progress',
+          'location',
+          'diff',
         },
         -- lualine_c = {
         --   -- { 'diagnostics' },
@@ -43,7 +44,7 @@ return {
         -- },
         -- lualine_c = { "os.date('%a')", 'data', "require'lsp-status'.status()" }
         -- lualine_x = { 'copilot' },
-        lualine_x = { 'diff' },
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {
           -- 'diff',
@@ -55,11 +56,12 @@ return {
         lualine_b = {},
         lualine_c = {
           { 'filename', path = 1 },
-          'location',
+          -- 'location',
+          -- 'diff',
         },
-        lualine_x = { 'diff' },
+        lualine_x = {},
         lualine_y = {},
-        lualine_z = { 'branch' },
+        lualine_z = {},
       },
 
       tabline = {

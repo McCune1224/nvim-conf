@@ -18,6 +18,7 @@ return {
   { 'webhooked/kanso.nvim' },
   { 'aktersnurra/no-clown-fiesta.nvim' },
   { 'stevedylandev/darkmatter-nvim' },
+  { 'Verf/deepwhite.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   {
     'webhooked/kanso.nvim',
@@ -31,7 +32,8 @@ return {
       --   vim.cmd [[colorscheme rose-pine-dawn]]
       --   return
       -- end
-      vim.cmd [[colorscheme kanso-zen]]
+      -- vim.cmd [[colorscheme kanso-zen]]
+      vim.cmd [[colorscheme deepwhite]]
     end,
   },
 }

@@ -72,8 +72,8 @@ opt.fillchars = {
   foldsep = ' ',
   diff = '╱',
   eob = ' ',
-  -- stl = '─',
-  -- stlnc = '─',
+  stl = '─',
+  stlnc = '─',
 }
 opt.smoothscroll = true
 

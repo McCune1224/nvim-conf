@@ -35,6 +35,15 @@ return {
           filetype = 'md',
         },
       },
+      right = {
+        scratchPad = {
+          enabled = false,
+          pathToFile = nil,
+        },
+        bo = {
+          filetype = 'md',
+        },
+      },
     },
   },
 }

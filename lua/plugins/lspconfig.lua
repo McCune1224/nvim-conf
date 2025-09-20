@@ -252,23 +252,19 @@ return {
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             server.capabilities = vim.tbl_deep_extend('force', {}, blink_capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            -- require('lspconfig')[server_name].setup(server)
+            vim.lsp.config()[server_name].setup(server)
           end,
         },
       }
-      -- No currently official gleam lsp for Mason, so manuall adding via lspconfig
-      -- require('lspconfig').gleam.setup {
-      --   cmd = { 'gleam', 'lsp' },
-      --   filetypes = { 'gleam' },
-      --   capabilities = capabilities,
-      -- }
-      local lspconfig = require 'lspconfig'
-      lspconfig.gleam.setup {}
-      lspconfig.gdscript.setup = {
+
+      -- LSP's not handled / installed via mason that need configuration
+      vim.lsp.enable { 'gleam' }
+      vim.lsp.config('godot', {
         name = 'godot',
-        cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+        cmd = { 'ncat', '127.0.0.1', '6005' }, -- You can replace 'ncat' with the appropriate command for your setup.
         capabilities = blink_capabilities,
-      }
+      })
       -- local gd_port = os.getenv 'GDScript_Port' or '6005'
       -- local gd_cmd = { 'ncat', '127.0.0.1', gd_port }
       -- local gd_pipe = [[\\.\pipe\godot.pipe]]
@@ -277,134 +273,4 @@ return {
       -- }
     end,
   },
-
-  -- {
-  --   'hrsh7th/nvim-cmp',
-  --   lazy = false,
-  --   priority = 100,
-  --   dependencies = {
-  --     'onsails/lspkind.nvim',
-  --     'hrsh7th/cmp-nvim-lsp',
-  --     'hrsh7th/cmp-path',
-  --     'hrsh7th/cmp-buffer',
-  --     'nvim-tree/nvim-web-devicons',
-  --     {
-  --       'L3MON4D3/LuaSnip',
-  --       dependencies = { 'rafamadriz/friendly-snippets' },
-  --       build = 'make install_jsregexp',
-  --     },
-  --     'saadparwaiz1/cmp_luasnip',
-  --   },
-  --
-  --   config = function()
-  --     vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-  --     vim.opt.shortmess:append 'c'
-  --
-  --     local cmp = require 'cmp'
-  --
-  --     require('luasnip.loaders.from_vscode').lazy_load()
-  --     cmp.setup {
-  --       snippet = {
-  --         expand = function(args)
-  --           require('luasnip').lsp_expand(args.body)
-  --         end,
-  --       },
-  --       sources = {
-  --         { name = 'nvim_lsp', priority = 750, group_index = 1 },
-  --         { name = 'luasnip', priority = 1000, group_index = 1 },
-  --         { name = 'buffer', priority = 500, group_index = 2 },
-  --         -- { name = 'copilot', priority = 650, group_index = 2 },
-  --         { name = 'path', priority = 100, group_index = 3 },
-  --       },
-  --       mapping = cmp.mapping.preset.insert {
-  --         ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
-  --         ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
-  --         -- ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- scroll up preview
-  --         -- ['<C-d>'] = cmp.mapping.scroll_docs(4), -- scroll down preview
-  --         ['<C-Space>'] = cmp.mapping.complete {}, -- show completion suggestions
-  --         ['<C-c>'] = cmp.mapping.abort(), -- close completion window
-  --         ['<C-e>'] = cmp.mapping.confirm { select = true }, -- select suggestion
-  --       },
-  --
-  --       window = {
-  --         completion = cmp.config.window.bordered(),
-  --         documentation = cmp.config.window.bordered(),
-  --       },
-  --       formatting = {
-  --         fields = { 'kind', 'abbr', 'menu' },
-  --         format = function(entry, vim_item)
-  --           local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
-  --           local strings = vim.split(kind.kind, '%s', { trimempty = true })
-  --           kind.kind = ' ' .. (strings[1] or '') .. ' '
-  --           kind.menu = '    (' .. (strings[2] or '') .. ')'
-  --
-  --           return kind
-  --         end,
-  --       },
-  --       --
-  --       -- formatting = {
-  --       --   format = lspkind.cmp_format {
-  --       --     mode = 'text_symbol',
-  --       --     -- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-  --       --     -- can also be a function to dynamically calculate max width such as
-  --       --     maxwidth = function()
-  --       --       return math.floor(0.45 * vim.o.columns)
-  --       --     end,
-  --       --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-  --       --     show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-  --       --
-  --       --     -- The function below will be called before any actual modifications from lspkind
-  --       --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-  --       --     -- before = function (entry, vim_item)
-  --       --     --   ...
-  --       --     --   return vim_item
-  --       --     -- end
-  --       --   },
-  --       -- },
-  --       sorting = {
-  --         priority_weight = 2,
-  --         comparators = {
-  --           cmp.config.compare.offset,
-  --           cmp.config.compare.exact,
-  --           cmp.config.compare.score,
-  --           cmp.config.compare.recently_used,
-  --           cmp.config.compare.kind,
-  --           cmp.config.compare.sort_text,
-  --           cmp.config.compare.length,
-  --           cmp.config.compare.order,
-  --         },
-  --       },
-  --
-  --       experimental = {
-  --         ghost_text = true,
-  --       },
-  --     }
-  --
-  --     cmp.setup.filetype({ 'sql' }, {
-  --       sources = {
-  --         { name = 'vim-dadbod-completion' },
-  --         { name = 'buffer' },
-  --         { name = 'supermaven' },
-  --       },
-  --     })
-  --
-  --     local ls = require 'luasnip'
-  --     ls.config.set_config {
-  --       history = false,
-  --       updateevents = 'TextChanged,TextChangedI',
-  --     }
-  --
-  --     vim.keymap.set({ 'i', 's' }, '<c-d>', function()
-  --       if ls.expand_or_jumpable() then
-  --         ls.expand_or_jump()
-  --       end
-  --     end, { silent = true })
-  --
-  --     vim.keymap.set({ 'i', 's' }, '<c-u>', function()
-  --       if ls.jumpable(-1) then
-  --         ls.jump(-1)
-  --       end
-  --     end, { silent = true })
-  --   end,
-  -- },
 }
