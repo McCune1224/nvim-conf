@@ -20,20 +20,20 @@ return {
   { 'stevedylandev/darkmatter-nvim' },
   { 'Verf/deepwhite.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
+  { 'gmr458/cold.nvim' },
   {
     'webhooked/kanso.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      -- load the colorscheme here
       -- Get current time to see if its 5pm or not:
-      -- local current_time = tonumber(os.date '%H')
-      -- if current_time <= 16 or current_time < 10 then
-      --   vim.cmd [[colorscheme rose-pine-dawn]]
-      --   return
-      -- end
-      -- vim.cmd [[colorscheme kanso-zen]]
-      vim.cmd [[colorscheme deepwhite]]
+      local current_time = tonumber(os.date '%H')
+      if current_time >= 9 and current_time <= 16 then
+              vim.cmd [[colorscheme deepwhite]]
+            else
+              vim.cmd [[colorscheme cold]]
+      end
+      vim.cmd [[colorscheme cold]]
     end,
   },
 }

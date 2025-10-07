@@ -2,7 +2,7 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  ---@type snacks.Config
+  -- @type snacks.Config
   opts = {
     -- your configuration comes here
     -- or leave it empty to use the default settings
@@ -23,6 +23,7 @@ return {
     lazygit = { enabled = true },
     picker = {
       enabled = true,
+      -- ui_select = true,
       layout = {
         -- preset = 'top',
         -- preset = 'vscode',
