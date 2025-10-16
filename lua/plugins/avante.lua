@@ -38,6 +38,14 @@ return {
       openrouter_qwen3 = OpenRouterProviderGenerator 'qwen/qwen3-coder',
       openrouter_grok = OpenRouterProviderGenerator 'x-ai/grok-code-fast-1',
 
+      system_prompt = function()
+        local hub = require('mcphub').get_hub_instance()
+        return hub and hub:get_active_servers_prompt() or ''
+      end,
+      custom_tools = function()
+        return { require 'mcphub.extensions.avante' }
+      end,
+
       -- perplexity = {
       --   -- Inherit OpenAI-compatible structure
       --   __inherited_from = 'openai',
