@@ -19,6 +19,7 @@ return {
   { 'aktersnurra/no-clown-fiesta.nvim' },
   { 'stevedylandev/darkmatter-nvim' },
   { 'Verf/deepwhite.nvim' },
+  { 'lucasadelino/conifer.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   { 'gmr458/cold.nvim' },
   {
@@ -31,7 +32,7 @@ return {
       if current_time >= 9 and current_time <= 16 then
         vim.cmd [[colorscheme deepwhite]]
       else
-        vim.cmd [[colorscheme cold]]
+        vim.cmd [[colorscheme confier]]
       end
       -- vim.cmd [[colorscheme cold]]
     end,
