@@ -66,7 +66,7 @@ return {
 
       tabline = {
         lualine_c = {
-          { 'tabs', show_modified_status = false, use_mode_colors = true },
+          { 'tabs', show_modified_status = true, use_mode_colors = false },
           --
           -- {
           --   require('noice').api.statusline.mode.get,
