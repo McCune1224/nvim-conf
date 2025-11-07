@@ -31,6 +31,7 @@ return {
         preset = 'ivy_split',
       },
     },
+    terminal = { enabled = true },
     -- toggle = { enabled = true, which_key = true },
     -- zen = { enabled = true },
   },
@@ -311,6 +312,14 @@ return {
         Snacks.lazygit.open()
       end,
       desc = 'Open Lazygit',
+      mode = { 'n', 't' },
+    },
+    {
+      '<C-t>',
+      function()
+        Snacks.terminal.toggle()
+      end,
+      desc = 'Toggle Terminal',
       mode = { 'n', 't' },
     },
   },
