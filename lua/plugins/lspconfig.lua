@@ -191,7 +191,40 @@ return {
         rust_analyzer = {},
         svelte = {},
         tailwindcss = {},
-        clangd = {},
+        clangd = {
+          -- cmd = {
+          --   'clangd',
+          --   '--background-index',
+          --   '--clang-tidy',
+          --   '--header-insertion=iwyu',
+          --   '--completion-style=detailed',
+          --   '--function-arg-placeholders',
+          --   '--fallback-style=llvm',
+          -- },
+          -- filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'ino' },
+          root_dir = function(fname)
+            return require('lspconfig.util').root_pattern('.clangd', '.git', 'compile_commands.json')(fname) or vim.fn.getcwd()
+          end,
+        },
+        arduino_language_server = {
+          cmd = {
+            'arduino-language-server',
+            '-clangd',
+            '/usr/bin/clangd',
+            '-cli',
+            '/usr/bin/arduino-cli',
+            '-cli-config',
+            vim.fn.expand '~/.arduino15/arduino-cli.yaml',
+          },
+          capabilities = {
+            textDocument = {
+              semanticTokens = vim.NIL,
+            },
+            workspace = {
+              semanticTokens = vim.NIL,
+            },
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},

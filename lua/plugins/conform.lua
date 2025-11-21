@@ -34,7 +34,7 @@ return { -- Autoformat
       templ = { 'templ', lsp_format = 'fallback' },
       -- python = { 'isort', 'black', lsp_format = 'fallback' },
       go = { 'goimports', lsp_format = 'last' },
-      sql = { 'sql-formatter', 'sqlfmt', stop_after_first = true, lsp_format = 'fallback' },
+      sql = { 'pgformatter', 'sql-formatter', 'sqlfmt', stop_after_first = true, lsp_format = 'fallback' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
       typescript = { 'prettierd', 'prettier', stop_after_first = true, lsp_format = 'first' },
     },
