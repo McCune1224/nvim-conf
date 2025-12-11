@@ -192,6 +192,7 @@ return {
         svelte = {},
         tailwindcss = {},
         clangd = {
+          cmd = { 'clangd', '--background-index' },
           -- cmd = {
           --   'clangd',
           --   '--background-index',
@@ -240,20 +241,20 @@ return {
           root_dir = nvim_lsp_util.root_pattern 'package.json',
           single_file_support = false,
         },
-        lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
-          },
-        },
+        -- lua_ls = {
+        --   -- cmd = {...},
+        --   -- filetypes = { ...},
+        --   -- capabilities = {},
+        --   settings = {
+        --     Lua = {
+        --       completion = {
+        --         callSnippet = 'Replace',
+        --       },
+        --       -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+        --       -- diagnostics = { disable = { 'missing-fields' } },
+        --     },
+        --   },
+        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -292,6 +293,17 @@ return {
       }
 
       -- LSP's not handled / installed via mason that need configuration
+      vim.lsp.config('lua_ls', {
+        cmd = { 'lua-language-server' }, -- Replace with your actual path
+        capabilities = blink_capabilities,
+        settings = {
+          Lua = {
+            completion = { callSnippet = 'Replace' },
+            -- diagnostics = { disable = { 'missing-fields' } },  -- Uncomment if needed
+          },
+        },
+      })
+      vim.lsp.enable { 'lua_ls' }
       vim.lsp.enable { 'gleam' }
       vim.lsp.config('godot', {
         name = 'godot',

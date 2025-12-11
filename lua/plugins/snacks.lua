@@ -23,7 +23,7 @@ return {
     lazygit = { enabled = true },
     picker = {
       enabled = true,
-      -- ui_select = true,
+      ui_select = true,
       layout = {
         -- preset = 'top',
         -- preset = 'vscode',
