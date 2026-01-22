@@ -25,8 +25,8 @@ return {
       sections = {
         -- lualine_a = { 'mode', { 'filename', separator = { left = '' }, right_padding = 2, path = 1 } },
         lualine_c = {},
-        lualine_b = {},
-        lualine_a = {
+        lualine_a = {},
+        lualine_b = {
           -- { 'filename', path = 1 },
           { 'filename', path = 1 },
           'searchcount',
