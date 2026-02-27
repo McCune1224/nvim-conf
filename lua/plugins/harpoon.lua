@@ -4,25 +4,111 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     local harpoon = require 'harpoon'
-    harpoon:setup()
+    harpoon:setup {
+      settings = {
+        save_on_toggle = false,
+      },
+      default = {
+        BufLeave = function()
+          -- Do nothing to preserve cursor position
+        end,
+      },
+    }
 
     local map = vim.keymap
 
+    local function update_harpoon_signs()
+      local buf = vim.api.nvim_get_current_buf()
+      local buf_name = vim.api.nvim_buf_get_name(buf)
+      if buf_name == '' then
+        return
+      end
+
+      -- Clear old signs
+      vim.cmd(string.format('sign unplace * buffer=%d', buf))
+
+      local list = harpoon:list()
+      if not list or not list.items then
+        return
+      end
+
+      local buf_short = vim.fn.fnamemodify(buf_name, ':.')
+      local buf_rel = vim.fn.fnamemodify(buf_name, ':~:.')
+
+      for idx, item in ipairs(list.items) do
+        local item_path = item.value or ''
+        if item_path == '' then
+          goto continue
+        end
+
+        local item_short = vim.fn.fnamemodify(item_path, ':.')
+        local item_rel = vim.fn.fnamemodify(item_path, ':~:.')
+
+        local matches = item_path == buf_name or item_path == buf_short or item_path == buf_rel or item_short == buf_short or item_rel == buf_rel
+
+        local row = item.context and item.context.row
+
+        if matches and row then
+          vim.cmd(string.format('sign place %d line=%d name=HarpoonMark buffer=%d', idx, row, buf))
+        end
+
+        ::continue::
+      end
+    end
+
+    -- Define the sign
+    vim.cmd [[sign define HarpoonMark text=󰛢 texthl=HarpoonSign]]
+
+    vim.api.nvim_create_user_command('HarpoonSignsDebug', function()
+      local buf = vim.api.nvim_get_current_buf()
+      local buf_name = vim.api.nvim_buf_get_name(buf)
+      print('Buffer: ' .. buf_name)
+      print('buf_short: ' .. vim.fn.fnamemodify(buf_name, ':.'))
+      print('buf_rel: ' .. vim.fn.fnamemodify(buf_name, ':~:.'))
+      local list = harpoon:list()
+      if list and list.items then
+        for idx, item in ipairs(list.items) do
+          local item_path = item.value or ''
+          print(idx .. ': ' .. item_path)
+          print('  item_short: ' .. vim.fn.fnamemodify(item_path, ':.'))
+          print('  item_rel: ' .. vim.fn.fnamemodify(item_path, ':~:.'))
+          print('  row: ' .. (item.context and item.context.row or 'nil'))
+        end
+      end
+    end, {})
+
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'TabEnter', 'BufReadPost' }, {
+      callback = update_harpoon_signs,
+    })
+
+    harpoon:extend {
+      name = 'HarpoonSigns',
+      listen = function(_, event)
+        if event == 'CHANGE' or event == 'ADD' or event == 'REMOVE' or event == 'REORDER' then
+          vim.defer_fn(update_harpoon_signs, 100)
+        end
+      end,
+    }
+
     map.set('n', '<leader>ha', function()
       harpoon:list():add()
+      vim.defer_fn(update_harpoon_signs, 50)
     end, { desc = '[H]arpoon [A]dd file' })
 
     map.set('n', '<leader>hr', function()
       harpoon:list():remove()
+      vim.defer_fn(update_harpoon_signs, 50)
     end, { desc = '[H]arpoon [R]emove file' })
 
     map.set('n', '<leader>ht', function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
+      vim.defer_fn(update_harpoon_signs, 50)
     end, { desc = '[H]arpoon [T]oggle menu' })
 
     for i = 1, 4 do
       map.set('n', '<leader>h' .. i, function()
         harpoon:list():select(i)
+        vim.defer_fn(update_harpoon_signs, 50)
       end, { desc = '[H]arpoon jump to mark ' .. i })
     end
   end,
