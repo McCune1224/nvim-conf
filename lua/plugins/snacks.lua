@@ -30,6 +30,16 @@ return {
         -- preset = 'dropdown',
         preset = 'ivy_split',
       },
+      win = {
+        input = {
+          keys = {
+            ['<c-d>'] = { 'delete', mode = { 'i', 'n' } },
+            ['<c-a>'] = { 'add', mode = { 'i', 'n' } },
+            ['<c-p>'] = { 'move_up', mode = { 'i', 'n' } },
+            ['<c-n>'] = { 'move_down', mode = { 'i', 'n' } },
+          },
+        },
+      },
       sources = {
         harpoon = {
           finder = function()
@@ -92,6 +102,60 @@ return {
             multi = {
               enable = true,
             },
+          },
+          actions = {
+            delete = function(picker, item)
+              local ok, harpoon = pcall(require, 'harpoon')
+              if not ok or not harpoon then
+                return
+              end
+              local list = harpoon:list()
+              if not list then
+                return
+              end
+              local idx = item.index
+              if idx then
+                list:remove(idx)
+              end
+              picker:find()
+            end,
+            add = function(picker)
+              picker:close()
+              local ok, harpoon = pcall(require, 'harpoon')
+              if ok and harpoon then
+                harpoon:list():add()
+              end
+            end,
+            move_up = function(picker, item)
+              local ok, harpoon = pcall(require, 'harpoon')
+              if not ok or not harpoon then
+                return
+              end
+              local list = harpoon:list()
+              if not list then
+                return
+              end
+              local idx = item.index
+              if idx and idx > 1 then
+                list:move_up(idx)
+              end
+              picker:find()
+            end,
+            move_down = function(picker, item)
+              local ok, harpoon = pcall(require, 'harpoon')
+              if not ok or not harpoon then
+                return
+              end
+              local list = harpoon:list()
+              if not list then
+                return
+              end
+              local idx = item.index
+              if idx then
+                list:move_down(idx)
+              end
+              picker:find()
+            end,
           },
         },
       },
