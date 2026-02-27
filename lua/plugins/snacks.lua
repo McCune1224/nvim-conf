@@ -42,19 +42,42 @@ return {
             if not list or not list.items then
               return output
             end
-            for _, item in ipairs(list.items) do
+            for idx, item in ipairs(list.items) do
               if item and item.value and item.value:match '%S' then
+                local row = item.context and item.context.row or 1
+                local col = item.context and item.context.col or 1
                 table.insert(output, {
                   text = item.value,
                   file = item.value,
+                  index = idx,
+                  row = row,
+                  col = col,
                 })
               end
             end
             return output
           end,
-          format = function(item)
+          format = function(item, picker)
+            local filename = vim.fn.fnamemodify(item.file, ':t')
+            local icon, icon_hl = Snacks.util.icon(filename, "file", {
+              fallback = { file = "󰈔 " }
+            })
+            local dir = vim.fn.fnamemodify(item.file, ':h')
+            if dir == '.' then
+              dir = ''
+            else
+              dir = dir .. '/'
+            end
             return {
-              { item.text },
+              { tostring(item.index), 'SnacksPickerIcon' },
+              { ' ' .. icon, icon_hl or 'SnacksPickerIcon' },
+              { ' ' .. filename, 'SnacksPickerFile' },
+              { ' ', 'SnacksPickerBorder' },
+              { dir, 'SnacksPickerComment' },
+              { ':', 'SnacksPickerDelim' },
+              { tostring(item.row), 'SnacksPickerRow' },
+              { ':', 'SnacksPickerDelim' },
+              { tostring(item.col), 'SnacksPickerCol' },
             }
           end,
           preview = function(ctx)
@@ -65,6 +88,11 @@ return {
             end
           end,
           confirm = 'jump',
+          opts = {
+            multi = {
+              enable = true,
+            },
+          },
         },
       },
     },
