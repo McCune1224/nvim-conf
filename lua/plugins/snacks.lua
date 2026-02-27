@@ -30,6 +30,43 @@ return {
         -- preset = 'dropdown',
         preset = 'ivy_split',
       },
+      sources = {
+        harpoon = {
+          finder = function()
+            local output = {}
+            local ok, harpoon = pcall(require, 'harpoon')
+            if not ok or not harpoon then
+              return output
+            end
+            local list = harpoon:list()
+            if not list or not list.items then
+              return output
+            end
+            for _, item in ipairs(list.items) do
+              if item and item.value and item.value:match '%S' then
+                table.insert(output, {
+                  text = item.value,
+                  file = item.value,
+                })
+              end
+            end
+            return output
+          end,
+          format = function(item)
+            return {
+              { item.text },
+            }
+          end,
+          preview = function(ctx)
+            if Snacks.picker.util.path(ctx.item) then
+              return Snacks.picker.preview.file(ctx)
+            else
+              return Snacks.picker.preview.none(ctx)
+            end
+          end,
+          confirm = 'jump',
+        },
+      },
     },
     terminal = { enabled = true },
     -- toggle = { enabled = true, which_key = true },
@@ -120,6 +157,13 @@ return {
       desc = '[F]ind [G]rep Buffers',
     },
     {
+      '<leader>fG',
+      function()
+        Snacks.picker.grep_buffer()
+      end,
+      desc = '[F]ind [G]rep Current Buffer',
+    },
+    {
       '<leader>ft',
       function()
         Snacks.picker.treesitter()
@@ -204,13 +248,13 @@ return {
       end,
       desc = '[F]ind [H]elp Page',
     },
-    {
-      '<leader>fh',
-      function()
-        Snacks.picker.cliphist()
-      end,
-      desc = '[F]ind Clipboard [H]istory',
-    },
+    -- {
+    --   '<leader>fh',
+    --   function()
+    --     Snacks.picker.cliphist()
+    --   end,
+    --   desc = '[F]ind Clipboard [H]istory',
+    -- },
     {
       '<leader>fj',
       function()
@@ -313,6 +357,59 @@ return {
       end,
       desc = 'Open Lazygit',
       mode = { 'n', 't' },
+    },
+
+    -- Git
+    {
+      '<leader>gf',
+      function()
+        Snacks.picker.git_files()
+      end,
+      desc = '[G]it [F]iles',
+    },
+    {
+      '<leader>gb',
+      function()
+        Snacks.picker.git_branches()
+      end,
+      desc = '[G]it [B]ranches',
+    },
+    {
+      '<leader>gl',
+      function()
+        Snacks.picker.git_log()
+      end,
+      desc = '[G]it [L]og',
+    },
+    {
+      '<leader>gL',
+      function()
+        Snacks.picker.git_log_line()
+      end,
+      desc = '[G]it [L]og (line)',
+    },
+    {
+      '<leader>gs',
+      function()
+        Snacks.picker.git_status()
+      end,
+      desc = '[G]it [S]tatus',
+    },
+    {
+      '<leader>gS',
+      function()
+        Snacks.picker.git_stash()
+      end,
+      desc = '[G]it [S]tash',
+    },
+
+    -- Harpoon
+    {
+      '<leader>hh',
+      function()
+        Snacks.picker.pick 'harpoon'
+      end,
+      desc = '[H]arpoon [H]arks (Snacks)',
     },
     {
       '<C-t>',

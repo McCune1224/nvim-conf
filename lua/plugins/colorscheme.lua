@@ -22,6 +22,7 @@ return {
   { 'lucasadelino/conifer.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
   { 'gmr458/cold.nvim' },
+  { 'kvrohit/rasmus.nvim' },
   {
     'webhooked/kanso.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -30,9 +31,10 @@ return {
       -- Get current time to see if its 5pm or not:
       local current_time = tonumber(os.date '%H')
       if current_time >= 9 and current_time <= 15 then
-        vim.cmd [[colorscheme conifer-solar]]
+        vim.cmd [[colorscheme conifer-lunar]]
       else
-        vim.cmd [[colorscheme conifer]]
+        vim.cmd [[colorscheme conifer-lunar]]
+        -- vim.cmd [[colorscheme kanso-ink]]
       end
       -- vim.cmd [[colorscheme cold]]
     end,

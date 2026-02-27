@@ -7,7 +7,7 @@ return {
   config = function()
     require('aerial').setup {
       attach_mode = 'global',
-      backends = { 'treesitter', 'lsp', 'markdown', 'man' },
+      backends = { 'lsp', 'treesitter', 'markdown', 'man' },
       layout = {
         min_width = math.floor(vim.o.columns * 0.3),
         default_direction = 'prefer_right',
@@ -19,6 +19,7 @@ return {
         ['<C-v>'] = 'actions.jump_vsplit',
         ['<C-s>'] = 'actions.jump_split',
       },
+      ignore = { filetypes = { 'sql' } },
     }
 
     vim.keymap.set('n', '<leader>cs', '<cmd>AerialToggle!<CR>', { desc = '[C]ode [S]ymbols' })
