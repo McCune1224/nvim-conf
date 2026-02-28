@@ -31,14 +31,14 @@ return {
         preset = 'ivy_split',
       },
       win = {
-        input = {
-          keys = {
-            ['<c-d>'] = { 'delete', mode = { 'i', 'n' } },
-            ['<c-a>'] = { 'add', mode = { 'i', 'n' } },
-            ['<c-p>'] = { 'move_up', mode = { 'i', 'n' } },
-            ['<c-n>'] = { 'move_down', mode = { 'i', 'n' } },
-          },
-        },
+        -- input = {
+        --   keys = {
+        --     ['<c-d>'] = { 'delete', mode = { 'i', 'n' } },
+        --     ['<c-a>'] = { 'add', mode = { 'i', 'n' } },
+        --     ['<c-p>'] = { 'move_up', mode = { 'i', 'n' } },
+        --     ['<c-n>'] = { 'move_down', mode = { 'i', 'n' } },
+        --   },
+        -- },
       },
       sources = {
         harpoon = {
@@ -69,8 +69,8 @@ return {
           end,
           format = function(item, picker)
             local filename = vim.fn.fnamemodify(item.file, ':t')
-            local icon, icon_hl = Snacks.util.icon(filename, "file", {
-              fallback = { file = "󰈔 " }
+            local icon, icon_hl = Snacks.util.icon(filename, 'file', {
+              fallback = { file = '󰈔 ' },
             })
             local dir = vim.fn.fnamemodify(item.file, ':h')
             if dir == '.' then

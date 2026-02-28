@@ -71,9 +71,9 @@ return {
           -- map('<leader>D', function()
           --   builtin.lsp_type_definitions(themes.get_ivy(opts))
           -- end, 'Type [D]efinition')
-          map('<leader>D', function()
+          map('<leader>cd', function()
             snacks.picker.lsp_type_definitions()
-          end, 'Type [D]efinition')
+          end, '[C]ode Type [D]efinition')
 
           -- Fuzzy find all the symbols in your current document.
           -- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -150,9 +150,9 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map('<leader>th', function()
+            map('<leader>ch', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, '[T]oggle Inlay [H]ints')
+            end, '[C]ode Inlay [H]ints toggle')
           end
         end,
       })

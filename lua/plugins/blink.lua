@@ -2,8 +2,7 @@ return {
 
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
-  -- dependencies = { 'rafamadriz/friendly-snippets', 'giuxtaposition/blink-cmp-copilot' },
-  dependencies = { 'rafamadriz/friendly-snippets', 'fang2hou/blink-copilot', 'Kaiser-Yang/blink-cmp-avante' },
+  dependencies = { 'rafamadriz/friendly-snippets' },
 
   -- use a release tag to download pre-built binaries
   version = '*',
@@ -43,11 +42,6 @@ return {
           cmp.show { providers = { 'lsp' } }
         end,
       }, -- show only lsp options
-      ['<C-a>'] = {
-        function(cmp)
-          cmp.show { providers = { 'copilot' } }
-        end,
-      }, -- show only copilot option
 
       ['<C-k>'] = { 'select_prev', 'fallback' }, -- previous suggestion
       ['<C-j>'] = { 'select_next', 'fallback' }, -- next suggestion
@@ -67,9 +61,6 @@ return {
       -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono',
-      -- kind_icons = {
-      --   Copilot = '',
-      -- },
     },
 
     completion = {
@@ -116,30 +107,6 @@ return {
           module = 'lazydev.integrations.blink',
           -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
-        },
-        avante = {
-          module = 'blink-cmp-avante',
-          name = 'Avante',
-          opts = {},
-        },
-        copilot = {
-          name = 'copilot',
-          module = 'blink-copilot',
-          -- score_offset = -3,
-          score_offset = -100,
-          async = true,
-          opts = {
-            max_completions = 3,
-            max_attempts = 4,
-            kind_name = 'Copilot', ---@type string | false
-            kind_icon = ' ', ---@type string | false
-            kind_hl = false, ---@type string | false
-            debounce = 200, ---@type integer | false
-            auto_refresh = {
-              backward = true,
-              forward = true,
-            },
-          },
         },
         dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
       },
