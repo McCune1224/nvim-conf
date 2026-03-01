@@ -100,7 +100,7 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       -- default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'dadbod' },
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'lazydev', 'avante' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'lazydev' },
       providers = {
         lazydev = {
           name = 'LazyDev',
