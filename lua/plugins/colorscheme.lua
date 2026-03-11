@@ -31,9 +31,10 @@ return {
       -- Get current time to see if its 5pm or not:
       local current_time = tonumber(os.date '%H')
       if current_time >= 9 and current_time <= 15 then
-        vim.cmd [[colorscheme conifer-lunar]]
+        vim.cmd [[colorscheme miniwinter]]
+        -- vim.cmd [[colorscheme conifer-lunar]]
       else
-        vim.cmd [[colorscheme conifer-lunar]]
+        vim.cmd [[colorscheme miniwinter]]
         -- vim.cmd [[colorscheme kanso-ink]]
       end
       -- vim.cmd [[colorscheme cold]]
