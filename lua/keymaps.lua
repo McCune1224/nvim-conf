@@ -128,11 +128,11 @@ keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
 -- keymap('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete Buffer And Window' })
 
 -- Tabs
-keymap('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'Tab Create' })
-keymap('n', '<leader>th', '<cmd>tabprevious<cr>', { desc = 'Tab Previous' })
-keymap('n', '<leader>tl', '<cmd>tabnext<cr>', { desc = 'Tab Next' })
-keymap('n', '<leader>tj', '<cmd>tabfirst<cr>', { desc = 'Tab First' })
-keymap('n', '<leader>tk', '<cmd>tablast<cr>', { desc = 'Tab Last' })
+-- keymap('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'Tab Create' })
+-- keymap('n', '<leader>th', '<cmd>tabprevious<cr>', { desc = 'Tab Previous' })
+-- keymap('n', '<leader>tl', '<cmd>tabnext<cr>', { desc = 'Tab Next' })
+-- keymap('n', '<leader>tj', '<cmd>tabfirst<cr>', { desc = 'Tab First' })
+-- keymap('n', '<leader>tk', '<cmd>tablast<cr>', { desc = 'Tab Last' })
 
 -- Clear search with <esc>
 keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and Clear hlsearch' })
