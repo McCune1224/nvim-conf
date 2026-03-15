@@ -1,34 +1,18 @@
 return {
-
   'saghen/blink.cmp',
-  -- optional: provides snippets for the snippet source
   dependencies = { 'rafamadriz/friendly-snippets' },
-
-  -- use a release tag to download pre-built binaries
   version = '*',
-  -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-  -- build = 'cargo build --release',
-  -- If you use nix, you can build from source using latest nightly rust with:
-  -- build = 'nix run .#build-plugin',
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
-    -- 'default' for mappings similar to built-in completion
-    -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
-    -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-    -- See the full "keymap" documentation for information on defining your own keymap.
-    --
     cmdline = {
-      keymap = {
-        preset = 'inherit',
-      },
+      keymap = { preset = 'inherit' },
       completion = {
-        menu = {
-          auto_show = true,
-        },
+        menu = { auto_show = true },
       },
     },
+
     keymap = {
       preset = 'default',
       ['<C-space>'] = { 'show' },
@@ -36,81 +20,189 @@ return {
         function(cmp)
           cmp.show { providers = { 'snippets' } }
         end,
-      }, -- show only snippets options
+      },
       ['<C-l>'] = {
         function(cmp)
           cmp.show { providers = { 'lsp' } }
         end,
-      }, -- show only lsp options
-
-      ['<C-k>'] = { 'select_prev', 'fallback' }, -- previous suggestion
-      ['<C-j>'] = { 'select_next', 'fallback' }, -- next suggestion
+      },
+      ['<C-k>'] = { 'select_prev', 'fallback' },
+      ['<C-j>'] = { 'select_next', 'fallback' },
       ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
-      ['<C-c>'] = { 'cancel', 'hide' }, -- close completion window
-      ['<C-e>'] = { 'select_and_accept' }, -- select suggestion
-      -- ['<Tab>'] = { 'snippet_backward' }, -- move to previous snippet position
-      -- ['<S-Tab'] = { 'snippet_backward' }, -- move to next snippet position
+      ['<C-c>'] = { 'cancel', 'hide' },
+      ['<C-e>'] = { 'select_and_accept' },
     },
-    signature = { enabled = true },
+
+    signature = {
+      enabled = true,
+      window = {
+        border = 'padded',
+        winblend = 0,
+      },
+    },
+
     appearance = {
-      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-      -- Useful for when your theme doesn't support blink.cmp
-      -- Will be removed in a future release
-      use_nvim_cmp_as_default = true,
-      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
+      use_nvim_cmp_as_default = false,
       nerd_font_variant = 'mono',
+      kind_icons = {
+        Text = '󰉿',
+        Method = '󰊕',
+        Function = '󰊕',
+        Constructor = '󰒓',
+        Field = '󰜢',
+        Variable = '󰀫',
+        Property = '󰖷',
+        Class = '󰠱',
+        Interface = '󰕘',
+        Struct = '󰙅',
+        Module = '󰏗',
+        Unit = '󰑭',
+        Value = '󰎠',
+        Enum = '󰕘',
+        EnumMember = '󰕘',
+        Keyword = '󰌋',
+        Constant = '󰏿',
+        Snippet = '󰩫',
+        Color = '󰏘',
+        File = '󰈙',
+        Reference = '󰈇',
+        Folder = '󰉋',
+        Event = '󰉒',
+        Operator = '󰆕',
+        TypeParameter = '󰬛',
+      },
     },
 
     completion = {
       ghost_text = { enabled = false },
+
       menu = {
         scrollbar = false,
-        border = 'single',
-        direction_priority = {
-          'n',
-          's',
-        },
+        border = 'padded',
+        winblend = 0,
+        direction_priority = { 'n', 's' },
+
         draw = {
+          padding = 1,
+          gap = 1,
+
           columns = {
-            { 'kind_icon', 'label_description', gap = 1 },
-            { 'label', 'kind', gap = 1 },
+            { 'kind_icon', gap = 1 },
+            { 'label', 'label_description', gap = 1 },
+            { 'kind' },
           },
-          treesitter = { 'true' },
+
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                return ctx.kind_icon
+              end,
+              highlight = function(ctx)
+                return 'BlinkCmpKind' .. ctx.kind
+              end,
+            },
+
+            label = {
+              text = function(ctx)
+                return ctx.label
+              end,
+              highlight = function(ctx)
+                return ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel'
+              end,
+            },
+
+            label_description = {
+              width = { max = 30 },
+              text = function(ctx)
+                return ctx.label_detail
+              end,
+              highlight = 'Comment',
+            },
+
+            kind = {
+              width = { fill = true },
+              text = function(ctx)
+                return ctx.kind
+              end,
+              highlight = function(ctx)
+                return 'BlinkCmpKind' .. ctx.kind
+              end,
+            },
+          },
+
+          treesitter = { 'lsp' },
         },
       },
+
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 500,
+        auto_show_delay_ms = 200,
         treesitter_highlighting = true,
         window = {
-          border = 'single',
+          border = 'padded',
+          winblend = 0,
           max_height = 80,
-          max_width = 80,
+          max_width = 85,
           direction_priority = {
-            menu_north = { 'w', 'e', 'n', 's' },
-            menu_south = { 'w', 'e', 's', 'n' },
+            menu_north = { 'e', 'w', 'n', 's' },
+            menu_south = { 'e', 'w', 's', 'n' },
           },
+        },
+      },
+
+      list = {
+        selection = {
+          preselect = true,
+          auto_insert = false,
         },
       },
     },
 
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      -- default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'dadbod' },
       default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'lazydev' },
       providers = {
         lazydev = {
           name = 'LazyDev',
           module = 'lazydev.integrations.blink',
-          -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
         },
         dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
       },
     },
   },
+
+  config = function(_, opts)
+    require('blink.cmp').setup(opts)
+
+    -- High contrast highlights
+    local function set_high_contrast_highlights()
+      -- Bold selection with strong contrast
+      vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', {
+        bg = vim.api.nvim_get_hl(0, { name = 'PmenuSel' }).bg,
+        bold = true,
+      })
+
+      -- Make label match stand out
+      vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', {
+        bold = true,
+        fg = vim.api.nvim_get_hl(0, { name = 'Special' }).fg,
+      })
+
+      -- Clear background for crisp look
+      vim.api.nvim_set_hl(0, 'BlinkCmpMenu', { link = 'Pmenu' })
+      vim.api.nvim_set_hl(0, 'BlinkCmpDoc', { link = 'NormalFloat' })
+      vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelp', { link = 'NormalFloat' })
+    end
+
+    set_high_contrast_highlights()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = vim.api.nvim_create_augroup('BlinkCmpHighContrast', { clear = true }),
+      callback = set_high_contrast_highlights,
+    })
+  end,
+
   opts_extend = { 'sources.default' },
 }
+
+-- vim: ts=2 sts=2 sw=2 et
