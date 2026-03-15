@@ -107,8 +107,17 @@ return {
 
     for i = 1, 4 do
       map.set('n', '<leader>h' .. i, function()
-        harpoon:list():select(i)
-        vim.defer_fn(update_harpoon_signs, 50)
+        local item = harpoon:list():get(i)
+        if item then
+          harpoon:list():select(i)
+          -- Jump to saved position after file loads
+          vim.defer_fn(function()
+            if item.context and item.context.row then
+              vim.api.nvim_win_set_cursor(0, { item.context.row, item.context.col or 0 })
+            end
+            update_harpoon_signs()
+          end, 50)
+        end
       end, { desc = '[H]arpoon jump to mark ' .. i })
     end
   end,
