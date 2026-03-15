@@ -14,6 +14,41 @@ return {
       -- { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
+      -- LSP float highlight groups
+      local function setup_lsp_highlights()
+        -- Float window background - slightly different from Normal (card on surface effect)
+        vim.api.nvim_set_hl(0, 'LspFloat', { link = 'NormalFloat' })
+        vim.api.nvim_set_hl(0, 'LspFloatBorder', { link = 'FloatBorder' })
+        vim.api.nvim_set_hl(0, 'LspFloatNormal', { link = 'NormalFloat' })
+        -- Diagnostic float highlights
+        vim.api.nvim_set_hl(0, 'DiagnosticFloatingError', { link = 'DiagnosticError' })
+        vim.api.nvim_set_hl(0, 'DiagnosticFloatingWarn', { link = 'DiagnosticWarn' })
+        vim.api.nvim_set_hl(0, 'DiagnosticFloatingInfo', { link = 'DiagnosticInfo' })
+        vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { link = 'DiagnosticHint' })
+      end
+
+      -- Set up initial highlights
+      setup_lsp_highlights()
+
+      -- Update highlights on colorscheme change
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        group = vim.api.nvim_create_augroup('lsp-float-highlights', { clear = true }),
+        callback = setup_lsp_highlights,
+        desc = 'Update LSP float highlights on colorscheme change',
+      })
+
+      -- Override floating preview to use clean style matching blink.cmp
+      local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+      ---@diagnostic disable-next-line: duplicate-set-field
+      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+        opts = opts or {}
+        -- opts.border = 'single'
+        opts.border = 'padded'
+        opts.winblend = opts.winblend or 0
+        opts.winhighlight = opts.winhighlight or 'Normal:LspFloatNormal,FloatBorder:LspFloatBorder'
+        return orig_util_open_floating_preview(contents, syntax, opts, ...)
+      end
+
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -23,11 +58,16 @@ return {
         callback = function(event)
           -- Custom Diagnostic Symbols
           local x = vim.diagnostic.severity
+          -- Diagnostic float config matching blink.cmp style
           vim.diagnostic.config {
-            virtual_text = { prefix = '' },
-            signs = { text = { [x.ERROR] = '', [x.WARN] = '', [x.INFO] = '󰋽', [x.HINT] = '' } },
+            virtual_text = { prefix = '' },
+            signs = { text = { [x.ERROR] = '', [x.WARN] = '', [x.INFO] = '', [x.HINT] = '' } },
             underline = true,
-            float = { border = 'single' },
+            float = {
+              border = 'single',
+              winblend = 0,
+              winhighlight = 'Normal:LspFloatNormal,FloatBorder:LspFloatBorder',
+            },
           }
           -- function that lets us more easily define mappings specific for LSP related items. It sets the mode, buffer and description for us each time.
           -- local builtin = require 'telescope.builtin'
@@ -71,7 +111,7 @@ return {
           -- map('<leader>D', function()
           --   builtin.lsp_type_definitions(themes.get_ivy(opts))
           -- end, 'Type [D]efinition')
-          map('<leader>cd', function()
+          map('<leader>cD', function()
             snacks.picker.lsp_type_definitions()
           end, '[C]ode Type [D]efinition')
 
@@ -97,16 +137,9 @@ return {
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
+          -- or a suggestion from the LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-          local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-          ---@diagnostic disable-next-line: duplicate-set-field
-          function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-            opts = opts or {}
-            opts.border = 'single' -- Or any other border
-            return orig_util_open_floating_preview(contents, syntax, opts, ...)
-          end
           -- Opens a popup that displays documentation about the word under your cursor
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
@@ -150,9 +183,9 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map('<leader>ch', function()
+            map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, '[C]ode Inlay [H]ints toggle')
+            end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -319,3 +352,4 @@ return {
     end,
   },
 }
+-- vim: ts=2 sts=2 sw=2 et

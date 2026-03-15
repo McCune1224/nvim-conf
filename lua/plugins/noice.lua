@@ -27,6 +27,13 @@ return {
         filter = { event = 'msg_showmode' },
       },
     },
+    views = {
+      hover = {
+        border = {
+          style = 'single',
+        },
+      },
+    },
   },
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -41,3 +48,5 @@ return {
     -- } },
   },
 }
+
+-- vim: ts=2 sts=2 sw=2 et
