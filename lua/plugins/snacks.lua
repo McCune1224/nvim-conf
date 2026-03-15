@@ -397,11 +397,11 @@ return {
       desc = '[F]ind [Q]uickfix',
     },
     {
-      '<leader>fc',
+      '<leader>uc',
       function()
         Snacks.picker.colorschemes()
       end,
-      desc = '[F]ind [C]olorscheme',
+      desc = '[U]i [C]olorscheme',
     },
     {
       '<leader>fd',
@@ -426,7 +426,7 @@ return {
     },
     -- Words
     {
-      '<leader>]]',
+      ']r',
       function()
         Snacks.words.jump(vim.v.count1)
       end,
@@ -434,7 +434,7 @@ return {
       mode = { 'n', 't' },
     },
     {
-      '<leader>[[',
+      '[r',
       function()
         Snacks.words.jump(-vim.v.count1)
       end,
