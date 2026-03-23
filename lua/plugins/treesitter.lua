@@ -13,7 +13,7 @@ if not ok_treesitter then
 end
 
 treesitter.setup({
-  ensure_installed = { 'go', 'lua', 'vim', 'vimdoc', 'query' },
+  ensure_installed = { 'go', 'lua', 'vim', 'vimdoc', 'query', 'markdown', 'markdown_inline' },
   highlight = { enable = true },
   indent = { enable = true },
 })

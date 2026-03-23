@@ -204,3 +204,4 @@ map('n', '<leader>hh', function() Snacks.picker.pick('harpoon') end, { desc = '[
 
 -- Terminal
 map({ 'n', 't' }, '<C-t>', function() Snacks.terminal.toggle() end, { desc = 'Toggle Terminal' })
+map( 'n', '<leader>uc', function() Snacks.picker.colorschemes() end, {desc = '[U]i [C]olorscheme'})

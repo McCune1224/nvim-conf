@@ -1,65 +1,51 @@
--- ============================================================================
--- Neovim 0.12 Minimal Configuration
--- Focus: Go development with native LSP
--- ============================================================================
-
--- Set leader key BEFORE loading any modules or plugins
+-- init.lua - Main entry point
+-- Leader keys must be set before anything else
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- ============================================================================
--- PLUGINS (each handles its own installation via vim.pack.add)
--- ============================================================================
+-- Load plugins
+require 'plugins.mason'
+require 'plugins.treesitter'
+require 'plugins.mini'
+require 'plugins.noice'
+require 'plugins.snacks'
+require 'plugins.harpoon'
+require 'plugins.blink'
+require 'plugins.oil'
+require 'plugins.dap'
+require 'plugins.render-markdown'
+require 'plugins.dadbod'
+require 'plugins.conform'
+require 'plugins.nvim-lint'
+require 'plugins.persistence'
+require 'plugins.colorschemes'
+require 'plugins.gitsigns'
+require 'plugins.lualine'
+require 'plugins.which-key'
 
--- Core plugins (load first)
-require('plugins.mason')
-require('plugins.treesitter')
-require('plugins.mini')
-
--- Feature plugins
-require('plugins.snacks')
-require('plugins.harpoon')
-require('plugins.blink')
-require('plugins.oil')
-require('plugins.dap')
-require('plugins.render-markdown')
-require('plugins.dadbod')
-
--- UI
-require('plugins.colorschemes')
-require('plugins.lualine')
-
--- ============================================================================
--- LSP CONFIGURATION
--- ============================================================================
-
+-- LSP setup
 require('config.lsp').setup_global_defaults()
-vim.lsp.enable({
-  'gopls',          -- Go
-  'lua_ls',         -- Lua
-  'rust_analyzer',  -- Rust
-  'clangd',         -- C/C++
-  'vtsls',          -- JavaScript/TypeScript
-  'elixirls',       -- Elixir
-  'omnisharp',      -- C#
-  'tailwindcss',    -- TailwindCSS
-  'templ',          -- Go Templating
-  'svelte',         -- Svelte/SvelteKit
-})
+vim.lsp.enable {
+  'gopls',
+  'lua_ls',
+  'rust_analyzer',
+  'clangd',
+  'vtsls',
+  'elixirls',
+  'omnisharp',
+  'tailwindcss',
+  'templ',
+  'svelte',
+}
 
--- ============================================================================
--- LOAD CONFIGURATION MODULES
--- ============================================================================
+-- Load core config
+require 'config.options'
+require 'config.diagnostics'
+require 'config.keymaps'
+require 'config.autocmds'
+require('config.tabs').setup()
 
-require('config.options')
-require('config.keymaps')
-require('config.autocmds')
-
--- ============================================================================
--- HEALTH CHECK REMINDER
--- ============================================================================
-
--- Run these commands to verify setup:
+-- Health check commands:
 -- :checkhealth vim.pack
 -- :checkhealth vim.lsp
 -- :checkhealth mason

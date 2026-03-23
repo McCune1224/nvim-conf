@@ -69,24 +69,24 @@ local function update_harpoon_signs()
   end
 end
 
--- Debug command
+-- Debug command (only available via :HarpoonSignsDebug)
 vim.api.nvim_create_user_command('HarpoonSignsDebug', function()
   local buf = vim.api.nvim_get_current_buf()
   local buf_name = vim.api.nvim_buf_get_name(buf)
-  print('Buffer: ' .. buf_name)
-  print('buf_short: ' .. vim.fn.fnamemodify(buf_name, ':.'))
-  print('buf_rel: ' .. vim.fn.fnamemodify(buf_name, ':~:.'))
+  vim.notify('Buffer: ' .. buf_name)
+  vim.notify('buf_short: ' .. vim.fn.fnamemodify(buf_name, ':.'))
+  vim.notify('buf_rel: ' .. vim.fn.fnamemodify(buf_name, ':~:.'))
   local list = harpoon:list()
   if list and list.items then
     for idx, item in ipairs(list.items) do
       local item_path = item.value or ''
-      print(idx .. ': ' .. item_path)
-      print('  item_short: ' .. vim.fn.fnamemodify(item_path, ':.'))
-      print('  item_rel: ' .. vim.fn.fnamemodify(item_path, ':~:.'))
-      print('  row: ' .. (item.context and item.context.row or 'nil'))
+      vim.notify(idx .. ': ' .. item_path)
+      vim.notify('  item_short: ' .. vim.fn.fnamemodify(item_path, ':.'))
+      vim.notify('  item_rel: ' .. vim.fn.fnamemodify(item_path, ':~:.'))
+      vim.notify('  row: ' .. (item.context and item.context.row or 'nil'))
     end
   end
-end, {})
+end, { desc = 'Debug harpoon signs' })
 
 -- Autocmds for updating signs
 vim.api.nvim_create_autocmd({ 'BufEnter', 'TabEnter', 'BufReadPost' }, {

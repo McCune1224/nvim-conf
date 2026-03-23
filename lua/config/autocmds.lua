@@ -1,32 +1,29 @@
--- ============================================================================
--- AUTOCOMMANDS
--- ============================================================================
+-- autocmds.lua - Autocommands
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
--- Highlight on yank
+-- Highlight yanked text
 autocmd('TextYankPost', {
   group = augroup('highlight_yank', {}),
-  callback = function()
-    vim.hl.on_yank()
-  end,
+  callback = function() vim.hl.on_yank() end,
 })
 
--- Format on save for Go files
-autocmd('BufWritePre', {
-  pattern = '*.go',
-  group = augroup('go_format', {}),
-  callback = function()
-    vim.lsp.buf.format()
-  end,
-})
-
--- LSP Attach - use centralized LSP config
+-- LSP attach
 autocmd('LspAttach', {
   group = augroup('UserLspConfig', {}),
   callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    require('config.lsp').on_attach(client, ev.buf)
+    require('config.lsp').on_attach(
+      vim.lsp.get_client_by_id(ev.data.client_id),
+      ev.buf
+    )
+  end,
+})
+
+-- Refresh statusline on file/git changes
+autocmd({ 'BufWritePost', 'BufModifiedSet', 'User' }, {
+  group = augroup('lualine_refresh', {}),
+  callback = function()
+    vim.schedule(function() pcall(vim.cmd, 'redrawstatus') end)
   end,
 })

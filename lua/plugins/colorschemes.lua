@@ -42,7 +42,7 @@ local current_time = tonumber(os.date('%H'))
 if current_time >= 9 and current_time <= 15 then
   -- Daytime - lighter theme
   -- vim.cmd('colorscheme conifer-lunar')
-  vim.cmd('colorscheme miniwinter')
+  vim.cmd('colorscheme deepwhite')
 else
   -- Evening/Night - darker theme
   -- vim.cmd('colorscheme kanso-ink')
@@ -56,3 +56,4 @@ end
 -- vim.cmd('colorscheme gruvbox-material')
 -- vim.cmd('colorscheme vscode')
 -- vim.cmd('colorscheme tokyonight')
+--

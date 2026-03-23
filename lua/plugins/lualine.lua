@@ -1,77 +1,65 @@
--- ============================================================================
--- Lualine Configuration
--- Sleek & Cool Statusline (no mode, no filetype, no lsp status)
--- ============================================================================
+-- lualine.lua - Statusline
 
--- Install plugin
-vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+vim.pack.add { 'https://github.com/nvim-lualine/lualine.nvim' }
 
-local ok_lualine, lualine = pcall(require, 'lualine')
-if not ok_lualine then
-  return
+local ok, lualine = pcall(require, 'lualine')
+if not ok then return end
+
+local function filepath()
+  local path = vim.fn.expand '%:.'
+  if path == '' then return '[no name]' end
+  
+  local status = ''
+  if vim.bo.modified then status = status .. '[+]' end
+  if vim.bo.readonly then status = status .. '[RO]' end
+  
+  return status ~= '' and (path .. ' ' .. status) or path
 end
 
--- Icons (Nerd Font glyphs, no emojis)
-local icons = {
-  git = '󰊢',
-  modified = '●',
-  readonly = '󰌾',
-  error = '󰅚',
-  warn = '󰀪',
-  info = '󰋽',
-  hint = '󰌶',
-}
-
--- Filename with cool formatting
-local function cool_filename()
-  local filename = vim.fn.expand('%:t')
-  if filename == '' then
-    return '[No Name]'
-  end
+local function git_info()
+  local branch = vim.b.gitsigns_head or vim.g.gitsigns_head
+  if not branch or branch == '' then return '' end
   
-  local modified = vim.bo.modified and ' ' .. icons.modified or ''
-  local readonly = vim.bo.readonly and ' ' .. icons.readonly or ''
+  local status = vim.b.gitsigns_status_dict
+  if not status then return branch end
   
-  return filename .. modified .. readonly
+  local parts = {}
+  if status.added and status.added > 0 then table.insert(parts, '+' .. status.added) end
+  if status.changed and status.changed > 0 then table.insert(parts, '~' .. status.changed) end
+  if status.removed and status.removed > 0 then table.insert(parts, '-' .. status.removed) end
+  
+  return #parts > 0 and (branch .. ' [' .. table.concat(parts, ' ') .. ']') or branch
 end
 
-lualine.setup({
+local function tab_info()
+  return require('config.tabs').get_statusline_text()
+end
+
+local function position()
+  return vim.fn.line '.' .. ':' .. vim.fn.col '.'
+end
+
+lualine.setup {
   options = {
-    theme = 'auto',
-    component_separators = { left = '│', right = '│' },
-    section_separators = { left = '', right = '' },
+    component_separators = ' /// ',
+    section_separators = '',
     globalstatus = true,
-    disabled_filetypes = { statusline = { 'dashboard', 'alpha' } },
+    disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason' } },
   },
   sections = {
-    lualine_a = {
-      { cool_filename, padding = { left = 1, right = 1 } },
-    },
-    lualine_b = {
-      { 'branch', icon = icons.git },
-    },
+    lualine_a = {},
+    lualine_b = { { filepath, padding = 0 }, { 'branch', padding = 0 } },
     lualine_c = {},
-    lualine_x = {
-      { 'diagnostics', 
-        symbols = { 
-          error = icons.error .. ' ', 
-          warn = icons.warn .. ' ', 
-          info = icons.info .. ' ', 
-          hint = icons.hint .. ' ' 
-        },
-      },
-    },
-    lualine_y = {},
-    lualine_z = {
-      { 'progress', padding = { left = 1, right = 1 } },
-    },
+    lualine_x = { { tab_info, padding = 0 } },
+    lualine_y = { { position, padding = 0 } },
+    lualine_z = {},
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = { { cool_filename } },
+    lualine_a = { filepath },
+    lualine_b = {},
     lualine_c = {},
     lualine_x = {},
     lualine_y = {},
     lualine_z = {},
   },
-})
+}
