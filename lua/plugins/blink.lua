@@ -4,14 +4,14 @@
 -- ============================================================================
 
 -- Install plugin
-vim.pack.add({
+vim.pack.add {
   'https://github.com/saghen/blink.cmp',
   'https://github.com/rafamadriz/friendly-snippets',
-})
+}
 
-local blink = require('blink.cmp')
+local blink = require 'blink.cmp'
 
-blink.setup({
+blink.setup {
   cmdline = {
     keymap = { preset = 'inherit' },
     completion = {
@@ -24,12 +24,12 @@ blink.setup({
     ['<C-space>'] = { 'show' },
     ['<C-s>'] = {
       function(cmp)
-        cmp.show({ providers = { 'snippets' } })
+        cmp.show { providers = { 'snippets' } }
       end,
     },
     ['<C-l>'] = {
       function(cmp)
-        cmp.show({ providers = { 'lsp' } })
+        cmp.show { providers = { 'lsp' } }
       end,
     },
     ['<C-k>'] = { 'select_prev', 'fallback' },
@@ -45,6 +45,8 @@ blink.setup({
     window = {
       border = 'padded',
       winblend = 0,
+      max_height = 10,
+      max_width = 80,
     },
   },
 
@@ -169,7 +171,7 @@ blink.setup({
     default = { 'lsp', 'path', 'snippets', 'buffer' },
     -- Add 'lazydev' and 'dadbod' to default if those plugins are installed
   },
-})
+}
 
 -- High contrast highlights
 local function set_high_contrast_highlights()

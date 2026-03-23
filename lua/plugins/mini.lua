@@ -19,5 +19,7 @@ if ok_mini_surround then require('mini.surround').setup() end
 local ok_mini_comment = pcall(require, 'mini.comment')
 if ok_mini_comment then require('mini.comment').setup() end
 
+
+
 -- local ok_mini_statusline = pcall(require, 'mini.statusline')
 -- if ok_mini_statusline then require('mini.statusline').setup() end

@@ -22,6 +22,7 @@ require 'plugins.colorschemes'
 require 'plugins.gitsigns'
 require 'plugins.lualine'
 require 'plugins.which-key'
+require 'plugins.suda'
 
 -- LSP setup
 require('config.lsp').setup_global_defaults()

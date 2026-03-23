@@ -137,6 +137,7 @@ vim.keymap.set('i', ';', ';<c-g>u')
 
 -- Terminal
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal' })
+vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('snacks').terminal.toggle() end, { desc = 'Toggle terminal' })
 
 -- UI toggles
 vim.keymap.set('n', '<leader>ut', function()
