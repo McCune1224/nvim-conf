@@ -1,187 +1,162 @@
-# Neovim Lua Configuration - Agent Guide
+# AGENTS.md - Neovim 0.12 Configuration Guide
 
-## Quick Commands
+## Overview
 
-```bash
-# Format all Lua files
-stylua .
+This guide assists with building a modern Neovim 0.12 configuration from scratch using:
+- **vim.pack** - Built-in plugin manager (Neovim 0.12+)
+- **vim.lsp.config/enable** - Native LSP configuration (no lspconfig needed)
+- **mason.nvim** - For installing LSP servers (but NOT for configuring them)
+- Minimal, integrated features over external plugins
 
-# Check format without writing
-stylua --check .
+## Legacy Configuration Reference
 
-# Update Mason tools
-nvim -c "MasonUpdate" -c "qa"
+**Previous config location:** `~/.config/nvim.bkup/`
 
-# Sync plugins
-nvim -c "Lazy sync" -c "qa"
+This folder contains the user's old Neovim configuration using lazy.nvim. Reference this when:
+- Migrating plugins from the old setup
+- Looking for specific plugin configurations (snacks, blink, harpoon, etc.)
+- Checking previous keymaps or settings
+- Understanding user's workflow preferences
 
-# Validate Lua syntax
-lua -e "dofile('init.lua')"
-```
+**Note:** The new config (`~/.config/nvim/`) is a fresh start using vim.pack and native LSP. Do not automatically port everything from nvim.bkup - only migrate specific plugins or configs when explicitly requested.
 
-## Code Style
+## Key Principles
 
-### Formatting (StyLua)
-- Indent: 2 spaces
-- Quotes: Single preferred (`'string'`)
-- Column width: 160
-- Unix line endings
-- Call parentheses: None for single string arg
-- Run `stylua .` before committing
+1. Use `vim.pack` for plugin management (no lazy.nvim/packer)
+2. Use `vim.lsp.config()` + `vim.lsp.enable()` for LSP (no lspconfig)
+3. Use mason ONLY for installing LSP binaries, not for configuration
+4. Keep it simple - minimal plugins, maximum built-in features
+5. **Use Nerd Font glyphs, NOT emojis** - Cool icons like `󰊢` `●` `󰌾` are fine, but no actual emojis like 😀 🎉
 
-### Module Structure
+## Documentation Sources
 
-```lua
--- Return table for lazy.nvim specs
-return {
-  'author/plugin-name',
-  dependencies = { 'dep1', 'dep2' },
-  opts = {}, -- or config = function() ... end
-}
-```
+Always check latest docs:
+- `:help news` - Neovim 0.12 changes
+- `:help vim.pack` - Plugin manager
+- `:help lsp` - LSP configuration
+- `:help mason.nvim` - LSP installer
 
-### Requires
+## Quick Reference
 
-Prefer space-separated for single modules:
-```lua
-require 'module'
-```
-
-Use parentheses when assigning:
-```lua
-local module = require('module')
-```
-
-### Comments
-
-- Use `--` with space after
-- Section headers: `-- [[ Section Name ]]`
-- Inline comments after code, aligned when possible
+### vim.pack
 
 ```lua
--- Good comment
-local x = 1 -- inline with space
+-- Add plugins
+vim.pack.add({
+  'https://github.com/user/repo',
+  { src = 'https://github.com/user/repo', version = 'v1.0' },
+})
+
+-- Update
+vim.pack.update()
+
+-- Remove
+vim.pack.del({ 'repo' })
 ```
 
-### Naming Conventions
+### LSP Configuration
 
-- Variables: `snake_case`
-- Plugin specs: Match plugin name (e.g., `lspconfig.lua`)
-- Local functions: `snake_case`
-- Keymap descriptions: Use `[X]` pattern for leader keys
-
-### Plugin Spec Patterns
-
-Simple plugin:
 ```lua
-return { 'user/plugin' }
+-- Global defaults
+vim.lsp.config('*', {
+  capabilities = vim.lsp.protocol.make_client_capabilities(),
+})
+
+-- Server config
+vim.lsp.config('gopls', {
+  cmd = { 'gopls' },
+  filetypes = { 'go' },
+  root_markers = { 'go.mod', '.git' },
+})
+
+-- Enable
+vim.lsp.enable('gopls')
 ```
 
-With options:
-```lua
-return {
-  'user/plugin',
-  opts = { setting = true },
-}
+### File Structure
+
+```
+~/.config/nvim/
+├── init.lua              # Main entry point
+├── nvim-pack-lock.json   # Plugin versions (commit this)
+├── lua/
+│   ├── config/
+│   │   ├── options.lua   # vim.opt settings
+│   │   ├── keymaps.lua   # Key mappings
+│   │   ├── autocmds.lua  # Autocommands
+│   │   └── lsp.lua       # Centralized LSP setup
+│   └── plugins/
+│       ├── mason.lua     # LSP installer
+│       ├── treesitter.lua # Syntax highlighting
+│       ├── mini.lua      # Utility modules
+│       ├── snacks.lua    # Picker, terminal, git
+│       ├── harpoon.lua   # File marks
+│       ├── blink.lua     # Completion
+│       └── colorschemes.lua # Theme collection
+└── lsp/                  # LSP server configs
+    ├── gopls.lua
+    └── lua_ls.lua
 ```
 
-With config:
+## Go Development Setup
+
+Minimal Go setup with native LSP:
+
 ```lua
-return {
-  'user/plugin',
-  config = function()
-    require('plugin').setup {}
-  end,
-}
+-- Install gopls via mason, configure via vim.lsp.config
+vim.lsp.config('gopls', {
+  cmd = { 'gopls' },
+  filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+  root_markers = { 'go.mod', 'go.work', '.git' },
+  settings = {
+    gopls = {
+      analyses = { unusedparams = true, shadow = true },
+      staticcheck = true,
+      gofumpt = true,
+    },
+  },
+})
+
+vim.lsp.enable('gopls')
 ```
 
-Conditional loading:
-```lua
-return {
-  'user/plugin',
-  lazy = false,
-  priority = 1000,
-  ft = 'lua',
-  event = 'VeryLazy',
-}
-```
-
-### Keymap Conventions
-
-- Leader key: `<space>`
-- Local leader: `,` (for grug-far)
-- Pattern: `[X]escription` for leader commands
+## Recommended Minimal Plugins
 
 ```lua
--- Leader mappings
-vim.keymap.set('n', '<leader>ff', cmd, { desc = '[F]ind [F]iles' })
-
--- LSP mappings (buffer-local)
-local map = function(keys, func, desc)
-  vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
-end
-map('gd', func, '[G]oto [D]efinition')
-```
-
-### Autocommands
-
-```lua
-vim.api.nvim_create_autocmd('Event', {
-  desc = 'Human readable description',
-  group = vim.api.nvim_create_augroup('groupname', { clear = true }),
-  callback = function()
-    -- logic
-  end,
+vim.pack.add({
+  -- LSP installer (only for installing binaries)
+  'https://github.com/williamboman/mason.nvim',
+  'https://github.com/williamboman/mason-lspconfig.nvim',
+  
+  -- Treesitter (syntax highlighting)
+  'https://github.com/nvim-treesitter/nvim-treesitter',
+  
+  -- Mini.nvim (replaces many small plugins)
+  'https://github.com/echasnovski/mini.nvim',
 })
 ```
 
-### File Organization
+## Health Checks
 
-```
-lua/
-├── options.lua
-├── keymaps.lua
-├── lazy-bootstrap.lua
-├── lazy-plugins.lua
-├── ftdetect.lua
-└── plugins/
-    ├── colorscheme.lua
-    ├── lspconfig.lua
-    └── ...
+```vim
+:checkhealth vim.pack
+:checkhealth vim.lsp
+:checkhealth mason
+:Mason
 ```
 
-### Modeline
+## Migration Notes
 
-All Lua files end with:
-```lua
--- vim: ts=2 sts=2 sw=2 et
-```
+- mason-lspconfig is used ONLY for ensuring LSPs are installed
+- Configuration is done via vim.lsp.config, NOT mason-lspconfig setup_handlers
+- No need for nvim-lspconfig plugin anymore
+- Each plugin file handles its own `vim.pack.add()` - install and config are co-located
+- Plugins in `lua/plugins/` are self-contained modules
 
-## Common Tasks
+---
 
-### Adding a New Plugin
+Last updated: Neovim 0.12-dev
 
-1. Create file in `lua/plugins/<name>.lua`
-2. Return plugin spec table
-3. Run `:Lazy sync` in Neovim
+---
 
-### Adding LSP Server
-
-1. Add to `servers` table in `lua/plugins/lspconfig.lua`
-2. Run `:Mason` to install
-3. Configure settings if needed
-
-### Adding Keymaps
-
-- Global: Add to `lua/keymaps.lua`
-- Plugin-specific: Add in plugin's `config` function
-- Buffer-local: Use `buffer = bufnr` option
-
-## Validation Checklist
-
-- [ ] `stylua .` passes
-- [ ] Modeline present at EOF
-- [ ] Plugin returns valid table
-- [ ] Keymaps have descriptions
-- [ ] No trailing whitespace
-- [ ] Unix line endings (LF)
+Last updated: Neovim 0.12-dev

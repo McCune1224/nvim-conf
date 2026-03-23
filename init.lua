@@ -1,25 +1,66 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- ============================================================================
+-- Neovim 0.12 Minimal Configuration
+-- Focus: Go development with native LSP
+-- ============================================================================
+
+-- Set leader key BEFORE loading any modules or plugins
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
--- [[ Setting options ]]
+-- ============================================================================
+-- PLUGINS (each handles its own installation via vim.pack.add)
+-- ============================================================================
 
-require 'options'
+-- Core plugins (load first)
+require('plugins.mason')
+require('plugins.treesitter')
+require('plugins.mini')
 
--- [[ Basic Keymaps ]]
-require 'keymaps'
+-- Feature plugins
+require('plugins.snacks')
+require('plugins.harpoon')
+require('plugins.blink')
+require('plugins.oil')
+require('plugins.dap')
+require('plugins.render-markdown')
+require('plugins.dadbod')
 
--- [[ Install `lazy.nvim` plugin manager ]]
-require 'lazy-bootstrap'
+-- UI
+require('plugins.colorschemes')
+require('plugins.lualine')
 
--- [[ Configure and install plugins ]]
-require 'lazy-plugins'
+-- ============================================================================
+-- LSP CONFIGURATION
+-- ============================================================================
 
-require 'ftdetect'
+require('config.lsp').setup_global_defaults()
+vim.lsp.enable({
+  'gopls',          -- Go
+  'lua_ls',         -- Lua
+  'rust_analyzer',  -- Rust
+  'clangd',         -- C/C++
+  'vtsls',          -- JavaScript/TypeScript
+  'elixirls',       -- Elixir
+  'omnisharp',      -- C#
+  'tailwindcss',    -- TailwindCSS
+  'templ',          -- Go Templating
+  'svelte',         -- Svelte/SvelteKit
+})
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- ============================================================================
+-- LOAD CONFIGURATION MODULES
+-- ============================================================================
+
+require('config.options')
+require('config.keymaps')
+require('config.autocmds')
+
+-- ============================================================================
+-- HEALTH CHECK REMINDER
+-- ============================================================================
+
+-- Run these commands to verify setup:
+-- :checkhealth vim.pack
+-- :checkhealth vim.lsp
+-- :checkhealth mason
+-- :Mason
