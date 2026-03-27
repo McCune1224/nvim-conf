@@ -3,6 +3,15 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Detect Svelte filetype
+autocmd({ 'BufNewFile', 'BufRead' }, {
+  group = augroup('svelte_ft', {}),
+  pattern = '*.svelte',
+  callback = function()
+    vim.bo.filetype = 'svelte'
+  end,
+})
+
 -- Highlight yanked text
 autocmd('TextYankPost', {
   group = augroup('highlight_yank', {}),

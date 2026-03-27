@@ -46,10 +46,13 @@ render.setup({
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   callback = function(args)
+    local buftype = vim.bo[args.buf].buftype
+    vim.notify('render-markdown: FileType markdown triggered, buftype=' .. buftype)
     -- Only enable for nofile buffers (LSP hover, etc.)
-    if vim.bo[args.buf].buftype == 'nofile' then
+    if buftype == 'nofile' then
       vim.defer_fn(function()
         if vim.api.nvim_buf_is_valid(args.buf) then
+          vim.notify('render-markdown: enabling for nofile buffer ' .. args.buf)
           require('render-markdown').buf_enable(args.buf)
         end
       end, 50)

@@ -1,18 +1,7 @@
--- TypeScript/JavaScript LSP configuration
--- Uses vtsls - faster replacement for tsserver
--- Requires: vtsls (installed via mason: typescript-language-server)
+-- TypeScript/JavaScript LSP configuration (vtsls)
+-- nvim-lspconfig provides defaults; this adds inlay hints and preferences
 
 return {
-  cmd = { 'vtsls', '--stdio' },
-  filetypes = {
-    'javascript',
-    'javascriptreact',
-    'javascript.jsx',
-    'typescript',
-    'typescriptreact',
-    'typescript.tsx',
-  },
-  root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
   settings = {
     typescript = {
       inlayHints = {
@@ -25,14 +14,9 @@ return {
       },
       suggest = {
         completeFunctionCalls = true,
-        includeCompletionsForModuleExports = true,
-        autoImports = true,
       },
       updateImportsOnFileMove = {
         enabled = 'always',
-      },
-      preferences = {
-        importModuleSpecifier = 'relative',
       },
     },
     javascript = {
@@ -46,14 +30,6 @@ return {
       },
       suggest = {
         completeFunctionCalls = true,
-        includeCompletionsForModuleExports = true,
-        autoImports = true,
-      },
-      updateImportsOnFileMove = {
-        enabled = 'always',
-      },
-      preferences = {
-        importModuleSpecifier = 'relative',
       },
     },
   },

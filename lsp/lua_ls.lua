@@ -1,15 +1,11 @@
 -- Lua LSP configuration
--- Place this file at: ~/.config/nvim/lsp/lua_ls.lua
+-- nvim-lspconfig provides defaults; this adds Neovim-specific settings
 
 return {
-  cmd = { 'lua-language-server' },
-  filetypes = { 'lua' },
-  root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
   settings = {
     Lua = {
       runtime = {
         version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
       },
       diagnostics = {
         globals = { 'vim' },
@@ -17,7 +13,6 @@ return {
       workspace = {
         library = {
           vim.env.VIMRUNTIME,
-          '${3rd}/luv/library',
         },
         checkThirdParty = false,
       },

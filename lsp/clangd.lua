@@ -1,5 +1,5 @@
 -- C/C++ LSP configuration
--- Requires: clangd (installed via mason)
+-- nvim-lspconfig provides defaults; this adds extra clangd args and capabilities
 
 return {
   cmd = {
@@ -9,11 +9,7 @@ return {
     '--header-insertion=iwyu',
     '--completion-style=bundled',
     '--pch-storage=memory',
-    '--cross-file-rename',
   },
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-  root_markers = { '.clangd', '.clang-format', 'compile_commands.json', '.git' },
-  workspace_required = true,
   capabilities = {
     textDocument = {
       completion = {

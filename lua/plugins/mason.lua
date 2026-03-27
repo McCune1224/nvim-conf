@@ -1,12 +1,14 @@
 -- ============================================================================
 -- Mason Configuration
--- LSP server installer
+-- LSP server installer with nvim-lspconfig defaults
 -- ============================================================================
 
--- Install plugin
+-- Install plugins
+-- nvim-lspconfig provides default configs for 100+ LSP servers
 vim.pack.add({
   'https://github.com/williamboman/mason.nvim',
   'https://github.com/williamboman/mason-lspconfig.nvim',
+  'https://github.com/neovim/nvim-lspconfig',
 })
 
 -- Setup
@@ -31,8 +33,9 @@ if ok_mason_lspconfig then
       'tailwindcss',
       'templ',
       'svelte',
+      'html',
     },
-    automatic_enable = false,
+    automatic_enable = true,
   })
 end
 

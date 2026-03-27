@@ -1,10 +1,7 @@
 -- Elixir LSP configuration
--- Requires: elixir-ls (installed via mason)
+-- nvim-lspconfig provides defaults; this adds dialyzer and specs settings
 
 return {
-  cmd = { 'elixir-ls' },
-  filetypes = { 'elixir', 'eelixir', 'heex' },
-  root_markers = { 'mix.exs', '.git' },
   settings = {
     elixirLS = {
       dialyzerEnabled = true,

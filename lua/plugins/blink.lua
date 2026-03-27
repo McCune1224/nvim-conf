@@ -171,6 +171,16 @@ blink.setup {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
     -- Add 'lazydev' and 'dadbod' to default if those plugins are installed
   },
+
+  fuzzy = {
+    -- Use Rust implementation for better performance
+    -- Requires building from source: cd ~/.local/share/nvim/site/pack/_/opt/blink.cmp && cargo build --release
+    implementation = 'prefer_rust',
+    prebuilt_binaries = {
+      -- Ignore version mismatch for locally built binary
+      ignore_version_mismatch = true,
+    },
+  },
 }
 
 -- High contrast highlights

@@ -1,11 +1,11 @@
 -- ============================================================================
--- Treesitter Configuration (master branch - stable)
+-- Treesitter Configuration (main branch - 2026)
 -- Following: https://github.com/nvim-treesitter/nvim-treesitter
 -- ============================================================================
 
--- Install plugin (master branch)
+-- Install plugin (main branch)
 vim.pack.add {
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'master' },
+  'https://github.com/nvim-treesitter/nvim-treesitter',
 }
 
 -- Setup when plugin is available

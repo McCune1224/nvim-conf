@@ -24,20 +24,8 @@ require 'plugins.lualine'
 require 'plugins.which-key'
 require 'plugins.suda'
 
--- LSP setup
+-- LSP setup (mason-lspconfig handles vim.lsp.enable() via automatic_enable)
 require('config.lsp').setup_global_defaults()
-vim.lsp.enable {
-  'gopls',
-  'lua_ls',
-  'rust_analyzer',
-  'clangd',
-  'vtsls',
-  'elixirls',
-  'omnisharp',
-  'tailwindcss',
-  'templ',
-  'svelte',
-}
 
 -- Load core config
 require 'config.options'
