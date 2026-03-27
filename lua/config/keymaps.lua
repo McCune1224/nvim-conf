@@ -65,9 +65,9 @@ for i = 1, 9 do
 end
 
 -- LSP
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = '[G]o to [D]efinition' })
-vim.keymap.set('n', 'gr', function() vim.lsp.buf.references({ includeDeclaration = false }) end, { desc = '[G]o to [R]eferences' })
-vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { desc = '[G]o to [I]mplementation' })
+vim.keymap.set('n', 'gd', function() Snacks.picker.lsp_definitions() end, { desc = '[G]o to [D]efinition' })
+vim.keymap.set('n', 'gr', function() Snacks.picker.lsp_references() end, { desc = '[G]o to [R]eferences' })
+vim.keymap.set('n', 'gI', function() Snacks.picker.lsp_implementations() end, { desc = '[G]o to [I]mplementation' })
 vim.keymap.set('n', 'K', function() require('config.lsp').fancy_hover() end, { desc = 'Hover docs (double-K to focus)' })
 vim.keymap.set('n', '<C-k>', function() require('config.lsp').fancy_signature() end, { desc = 'Signature help (fancy)' })
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })

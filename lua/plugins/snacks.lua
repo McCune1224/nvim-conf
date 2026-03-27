@@ -178,9 +178,12 @@ map('n', '<leader>fm', function() Snacks.picker.marks() end, { desc = '[F]ind [M
 map('n', '<leader>fR', function() Snacks.picker.resume() end, { desc = '[F]ind [R]esume' })
 map('n', '<leader>uc', function() Snacks.picker.colorschemes() end, { desc = '[U]i [C]olorscheme' })
 
--- LSP pickers
-map('n', '<leader>fd', function() Snacks.picker.lsp_declarations() end, { desc = '[F]ind [D]eclarations' })
-map('n', '<leader>fD', function() Snacks.picker.lsp_definitions() end, { desc = '[F]ind [D]efinition' })
+-- LSP pickers (using available keys: o, i, r, y)
+map('n', '<leader>fo', function() Snacks.picker.lsp_symbols() end, { desc = '[F]ind Document Symbols' })
+map('n', '<leader>fO', function() Snacks.picker.lsp_workspace_symbols() end, { desc = '[F]ind Workspace Symbols' })
+map('n', '<leader>fi', function() Snacks.picker.lsp_implementations() end, { desc = '[F]ind [I]mplementations' })
+map('n', '<leader>fy', function() Snacks.picker.lsp_type_definitions() end, { desc = '[F]ind T[y]pe Definitions' })
+map('n', '<leader>fr', function() Snacks.picker.lsp_references() end, { desc = '[F]ind [R]eferences' })
 
 -- Diagnostics
 map('n', '<leader>fe', function() Snacks.picker.diagnostics_buffer({ severity = vim.diagnostic.severity.ERROR }) end, { desc = '[F]ind diagnostic [E]rrors (buffer only)' })
