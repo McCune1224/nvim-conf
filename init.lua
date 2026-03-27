@@ -27,7 +27,7 @@ require 'plugins.suda'
 -- LSP setup (mason-lspconfig handles vim.lsp.enable() via automatic_enable)
 require('config.lsp').setup_global_defaults()
 
--- Load core config
+-- Load core config (order matters: options -> keymaps)
 require 'config.options'
 require 'config.diagnostics'
 require 'config.keymaps'

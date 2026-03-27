@@ -152,6 +152,7 @@ vim.pack.add({
 - No need for nvim-lspconfig plugin anymore
 - Each plugin file handles its own `vim.pack.add()` - install and config are co-located
 - Plugins in `lua/plugins/` are self-contained modules
+- **IMPORTANT: New plugin files must be added to `init.lua`** - Add `require 'plugins.filename'` (without `.lua` extension) to the plugins section
 
 ---
 

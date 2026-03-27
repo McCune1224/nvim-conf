@@ -1,66 +1,102 @@
 -- ============================================================================
--- Treesitter Configuration (master branch - stable)
--- Following: https://github.com/nvim-treesitter/nvim-treesitter
+-- Treesitter Configuration (legacy configs API - works properly)
 -- ============================================================================
 
--- Install plugin (master branch)
 vim.pack.add {
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'master' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', version = 'master' },
 }
 
--- Setup when plugin is available
-local function setup_treesitter()
-  local ok, treesitter = pcall(require, 'nvim-treesitter')
+-- Setup using the legacy configs API (this is what your old config used)
+local function setup()
+  local ok, configs = pcall(require, 'nvim-treesitter.configs')
   if not ok then
-    return false
+    return
   end
-  
-  -- Set install directory
-  treesitter.setup {
-    install_dir = vim.fn.stdpath('data') .. '/site',
+
+  configs.setup {
+    -- Install parsers synchronously (only on demand)
+    ensure_installed = {},
+    auto_install = true,
+
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = { 'ruby' },
+    },
+
+    indent = {
+      enable = true,
+      disable = { 'ruby' },
+    },
+
+    -- Incremental selection
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = '<CR>',
+        node_incremental = '<CR>',
+        node_decremental = '<BS>',
+      },
+    },
   }
-  
-  return true
+
+  -- Textobjects setup
+  configs.setup {
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ['af'] = '@function.outer',
+          ['if'] = '@function.inner',
+          ['ac'] = '@class.outer',
+          ['ic'] = '@class.inner',
+          ['aa'] = '@parameter.outer',
+          ['ia'] = '@parameter.inner',
+          ['al'] = '@loop.outer',
+          ['il'] = '@loop.inner',
+          ['ag'] = '@comment.outer',
+          ['ig'] = '@comment.inner',
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          [']f'] = '@function.outer',
+          [']a'] = '@parameter.outer',
+          [']c'] = '@class.outer',
+          [']v'] = '@variable.outer',
+          [']i'] = '@loop.*',
+        },
+        goto_next_end = {
+          [']F'] = '@function.outer',
+          [']A'] = '@parameter.outer',
+        },
+        goto_previous_start = {
+          ['[f'] = '@function.outer',
+          ['[a'] = '@parameter.outer',
+          ['[c'] = '@class.outer',
+          ['[v'] = '@variable.outer',
+          ['[i'] = '@loop.*',
+        },
+        goto_previous_end = {
+          ['[F'] = '@function.outer',
+          ['[A'] = '@parameter.outer',
+        },
+      },
+    },
+  }
 end
 
--- Try to setup immediately (will work after plugin is downloaded)
-setup_treesitter()
+-- Defer setup to ensure plugins are loaded
+vim.defer_fn(setup, 0)
 
--- Enable treesitter features per filetype (as per docs)
--- Install parsers manually with: :TSInstall <language>
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = {
-    'go', 'gomod', 'gowork', 'gosum', 'gotmpl',
-    'lua', 'vim', 'vimdoc',
-    'svelte', 'javascript', 'typescript', 'tsx', 'html', 'css', 'scss',
-    'json', 'jsonc', 'yaml', 'toml', 'xml',
-    'bash', 'fish',
-    'markdown', 'markdown_inline',
-    'regex', 'sql',
-    'git_config', 'git_rebase', 'gitcommit', 'gitignore',
-    'dockerfile',
-    'python', 'rust',
-    'c', 'cpp', 'cmake',
-  },
-  callback = function()
-    local ok = pcall(vim.treesitter.start)
-    if ok then
-      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-      vim.wo.foldmethod = 'expr'
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end
-  end,
-})
-
--- Start with folds open
-vim.opt.foldenable = false
-vim.opt.foldlevel = 99
-
--- Commands to install parsers
+-- Command to install all parsers
 vim.api.nvim_create_user_command('TSInstallAll', function()
-  local ok, treesitter = pcall(require, 'nvim-treesitter')
+  local ok, ts = pcall(require, 'nvim-treesitter')
   if ok then
-    treesitter.install {
+    ts.install {
       'go', 'gomod', 'gowork', 'gosum', 'gotmpl',
       'lua', 'vim', 'vimdoc', 'query',
       'svelte', 'javascript', 'typescript', 'tsx', 'html', 'css', 'scss',
@@ -68,12 +104,10 @@ vim.api.nvim_create_user_command('TSInstallAll', function()
       'bash', 'fish',
       'markdown', 'markdown_inline',
       'regex', 'sql',
-      'git_config', 'git_rebase', 'gitcommit', 'gitignore',
-      'dockerfile',
       'python', 'rust',
       'c', 'cpp', 'cmake',
     }
   else
-    vim.notify('nvim-treesitter not loaded yet. Restart Neovim first.', vim.log.levels.ERROR)
+    vim.notify('nvim-treesitter not loaded', vim.log.levels.ERROR)
   end
 end, { desc = 'Install all treesitter parsers' })

@@ -36,3 +36,5 @@ autocmd({ 'BufWritePost', 'BufModifiedSet', 'User' }, {
     vim.schedule(function() pcall(vim.cmd, 'redrawstatus') end)
   end,
 })
+
+

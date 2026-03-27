@@ -46,6 +46,7 @@ opt.tabstop = 2
 opt.shiftwidth = 2
 opt.shiftround = true
 opt.smartindent = true
+opt.autoindent = true
 
 -- Search
 opt.ignorecase = true

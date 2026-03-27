@@ -60,6 +60,26 @@ conform.setup({
     shfmt = {
       prepend_args = { '-i', '2', '-ci' },
     },
+    prettier = {
+      args = function(self, ctx)
+        local svelte_plugin = vim.fn.getcwd() .. '/node_modules/prettier-plugin-svelte'
+        local has_svelte_plugin = vim.fn.isdirectory(svelte_plugin) == 1
+        local args = {
+          '--stdin-filepath',
+          ctx.filename,
+        }
+        if ctx.filename:match('%.svelte$') and has_svelte_plugin then
+          table.insert(args, '--plugin')
+          table.insert(args, svelte_plugin)
+        end
+        return args
+      end,
+    },
+    prettierd = {
+      env = {
+        PRETTIERD_DEFAULT_CONFIG = vim.fn.getcwd() .. '/.prettierrc',
+      },
+    },
   },
 
   -- Format on save is disabled by default (enable with :FormatEnable)
@@ -115,7 +135,7 @@ vim.keymap.set('n', '<leader>lF', function()
 end, { desc = '[L]SP [F]ormat info' })
 
 
--- Manual format keymap
+-- Ctrl+F to format
 vim.keymap.set({ 'n', 'v' }, '<C-f>', function()
   conform.format({ async = true, lsp_fallback = true })
-end, { desc = '[L]SP [F]ormat' })
+end, { desc = 'Format with conform' })
