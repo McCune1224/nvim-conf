@@ -69,7 +69,7 @@ vim.keymap.set('n', 'gd', function() Snacks.picker.lsp_definitions() end, { desc
 vim.keymap.set('n', 'gr', function() Snacks.picker.lsp_references() end, { desc = '[G]o to [R]eferences' })
 vim.keymap.set('n', 'gI', function() Snacks.picker.lsp_implementations() end, { desc = '[G]o to [I]mplementation' })
 vim.keymap.set('n', 'K', function() require('config.lsp').fancy_hover() end, { desc = 'Hover docs (double-K to focus)' })
-vim.keymap.set('n', '<C-k>', function() require('config.lsp').fancy_signature() end, { desc = 'Signature help (fancy)' })
+-- vim.keymap.set('n', '<C-k>', function() require('config.lsp').fancy_signature() end, { desc = 'Signature help (fancy)' })
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
 vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { desc = '[C]ode [F]ormat' })

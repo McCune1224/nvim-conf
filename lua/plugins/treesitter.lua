@@ -1,46 +1,74 @@
 -- ============================================================================
--- Treesitter Configuration (legacy configs API - works properly)
+-- Treesitter Configuration (nvim-treesitter main branch)
 -- ============================================================================
+-- NOTE: This is using the NEW main branch API, not the legacy master branch
+-- See: https://github.com/nvim-treesitter/nvim-treesitter
 
 vim.pack.add {
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'master' },
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', version = 'master' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 }
 
--- Setup using the legacy configs API (this is what your old config used)
-local function setup()
+-- Setup nvim-treesitter (optional, defaults work fine)
+require('nvim-treesitter').setup {
+  -- Directory to install parsers and queries to
+  install_dir = vim.fn.stdpath 'data' .. '/site',
+}
+
+-- ============================================================================
+-- Enable Treesitter Features for All Filetypes
+-- ============================================================================
+
+-- Enable highlighting and indentation for any filetype that has a parser
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(args)
+    local ft = args.match
+    local lang = vim.treesitter.language.get_lang(ft)
+    if not lang then
+      return
+    end
+
+    -- Check if parser exists for this language
+    local ok = pcall(vim.treesitter.language.inspect, lang)
+    if not ok then
+      return
+    end
+
+    -- Enable syntax highlighting (built into Neovim)
+    vim.treesitter.start()
+
+    -- Enable treesitter-based indentation (provided by nvim-treesitter)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+-- ============================================================================
+-- Parsers to Install (Stable Tier)
+-- ============================================================================
+
+-- Install all stable parsers on startup if not already installed
+vim.defer_fn(function()
+  local ts = require 'nvim-treesitter'
+  local installed = ts.get_installed()
+
+  if #installed == 0 then
+    vim.notify('Installing all stable treesitter parsers...', vim.log.levels.INFO)
+    ts.install 'stable'
+  end
+end, 100)
+
+-- ============================================================================
+-- Text Objects Configuration
+-- ============================================================================
+
+-- Text objects are configured via the legacy configs API for now
+-- This may change in future nvim-treesitter-textobjects updates
+vim.defer_fn(function()
   local ok, configs = pcall(require, 'nvim-treesitter.configs')
   if not ok then
     return
   end
 
-  configs.setup {
-    -- Install parsers synchronously (only on demand)
-    ensure_installed = {},
-    auto_install = true,
-
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-
-    indent = {
-      enable = true,
-      disable = { 'ruby' },
-    },
-
-    -- Incremental selection
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<CR>',
-        node_incremental = '<CR>',
-        node_decremental = '<BS>',
-      },
-    },
-  }
-
-  -- Textobjects setup
   configs.setup {
     textobjects = {
       select = {
@@ -87,27 +115,30 @@ local function setup()
       },
     },
   }
-end
+end, 0)
 
--- Defer setup to ensure plugins are loaded
-vim.defer_fn(setup, 0)
+-- ============================================================================
+-- Commands
+-- ============================================================================
 
--- Command to install all parsers
+-- Command to install all stable parsers
 vim.api.nvim_create_user_command('TSInstallAll', function()
-  local ok, ts = pcall(require, 'nvim-treesitter')
-  if ok then
-    ts.install {
-      'go', 'gomod', 'gowork', 'gosum', 'gotmpl',
-      'lua', 'vim', 'vimdoc', 'query',
-      'svelte', 'javascript', 'typescript', 'tsx', 'html', 'css', 'scss',
-      'json', 'jsonc', 'yaml', 'toml', 'xml',
-      'bash', 'fish',
-      'markdown', 'markdown_inline',
-      'regex', 'sql',
-      'python', 'rust',
-      'c', 'cpp', 'cmake',
-    }
-  else
-    vim.notify('nvim-treesitter not loaded', vim.log.levels.ERROR)
-  end
-end, { desc = 'Install all treesitter parsers' })
+  local ts = require 'nvim-treesitter'
+  vim.notify('Installing all stable parsers...', vim.log.levels.INFO)
+  ts.install 'stable'
+end, { desc = 'Install all stable treesitter parsers' })
+
+-- Command to update all parsers
+vim.api.nvim_create_user_command('TSUpdateAll', function()
+  local ts = require 'nvim-treesitter'
+  vim.notify('Updating all parsers...', vim.log.levels.INFO)
+  ts.update()
+end, { desc = 'Update all treesitter parsers' })
+
+-- ============================================================================
+-- Health Check Command
+-- ============================================================================
+
+vim.api.nvim_create_user_command('TSHealth', function()
+  vim.cmd 'checkhealth nvim-treesitter'
+end, { desc = 'Check nvim-treesitter health' })

@@ -7,6 +7,7 @@
 vim.pack.add {
   'https://github.com/saghen/blink.cmp',
   'https://github.com/rafamadriz/friendly-snippets',
+  'https://github.com/kristijanhusak/vim-dadbod-completion',
 }
 
 local blink = require 'blink.cmp'
@@ -43,7 +44,7 @@ blink.setup {
   signature = {
     enabled = true,
     window = {
-      border = 'padded',
+      border = 'single',
       winblend = 0,
       max_height = 10,
       max_width = 80,
@@ -53,33 +54,33 @@ blink.setup {
   appearance = {
     use_nvim_cmp_as_default = false,
     nerd_font_variant = 'mono',
-    kind_icons = {
-      Text = '󰉿',
-      Method = '󰊕',
-      Function = '󰊕',
-      Constructor = '󰒓',
-      Field = '󰜢',
-      Variable = '󰀫',
-      Property = '󰖷',
-      Class = '󰠱',
-      Interface = '󰕘',
-      Struct = '󰙅',
-      Module = '󰏗',
-      Unit = '󰑭',
-      Value = '󰎠',
-      Enum = '󰕘',
-      EnumMember = '󰕘',
-      Keyword = '󰌋',
-      Constant = '󰏿',
-      Snippet = '󰩫',
-      Color = '󰏘',
-      File = '󰈙',
-      Reference = '󰈇',
-      Folder = '󰉋',
-      Event = '󰉒',
-      Operator = '󰆕',
-      TypeParameter = '󰬛',
-    },
+    -- kind_icons = {
+    --   Text = '󰉿',
+    --   Method = '󰊕',
+    --   Function = '󰊕',
+    --   Constructor = '󰒓',
+    --   Field = '󰜢',
+    --   Variable = '󰀫',
+    --   Property = '󰖷',
+    --   Class = '󰠱',
+    --   Interface = '󰕘',
+    --   Struct = '󰙅',
+    --   Module = '󰏗',
+    --   Unit = '󰑭',
+    --   Value = '󰎠',
+    --   Enum = '󰕘',
+    --   EnumMember = '󰕘',
+    --   Keyword = '󰌋',
+    --   Constant = '󰏿',
+    --   Snippet = '󰩫',
+    --   Color = '󰏘',
+    --   File = '󰈙',
+    --   Reference = '󰈇',
+    --   Folder = '󰉋',
+    --   Event = '󰉒',
+    --   Operator = '󰆕',
+    --   TypeParameter = '󰬛',
+    -- },
   },
 
   completion = {
@@ -87,7 +88,7 @@ blink.setup {
 
     menu = {
       scrollbar = false,
-      border = 'padded',
+      border = 'single',
       winblend = 0,
       direction_priority = { 'n', 's' },
 
@@ -148,7 +149,7 @@ blink.setup {
       auto_show_delay_ms = 200,
       treesitter_highlighting = true,
       window = {
-        border = 'padded',
+        border = 'single',
         winblend = 0,
         max_height = 80,
         max_width = 85,
@@ -169,7 +170,16 @@ blink.setup {
 
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
-    -- Add 'lazydev' and 'dadbod' to default if those plugins are installed
+    per_filetype = {
+      sql = { 'snippets', 'dadbod', 'buffer' },
+    },
+    providers = {
+      dadbod = {
+        name = 'Dadbod',
+        module = 'vim_dadbod_completion.blink',
+        score_offset = 100, -- Prioritize dadbod suggestions in SQL
+      },
+    },
   },
 
   fuzzy = {
@@ -205,9 +215,9 @@ local function set_high_contrast_highlights()
   vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelp', { link = 'NormalFloat' })
 end
 
-set_high_contrast_highlights()
-
-vim.api.nvim_create_autocmd('ColorScheme', {
-  group = vim.api.nvim_create_augroup('BlinkCmpHighContrast', { clear = true }),
-  callback = set_high_contrast_highlights,
-})
+-- set_high_contrast_highlights()
+--
+-- vim.api.nvim_create_autocmd('ColorScheme', {
+--   group = vim.api.nvim_create_augroup('BlinkCmpHighContrast', { clear = true }),
+--   callback = set_high_contrast_highlights,
+-- })
