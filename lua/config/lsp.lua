@@ -77,6 +77,23 @@ M.fancy_hover = function()
       return
     end
 
+    -- Strip markdown syntax
+    contents = vim.tbl_map(function(line)
+      -- Remove code block delimiters
+      line = line:gsub('^%s*```[%w]*%s*$', '')
+      -- Remove headers
+      line = line:gsub('^%s*#+%s*', '')
+      -- Remove inline code backticks (keep content)
+      line = line:gsub('`([^`]+)`', '%1')
+      -- Remove bold/italic markers
+      line = line:gsub('%*%*([^*]+)%*%*', '%1') -- bold
+      line = line:gsub('%*([^*]+)%*', '%1') -- italic
+      line = line:gsub('_([^_]+)_', '%1') -- italic underscore
+      return line
+    end, contents)
+    -- Remove empty lines from stripping
+    contents = vim.tbl_filter(function(line) return line ~= '' end, contents)
+
     -- Create hover window
     local bufnr, winnr = vim.lsp.util.open_floating_preview(
       contents,

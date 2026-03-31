@@ -147,7 +147,7 @@ blink.setup {
     documentation = {
       auto_show = true,
       auto_show_delay_ms = 200,
-      treesitter_highlighting = true,
+      treesitter_highlighting = false,
       window = {
         border = 'single',
         winblend = 0,
@@ -221,3 +221,37 @@ end
 --   group = vim.api.nvim_create_augroup('BlinkCmpHighContrast', { clear = true }),
 --   callback = set_high_contrast_highlights,
 -- })
+
+-- Strip markdown from documentation windows
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    -- Only process floating windows (documentation popups)
+    local winid = vim.api.nvim_get_current_win()
+    local config = vim.api.nvim_win_get_config(winid)
+    if config.relative and config.relative ~= '' then
+      -- It's a floating window
+      vim.schedule(function()
+        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+        local stripped = {}
+        for _, line in ipairs(lines) do
+          -- Remove code block delimiters
+          line = line:gsub('^%s*```[%w]*%s*$', '')
+          -- Remove headers
+          line = line:gsub('^%s*#+%s*', '')
+          -- Remove inline code backticks
+          line = line:gsub('`([^`]+)`', '%1')
+          -- Remove bold/italic
+          line = line:gsub('%*%*([^*]+)%*%*', '%1')
+          line = line:gsub('%*([^*]+)%*', '%1')
+          line = line:gsub('_([^_]+)_', '%1')
+          if line ~= '' then
+            table.insert(stripped, line)
+          end
+        end
+        vim.api.nvim_buf_set_lines(0, 0, -1, false, stripped)
+      end)
+    end
+  end,
+  group = vim.api.nvim_create_augroup('BlinkCmpStripMarkdown', { clear = true }),
+})

@@ -4,9 +4,9 @@
 -- ============================================================================
 
 -- Install plugin
-vim.pack.add({ 'https://github.com/mfussenegger/nvim-lint' })
+vim.pack.add { 'https://github.com/mfussenegger/nvim-lint' }
 
-local lint = require('lint')
+local lint = require 'lint'
 
 -- Configure linters by filetype
 lint.linters_by_ft = {
@@ -42,6 +42,7 @@ lint.linters_by_ft = {
 local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
 -- Auto-linting is disabled by default - use :Lint to manually trigger
+
 -- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
 --   group = lint_augroup,
 --   callback = function()
@@ -60,10 +61,10 @@ end, { desc = 'Trigger linting for current buffer' })
 
 -- Toggle auto-lint keymap
 vim.keymap.set('n', '<leader>lt', function()
-  local aug = vim.api.nvim_get_autocmds({ group = 'lint' })
+  local aug = vim.api.nvim_get_autocmds { group = 'lint' }
   if #aug > 0 then
-    vim.api.nvim_clear_autocmds({ group = 'lint' })
-    vim.notify('Auto-linting disabled')
+    vim.api.nvim_clear_autocmds { group = 'lint' }
+    vim.notify 'Auto-linting disabled'
   else
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
       group = lint_augroup,
@@ -74,7 +75,7 @@ vim.keymap.set('n', '<leader>lt', function()
         end
       end,
     })
-    vim.notify('Auto-linting enabled')
+    vim.notify 'Auto-linting enabled'
   end
 end, { desc = '[L]SP [T]oggle linting' })
 
