@@ -183,12 +183,14 @@ blink.setup {
   },
 
   fuzzy = {
-    -- Use Rust implementation for better performance
-    -- Requires building from source: cd ~/.local/share/nvim/site/pack/_/opt/blink.cmp && cargo build --release
-    implementation = 'prefer_rust',
+    -- 'prefer_rust_with_warning' (Recommended) - Auto-download prebuilt binaries, fallback to Lua with warning
+    -- 'prefer_rust' - Use Rust if available, fallback to Lua silently
+    -- 'rust' - Always use Rust, error if not available
+    -- 'lua' - Always use Lua implementation
+    implementation = 'lua',
     prebuilt_binaries = {
-      -- Ignore version mismatch for locally built binary
-      ignore_version_mismatch = true,
+      -- download = true, -- Auto-download prebuilt binaries from GitHub
+      ignore_version_mismatch = false, -- Set true if building from source manually
     },
   },
 }
@@ -222,36 +224,4 @@ end
 --   callback = set_high_contrast_highlights,
 -- })
 
--- Strip markdown from documentation windows
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'markdown',
-  callback = function()
-    -- Only process floating windows (documentation popups)
-    local winid = vim.api.nvim_get_current_win()
-    local config = vim.api.nvim_win_get_config(winid)
-    if config.relative and config.relative ~= '' then
-      -- It's a floating window
-      vim.schedule(function()
-        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-        local stripped = {}
-        for _, line in ipairs(lines) do
-          -- Remove code block delimiters
-          line = line:gsub('^%s*```[%w]*%s*$', '')
-          -- Remove headers
-          line = line:gsub('^%s*#+%s*', '')
-          -- Remove inline code backticks
-          line = line:gsub('`([^`]+)`', '%1')
-          -- Remove bold/italic
-          line = line:gsub('%*%*([^*]+)%*%*', '%1')
-          line = line:gsub('%*([^*]+)%*', '%1')
-          line = line:gsub('_([^_]+)_', '%1')
-          if line ~= '' then
-            table.insert(stripped, line)
-          end
-        end
-        vim.api.nvim_buf_set_lines(0, 0, -1, false, stripped)
-      end)
-    end
-  end,
-  group = vim.api.nvim_create_augroup('BlinkCmpStripMarkdown', { clear = true }),
-})
+
