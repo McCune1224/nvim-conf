@@ -153,16 +153,6 @@ M.on_attach = function(client, bufnr)
     })
   end
 
-  if client:supports_method('textDocument/codeLens') then
-    vim.lsp.codelens.enable(true, { bufnr = bufnr })
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.codelens.refresh({ bufnr = bufnr })
-      end,
-    })
-  end
-
   if client:supports_method('textDocument/documentColor') then
     vim.lsp.document_color.enable(true, { bufnr = bufnr })
   end
