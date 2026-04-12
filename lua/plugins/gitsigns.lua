@@ -1,14 +1,16 @@
--- gitsigns.lua - Git signs/status
+-- ============================================================================
+-- Gitsigns Configuration
+-- Git signs, blame, and hunk navigation
+-- ============================================================================
 
-vim.pack.add { 'https://github.com/lewis6991/gitsigns.nvim' }
+vim.pack.add({ 'https://github.com/lewis6991/gitsigns.nvim' })
 
 local ok, gitsigns = pcall(require, 'gitsigns')
 if not ok then
   return
 end
 
-gitsigns.setup {
-
+gitsigns.setup({
   signs = {
     add = { text = '▎' },
     change = { text = '▎' },
@@ -49,40 +51,40 @@ gitsigns.setup {
 
     vim.keymap.set('n', ']c', function()
       if vim.wo.diff then
-        vim.cmd.normal { ']c', bang = true }
+        vim.cmd.normal({ ']c', bang = true })
       else
-        gs.nav_hunk 'next'
+        gs.nav_hunk('next')
       end
     end, { buffer = bufnr, desc = 'Next git [C]hange' })
 
     vim.keymap.set('n', '[c', function()
       if vim.wo.diff then
-        vim.cmd.normal { '[c', bang = true }
+        vim.cmd.normal({ '[c', bang = true })
       else
-        gs.nav_hunk 'prev'
+        gs.nav_hunk('prev')
       end
     end, { buffer = bufnr, desc = 'Prev git [C]hange' })
 
     vim.keymap.set('n', '<leader>ghs', gs.stage_hunk, { buffer = bufnr, desc = '[G]it [H]unk [S]tage' })
     vim.keymap.set('n', '<leader>ghr', gs.reset_hunk, { buffer = bufnr, desc = '[G]it [H]unk [R]eset' })
     vim.keymap.set('v', '<leader>ghs', function()
-      gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+      gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, { buffer = bufnr, desc = '[G]it [H]unk [S]tage' })
     vim.keymap.set('v', '<leader>ghr', function()
-      gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+      gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
     end, { buffer = bufnr, desc = '[G]it [H]unk [R]eset' })
     vim.keymap.set('n', '<leader>ghS', gs.stage_buffer, { buffer = bufnr, desc = '[G]it [H]unk [S]tage buffer' })
     vim.keymap.set('n', '<leader>ghu', gs.undo_stage_hunk, { buffer = bufnr, desc = '[G]it [H]unk [U]ndo' })
     vim.keymap.set('n', '<leader>ghR', gs.reset_buffer, { buffer = bufnr, desc = '[G]it [H]unk [R]eset buffer' })
     vim.keymap.set('n', '<leader>ghp', gs.preview_hunk, { buffer = bufnr, desc = '[G]it [H]unk [P]review' })
     vim.keymap.set('n', '<leader>ghb', function()
-      gs.blame_line { full = true }
+      gs.blame_line({ full = true })
     end, { buffer = bufnr, desc = '[G]it [H]unk [B]lame' })
     vim.keymap.set('n', '<leader>ghd', gs.diffthis, { buffer = bufnr, desc = '[G]it [H]unk [D]iff' })
     vim.keymap.set('n', '<leader>ghD', function()
-      gs.diffthis '~'
+      gs.diffthis('~')
     end, { buffer = bufnr, desc = '[G]it [H]unk [D]iff ~' })
     vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame, { buffer = bufnr, desc = '[T]oggle git [B]lame' })
     vim.keymap.set('n', '<leader>td', gs.toggle_deleted, { buffer = bufnr, desc = '[T]oggle [D]eleted' })
   end,
-}
+})

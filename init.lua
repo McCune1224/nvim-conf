@@ -1,9 +1,26 @@
--- init.lua - Main entry point
+-- ============================================================================
+-- Neovim 0.12 Configuration - Main Entry Point
+-- ============================================================================
+-- Uses vim.pack (built-in plugin manager) and native LSP (vim.lsp.config)
+-- See AGENTS.md for configuration principles
+--
+-- Loading order:
+--   1. Plugins (vim.pack.add)
+--   2. LSP global defaults
+--   3. Core configuration (options -> diagnostics -> keymaps -> autocmds -> tabs)
+--
+-- Health checks:
+--   :checkhealth vim.pack
+--   :checkhealth vim.lsp
+--   :checkhealth mason
+--   :Mason
+-- ============================================================================
+
 -- Leader keys must be set before anything else
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Load plugins
+-- Load plugins (order matters for dependencies)
 require 'plugins.mason'
 require 'plugins.treesitter'
 require 'plugins.mini'
@@ -27,15 +44,9 @@ require 'plugins.suda'
 -- LSP setup (mason-lspconfig handles vim.lsp.enable() via automatic_enable)
 require('config.lsp').setup_global_defaults()
 
--- Load core config (order matters: options -> keymaps)
+-- Load core configuration
 require 'config.options'
 require 'config.diagnostics'
 require 'config.keymaps'
 require 'config.autocmds'
 require('config.tabs').setup()
-
--- Health check commands:
--- :checkhealth vim.pack
--- :checkhealth vim.lsp
--- :checkhealth mason
--- :Mason

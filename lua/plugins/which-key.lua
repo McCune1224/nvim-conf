@@ -1,8 +1,16 @@
--- which-key.lua - Keymap hints
+-- ============================================================================
+-- Which-Key Configuration
+-- Keymap hints and group labels
+-- ============================================================================
 
 vim.pack.add({ 'https://github.com/folke/which-key.nvim' })
 
-require('which-key').setup({
+local ok, which_key = pcall(require, 'which-key')
+if not ok then
+  return
+end
+
+which_key.setup({
   preset = 'helix',
   delay = 300,
   filter = function(m) return m.desc and m.desc ~= '' end,
@@ -25,7 +33,7 @@ require('which-key').setup({
     { 'z', group = 'Fold', icon = '󰁂 ' },
   },
   win = {
-    border = 'rounded',
+    border = 'single',
     padding = { 1, 2 },
     wo = { winblend = 0 },
   },

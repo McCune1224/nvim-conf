@@ -27,6 +27,7 @@ vim.pack.add {
   'https://github.com/Verf/deepwhite.nvim',
   'https://github.com/lucasadelino/conifer.nvim',
   { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' },
+  'https://github.com/ember-theme/nvim',
   'https://github.com/gmr458/cold.nvim',
   -- 'https://github.com/kvrohit/rasmus.nvim',
 
@@ -42,11 +43,11 @@ local current_time = tonumber(os.date '%H')
 if current_time >= 9 and current_time <= 15 then
   -- Daytime - lighter theme
   -- vim.cmd('colorscheme conifer-lunar')
-  vim.cmd 'colorscheme deepwhite'
+  vim.cmd 'colorscheme ember-light'
 else
   -- Evening/Night - darker theme
   -- vim.cmd('colorscheme kanso-ink')
-  vim.cmd 'colorscheme miniwinter'
+  vim.cmd 'colorscheme ember'
 end
 
 -- Alternative single colorschemes (uncomment to use):

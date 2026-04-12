@@ -1,8 +1,13 @@
-vim.pack.add { 'https://github.com/lambdalisue/suda.vim' }
+-- ============================================================================
+-- Suda Configuration
+-- Write files with sudo (handles permission issues)
+-- ============================================================================
 
-local ok_suda, suda = pcall(require, 'suda')
-if not ok_suda then
+vim.pack.add({ 'https://github.com/lambdalisue/suda.vim' })
+
+local ok, suda = pcall(require, 'suda')
+if not ok then
   return
 end
 
-suda.setup {}
+suda.setup({})

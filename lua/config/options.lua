@@ -1,4 +1,7 @@
--- options.lua - Settings
+-- ============================================================================
+-- Options Configuration
+-- Core Neovim settings optimized for development
+-- ============================================================================
 
 local opt = vim.opt
 
@@ -40,7 +43,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.splitkeep = 'screen'
 
--- Indentation
+-- Indentation (2 spaces)
 opt.expandtab = true
 opt.tabstop = 2
 opt.shiftwidth = 2
@@ -91,7 +94,7 @@ opt.winminwidth = 5
 opt.winminheight = 1
 
 -- Windows shell
-if vim.fn.has 'win32' == 1 then
+if vim.fn.has('win32') == 1 then
   opt.shell = 'pwsh'
   opt.shellcmdflag =
     '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
@@ -101,5 +104,5 @@ if vim.fn.has 'win32' == 1 then
   opt.shellxquote = ''
 end
 
--- Fix markdown
+-- Disable markdown recommended style (allows custom settings)
 vim.g.markdown_recommended_style = 0

@@ -1,4 +1,7 @@
--- autocmds.lua - Autocommands
+-- ============================================================================
+-- Autocommands Configuration
+-- Event-driven behaviors
+-- ============================================================================
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
@@ -36,5 +39,3 @@ autocmd({ 'BufWritePost', 'BufModifiedSet', 'User' }, {
     vim.schedule(function() pcall(vim.cmd, 'redrawstatus') end)
   end,
 })
-
-

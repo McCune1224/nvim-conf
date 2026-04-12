@@ -1,5 +1,18 @@
--- keymaps.lua - Key bindings
--- Leader groups: b=buffer, c=code, f=find, g=git, h=harpoon, etc.
+-- ============================================================================
+-- Keymaps Configuration
+-- Leader: <Space> | Local leader: <Space>
+--
+-- Leader groups:
+--   <leader>b  Buffer operations
+--   <leader>c  Code/LSP operations
+--   <leader>f  Find/Search (Snacks picker)
+--   <leader>g  Git operations
+--   <leader>h  Harpoon marks
+--   <leader>p  Debug/DAP
+--   <leader>q  Session management
+--   <leader>t  Tab operations
+--   <leader>u  UI toggles
+-- ============================================================================
 
 -- Movement - center screen after jumping
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
@@ -21,11 +34,11 @@ vim.keymap.set('o', 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev se
 vim.keymap.set('n', '*', '*zz')
 vim.keymap.set('n', '#', '#zz')
 
--- Jump list
+-- Jump list - center screen
 vim.keymap.set('n', '<C-i>', '<C-i>zz')
 vim.keymap.set('n', '<C-o>', '<C-o>zz')
 
--- Bracket matching
+-- Bracket matching - center screen
 vim.keymap.set('n', '%', '%zz')
 
 -- Smart up/down for wrapped lines
@@ -69,12 +82,11 @@ vim.keymap.set('n', 'gd', function() Snacks.picker.lsp_definitions() end, { desc
 vim.keymap.set('n', 'gr', function() Snacks.picker.lsp_references() end, { desc = '[G]o to [R]eferences' })
 vim.keymap.set('n', 'gI', function() Snacks.picker.lsp_implementations() end, { desc = '[G]o to [I]mplementation' })
 vim.keymap.set('n', 'K', function() require('config.lsp').fancy_hover() end, { desc = 'Hover docs (double-K to focus)' })
--- vim.keymap.set('n', '<C-k>', function() require('config.lsp').fancy_signature() end, { desc = 'Signature help (fancy)' })
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
 vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { desc = '[C]ode [F]ormat' })
 
--- Diagnostics
+-- Diagnostics navigation
 local diagnostic_goto = function(next, severity)
   local next_diag = function(sev)
     vim.diagnostic.jump { count = 1, float = true, severity = sev }
@@ -117,7 +129,7 @@ end, { desc = 'Next [Q]uickfix' })
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
--- Move lines up/down
+-- Move lines up/down (Alt+j/k)
 vim.keymap.set('n', '<A-j>', '<cmd>m .+1<cr>==')
 vim.keymap.set('n', '<A-k>', '<cmd>m .-2<cr>==')
 vim.keymap.set('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi')

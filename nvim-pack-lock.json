@@ -97,6 +97,10 @@
       "rev": "de740991c12411b663994b2860f1a4fd0937c130",
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
+    "nvim": {
+      "rev": "58b8b2c4dc8a1be1da22ff7ca41d1a9ca8d8a6b6",
+      "src": "https://github.com/ember-theme/nvim"
+    },
     "nvim-dap": {
       "rev": "45a69eba683a2c448dd9ecfc4de89511f0646b5f",
       "src": "https://github.com/mfussenegger/nvim-dap"

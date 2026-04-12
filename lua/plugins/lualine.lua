@@ -1,6 +1,9 @@
--- lualine.lua - Statusline
+-- ============================================================================
+-- Lualine Configuration
+-- Custom statusline with filepath, git, tabs, and position
+-- ============================================================================
 
-vim.pack.add { 'https://github.com/nvim-lualine/lualine.nvim' }
+vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
 
 local ok, lualine = pcall(require, 'lualine')
 if not ok then
@@ -8,7 +11,7 @@ if not ok then
 end
 
 local function filepath()
-  local path = vim.fn.expand '%:.'
+  local path = vim.fn.expand('%:.')
   if path == '' then
     return '[no name]'
   end
@@ -54,10 +57,10 @@ local function tab_info()
 end
 
 local function position()
-  return vim.fn.line '.' .. ':' .. vim.fn.col '.'
+  return vim.fn.line('.') .. ':' .. vim.fn.col('.')
 end
 
-lualine.setup {
+lualine.setup({
   options = {
     component_separators = ' /// ',
     section_separators = ' ',
@@ -80,4 +83,4 @@ lualine.setup {
     lualine_y = {},
     lualine_z = {},
   },
-}
+})

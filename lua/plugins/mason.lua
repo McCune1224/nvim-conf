@@ -1,17 +1,16 @@
 -- ============================================================================
 -- Mason Configuration
--- LSP server installer with nvim-lspconfig defaults
+-- LSP server installer with automatic_enable for vim.lsp.enable()
 -- ============================================================================
 
 -- Install plugins
--- nvim-lspconfig provides default configs for 100+ LSP servers
 vim.pack.add({
   'https://github.com/williamboman/mason.nvim',
   'https://github.com/williamboman/mason-lspconfig.nvim',
   'https://github.com/neovim/nvim-lspconfig',
 })
 
--- Setup
+-- Setup Mason
 local ok_mason, mason = pcall(require, 'mason')
 if not ok_mason then
   return
@@ -19,6 +18,7 @@ end
 
 mason.setup()
 
+-- Setup mason-lspconfig for automatic LSP installation
 local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
 if ok_mason_lspconfig then
   mason_lspconfig.setup({
@@ -38,6 +38,3 @@ if ok_mason_lspconfig then
     automatic_enable = true,
   })
 end
-
-
--- test

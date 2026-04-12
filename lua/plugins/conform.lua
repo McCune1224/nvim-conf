@@ -134,7 +134,6 @@ vim.keymap.set('n', '<leader>lF', function()
   conform.formatters_info()
 end, { desc = '[L]SP [F]ormat info' })
 
-
 -- Ctrl+F to format
 vim.keymap.set({ 'n', 'v' }, '<C-f>', function()
   conform.format({ async = true, lsp_fallback = true })
