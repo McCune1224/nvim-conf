@@ -43,7 +43,7 @@ local current_time = tonumber(os.date '%H')
 if current_time >= 9 and current_time <= 15 then
   -- Daytime - lighter theme
   -- vim.cmd('colorscheme conifer-lunar')
-  vim.cmd 'colorscheme ember-light'
+  vim.cmd 'colorscheme ember'
 else
   -- Evening/Night - darker theme
   -- vim.cmd('colorscheme kanso-ink')
