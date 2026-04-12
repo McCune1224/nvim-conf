@@ -48,6 +48,7 @@ blink.setup {
       winblend = 0,
       max_height = 10,
       max_width = 80,
+      direction_priority = { 's', 'n' }, -- Prefer showing below cursor, fallback to above
     },
   },
 

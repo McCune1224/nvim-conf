@@ -19,7 +19,7 @@ require('noice').setup({
       enabled = true,
       silent = true, -- Don't show "No information available"
     },
-    signature = { enabled = true },
+    signature = { enabled = false },
   },
   presets = {
     bottom_search = true,

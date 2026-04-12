@@ -32,15 +32,23 @@ M.is_hover_visible = function()
   return M.last_hover_win and vim.api.nvim_win_is_valid(M.last_hover_win)
 end
 
+-- Store last signature window for double-trigger focus
+M.last_signature_win = nil
+
+-- Check if signature help is visible
+M.is_signature_visible = function()
+  return M.last_signature_win and vim.api.nvim_win_is_valid(M.last_signature_win)
+end
+
 -- Open URL in browser
 M.open_url = function()
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2]
-  
+
   -- Find URL
   local url = line:sub(col + 1):match('^https?://[^%s<>"]+')
     or line:sub(1, col + 1):match('https?://[^%s<>"]+$')
-  
+
   if url then
     url = url:gsub('[.,;:!?]+$', '')
     local cmd = vim.fn.has('mac') == 1 and { 'open', url }
@@ -130,6 +138,69 @@ M.fancy_hover = function()
   end)
 end
 
+-- Fancy signature help with double-trigger to focus
+M.fancy_signature = function()
+  -- Double-trigger: focus existing signature window
+  if M.is_signature_visible() then
+    vim.api.nvim_set_current_win(M.last_signature_win)
+    return
+  end
+
+  -- Get position params with encoding
+  local buf = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = buf })
+  local encoding = clients[1] and clients[1].offset_encoding or 'utf-16'
+  local params = vim.lsp.util.make_position_params(0, encoding)
+
+  vim.lsp.buf_request(buf, 'textDocument/signatureHelp', params, function(err, result, ctx, config)
+    if err or not result or not result.signatures then
+      return
+    end
+
+    if vim.tbl_isempty(result.signatures) then
+      return
+    end
+
+    -- Use Neovim 0.12's built-in signature help with custom config
+    local _, winnr = vim.lsp.buf.signature_help({
+      border = M.border_style,
+      max_width = 80,
+      max_height = 10,
+      focusable = true,
+      focus_id = ctx.method,
+      close_events = { 'CursorMoved', 'BufHidden', 'InsertLeave' },
+      silent = true,
+    })
+
+    if winnr then
+      M.last_signature_win = winnr
+
+      -- Enhancements
+      vim.wo[winnr].conceallevel = 3
+      vim.wo[winnr].concealcursor = 'nvc'
+      vim.wo[winnr].wrap = true
+      vim.wo[winnr].linebreak = true
+
+      -- Get the buffer from the window
+      local bufnr = vim.api.nvim_win_get_buf(winnr)
+
+      -- Keymaps for when focused
+      vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = bufnr, silent = true, desc = 'Close signature' })
+      vim.keymap.set('n', '<Esc>', '<cmd>close<cr>', { buffer = bufnr, silent = true, desc = 'Close signature' })
+
+      -- Auto-close when leaving insert mode
+      vim.api.nvim_create_autocmd('InsertLeave', {
+        once = true,
+        callback = function()
+          if vim.api.nvim_win_is_valid(winnr) then
+            vim.api.nvim_win_close(winnr, true)
+          end
+        end,
+      })
+    end
+  end)
+end
+
 M.setup_global_defaults = function()
   M.setup_highlights()
   vim.o.winborder = 'single'
@@ -139,6 +210,9 @@ M.setup_global_defaults = function()
     root_markers = { '.git' },
     exit_timeout = 1000,
   })
+
+  -- Let Noice handle signature help styling
+  -- vim.lsp.handlers['textDocument/signatureHelp'] = M.fancy_signature
 end
 
 M.on_attach = function(client, bufnr)

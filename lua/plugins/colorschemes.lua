@@ -28,7 +28,7 @@ vim.pack.add {
   'https://github.com/lucasadelino/conifer.nvim',
   { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' },
   'https://github.com/gmr458/cold.nvim',
-  'https://github.com/kvrohit/rasmus.nvim',
+  -- 'https://github.com/kvrohit/rasmus.nvim',
 
   -- Also install tokyonight as fallback
   -- 'https://github.com/folke/tokyonight.nvim',
