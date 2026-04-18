@@ -38,6 +38,7 @@ require 'plugins.persistence'
 require 'plugins.colorschemes'
 require 'plugins.gitsigns'
 require 'plugins.lualine'
+require 'plugins.aerial'
 require 'plugins.which-key'
 require 'plugins.suda'
 

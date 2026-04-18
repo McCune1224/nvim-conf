@@ -1,7 +1,11 @@
 {
   "plugins": {
+    "aerial.nvim": {
+      "rev": "645d108a5242ec7b378cbe643eb6d04d4223f034",
+      "src": "https://github.com/stevearc/aerial.nvim"
+    },
     "blink.cmp": {
-      "rev": "456d38d1cd3743926f329204c2340f3e7840aad6",
+      "rev": "c573a15a62bd0bfd4006ee0849b24f5404395500",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "cold.nvim": {
@@ -37,7 +41,7 @@
       "src": "https://github.com/blazkowolf/gruber-darker.nvim"
     },
     "gruvbox-material": {
-      "rev": "afb275d8e6dc379762d122bd24e1773fc057abf3",
+      "rev": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79",
       "src": "https://github.com/sainnhe/gruvbox-material"
     },
     "harpoon": {
@@ -82,7 +86,7 @@
       "src": "https://github.com/xero/miasma.nvim"
     },
     "mini.nvim": {
-      "rev": "c67822c53e8e282fe863343e88aa0a8ca3534059",
+      "rev": "418ef4930ddabe80f449c6f1323f8b6abb172d1c",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
     "no-clown-fiesta.nvim": {
@@ -98,7 +102,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "58b8b2c4dc8a1be1da22ff7ca41d1a9ca8d8a6b6",
+      "rev": "4736d0362cdb621bed4189d789b5ba00a66d33c7",
       "src": "https://github.com/ember-theme/nvim"
     },
     "nvim-dap": {
@@ -106,7 +110,7 @@
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-dap-view": {
-      "rev": "e44892210cfa98d23bf22b82b345213d742b9bee",
+      "rev": "03c22bb2bc0d6ed60ee6f7351f8a5e65dd2e80d3",
       "src": "https://github.com/igorlfs/nvim-dap-view"
     },
     "nvim-lint": {
@@ -114,7 +118,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "8a9378a822719346a0288fa004dab302ca3c0a8f",
+      "rev": "4b7fbaa239c5db6b36f424a4521ca9f1a401be33",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
