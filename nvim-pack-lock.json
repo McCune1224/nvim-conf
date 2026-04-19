@@ -102,7 +102,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "4736d0362cdb621bed4189d789b5ba00a66d33c7",
+      "rev": "9d22ec7b126d75274a4525840501bf8da55c75f1",
       "src": "https://github.com/ember-theme/nvim"
     },
     "nvim-dap": {

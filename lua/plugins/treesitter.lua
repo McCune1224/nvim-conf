@@ -232,7 +232,7 @@ vim.defer_fn(function()
   vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true, desc = 'To prev char' })
 
   -- Notify that setup is complete
-  vim.notify('Treesitter textobjects configured (modern API)', vim.log.levels.INFO)
+  -- vim.notify('Treesitter textobjects configured (modern API)', vim.log.levels.INFO)
 end, 200)
 
 -- ============================================================================
