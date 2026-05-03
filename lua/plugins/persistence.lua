@@ -5,8 +5,9 @@
 
 vim.pack.add({ 'https://github.com/folke/persistence.nvim' })
 
-local ok, persistence = pcall(require, 'persistence')
-if not ok then
+local ok_persistence, persistence = pcall(require, 'persistence')
+if not ok_persistence then
+  vim.notify('persistence.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

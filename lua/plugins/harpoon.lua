@@ -8,7 +8,11 @@ vim.pack.add({
   'https://github.com/nvim-lua/plenary.nvim',
 })
 
-local harpoon = require('harpoon')
+local ok_harpoon, harpoon = pcall(require, 'harpoon')
+if not ok_harpoon then
+  vim.notify('harpoon failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
 
 harpoon:setup({
   settings = {

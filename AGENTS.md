@@ -27,6 +27,7 @@ This folder contains the user's old Neovim configuration using lazy.nvim. Refere
 3. Use mason ONLY for installing LSP binaries, not for configuration
 4. Keep it simple - minimal plugins, maximum built-in features
 5. **Use Nerd Font glyphs, NOT emojis** - Cool icons like `󰊢` `●` `󰌾` are fine, but no actual emojis like 😀 🎉
+6. **Always use pcall with vim.notify for plugin requires** - Provide clear error messages when plugins fail to load
 
 ## Documentation Sources
 
@@ -145,6 +146,26 @@ vim.pack.add({
 :Mason
 ```
 
+## Plugin Error Handling
+
+All plugins must use `pcall` with `vim.notify` to provide graceful error handling:
+
+```lua
+-- Good: Proper error handling with user notification
+local ok_plugin, plugin = pcall(require, 'plugin-name')
+if not ok_plugin then
+  vim.notify('plugin-name failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
+
+plugin.setup({...})
+```
+
+This pattern ensures:
+- Users see a helpful message when a plugin fails to load (e.g., during first install)
+- Neovim continues loading other plugins (graceful degradation)
+- Clear indication that a restart may be needed after plugin installation
+
 ## Migration Notes
 
 - mason-lspconfig is used ONLY for ensuring LSPs are installed
@@ -153,6 +174,7 @@ vim.pack.add({
 - Each plugin file handles its own `vim.pack.add()` - install and config are co-located
 - Plugins in `lua/plugins/` are self-contained modules
 - **IMPORTANT: New plugin files must be added to `init.lua`** - Add `require 'plugins.filename'` (without `.lua` extension) to the plugins section
+- All plugin files must use pcall + vim.notify for error handling (see Plugin Error Handling section)
 
 ---
 

@@ -7,8 +7,9 @@
 
 vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
 
-local ok, lualine = pcall(require, 'lualine')
-if not ok then
+local ok_lualine, lualine = pcall(require, 'lualine')
+if not ok_lualine then
+  vim.notify('lualine.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

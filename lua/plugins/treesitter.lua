@@ -13,7 +13,13 @@ vim.pack.add {
 }
 
 -- Setup nvim-treesitter (optional, defaults work fine)
-require('nvim-treesitter').setup {
+local ok_treesitter, treesitter = pcall(require, 'nvim-treesitter')
+if not ok_treesitter then
+  vim.notify('nvim-treesitter failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
+
+treesitter.setup {
   -- Directory to install parsers and queries to
   install_dir = vim.fn.stdpath 'data' .. '/site',
 }
@@ -51,7 +57,10 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- Install all stable parsers on startup if not already installed
 vim.defer_fn(function()
-  local ts = require 'nvim-treesitter'
+  local ok_ts, ts = pcall(require, 'nvim-treesitter')
+  if not ok_ts then
+    return
+  end
   local installed = ts.get_installed()
 
   if #installed == 0 then
@@ -241,14 +250,22 @@ end, 200)
 
 -- Command to install all stable parsers
 vim.api.nvim_create_user_command('TSInstallAll', function()
-  local ts = require 'nvim-treesitter'
+  local ok_ts, ts = pcall(require, 'nvim-treesitter')
+  if not ok_ts then
+    vim.notify('nvim-treesitter not available', vim.log.levels.ERROR)
+    return
+  end
   vim.notify('Installing all stable parsers...', vim.log.levels.INFO)
   ts.install 'stable'
 end, { desc = 'Install all stable treesitter parsers' })
 
 -- Command to update all parsers
 vim.api.nvim_create_user_command('TSUpdateAll', function()
-  local ts = require 'nvim-treesitter'
+  local ok_ts, ts = pcall(require, 'nvim-treesitter')
+  if not ok_ts then
+    vim.notify('nvim-treesitter not available', vim.log.levels.ERROR)
+    return
+  end
   vim.notify('Updating all parsers...', vim.log.levels.INFO)
   ts.update()
 end, { desc = 'Update all treesitter parsers' })

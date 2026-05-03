@@ -5,8 +5,9 @@
 
 vim.pack.add({ 'https://github.com/folke/which-key.nvim' })
 
-local ok, which_key = pcall(require, 'which-key')
-if not ok then
+local ok_which_key, which_key = pcall(require, 'which-key')
+if not ok_which_key then
+  vim.notify('which-key.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

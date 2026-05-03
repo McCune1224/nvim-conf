@@ -6,7 +6,11 @@
 -- Install plugin
 vim.pack.add({ 'https://github.com/stevearc/conform.nvim' })
 
-local conform = require('conform')
+local ok_conform, conform = pcall(require, 'conform')
+if not ok_conform then
+  vim.notify('conform.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
 
 conform.setup({
   -- Formatter configuration by filetype

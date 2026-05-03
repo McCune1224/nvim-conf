@@ -5,8 +5,9 @@
 
 vim.pack.add({ 'https://github.com/lewis6991/gitsigns.nvim' })
 
-local ok, gitsigns = pcall(require, 'gitsigns')
-if not ok then
+local ok_gitsigns, gitsigns = pcall(require, 'gitsigns')
+if not ok_gitsigns then
+  vim.notify('gitsigns.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

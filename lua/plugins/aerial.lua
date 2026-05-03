@@ -8,8 +8,9 @@ vim.pack.add({
   'https://github.com/stevearc/aerial.nvim',
 })
 
-local ok, aerial = pcall(require, 'aerial')
-if not ok then
+local ok_aerial, aerial = pcall(require, 'aerial')
+if not ok_aerial then
+  vim.notify('aerial.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 
@@ -44,7 +45,8 @@ aerial.setup({
   -- 'classic' - The classic tree view with collapsable nodes
   -- 'compact' - Compact view with symbols inline
   -- 'tree' - Tree view with indent guides
-  render_mode = 'classic',
+  -- render_mode = 'classic',
+  render_mode = 'tree',
 
   -- Determines the default symbols to show
   filter_kind = {

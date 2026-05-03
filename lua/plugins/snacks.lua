@@ -6,7 +6,11 @@
 -- Install plugin
 vim.pack.add({ 'https://github.com/folke/snacks.nvim' })
 
-local Snacks = require('snacks')
+local ok_snacks, Snacks = pcall(require, 'snacks')
+if not ok_snacks then
+  vim.notify('snacks.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
 
 Snacks.setup({
   input = { enabled = true },

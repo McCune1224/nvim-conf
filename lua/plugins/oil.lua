@@ -20,6 +20,7 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Setup oil
 local ok_oil, oil = pcall(require, 'oil')
 if not ok_oil then
+  vim.notify('oil.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

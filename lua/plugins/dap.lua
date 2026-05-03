@@ -10,9 +10,14 @@ vim.pack.add({
 })
 
 local ok_dap, dap = pcall(require, 'dap')
-local ok_dv, dv = pcall(require, 'dap-view')
+if not ok_dap then
+  vim.notify('nvim-dap failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
 
-if not ok_dap or not ok_dv then
+local ok_dv, dv = pcall(require, 'dap-view')
+if not ok_dv then
+  vim.notify('nvim-dap-view failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

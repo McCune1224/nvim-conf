@@ -8,7 +8,13 @@ vim.pack.add({
   'https://github.com/MunifTanjim/nui.nvim',
 })
 
-require('noice').setup({
+local ok_noice, noice = pcall(require, 'noice')
+if not ok_noice then
+  vim.notify('noice.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
+
+noice.setup({
   lsp = {
     override = {
       ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
@@ -67,4 +73,4 @@ require('noice').setup({
 })
 
 -- Replace vim.notify with noice's minimal notification
-vim.notify = require('noice').notify
+vim.notify = noice.notify

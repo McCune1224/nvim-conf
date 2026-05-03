@@ -13,6 +13,7 @@ vim.pack.add({
 -- Setup Mason
 local ok_mason, mason = pcall(require, 'mason')
 if not ok_mason then
+  vim.notify('mason.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

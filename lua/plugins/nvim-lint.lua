@@ -6,7 +6,11 @@
 -- Install plugin
 vim.pack.add { 'https://github.com/mfussenegger/nvim-lint' }
 
-local lint = require 'lint'
+local ok_lint, lint = pcall(require, 'lint')
+if not ok_lint then
+  vim.notify('nvim-lint failed to load - plugin may need installation or restart', vim.log.levels.WARN)
+  return
+end
 
 -- Configure linters by filetype
 lint.linters_by_ft = {

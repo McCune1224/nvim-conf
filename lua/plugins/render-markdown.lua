@@ -10,6 +10,7 @@ vim.pack.add({
 
 local ok_render, render = pcall(require, 'render-markdown')
 if not ok_render then
+  vim.notify('render-markdown.nvim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 

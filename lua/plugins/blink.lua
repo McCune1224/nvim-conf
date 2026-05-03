@@ -3,15 +3,36 @@
 -- Modern completion engine
 -- ============================================================================
 
--- Install plugin
+-- Install plugins
 vim.pack.add {
   'https://github.com/saghen/blink.cmp',
+  'https://github.com/saghen/blink.lib',
   'https://github.com/rafamadriz/friendly-snippets',
   'https://github.com/kristijanhusak/vim-dadbod-completion',
 }
 
-local blink = require 'blink.cmp'
+-- Load the plugin (vim.pack puts plugins in opt/, need packadd to load)
+vim.cmd 'packadd blink.cmp'
 
+local ok_blink, blink = pcall(require, 'blink.cmp')
+if not ok_blink then
+  vim.notify('blink.cmp not loaded yet - will be available after restart', vim.log.levels.WARN)
+  return
+end
+
+-- Check if Rust fuzzy matcher is available
+local has_rust_lib = blink.library_available()
+
+-- Build if needed (run this once, then restart Neovim)
+-- To rebuild manually: :lua require('blink.cmp').build():wait(60000)
+if not has_rust_lib then
+  vim.notify('blink.cmp: Building Rust fuzzy matcher... (please wait)', vim.log.levels.INFO)
+  vim.notify('Run :lua require("blink.cmp").build():wait(60000) and then restart Neovim', vim.log.levels.WARN)
+end
+
+-- require('blink.cmp').download({ force = true, tags = '*' }):wait(60000)
+
+blink.build():wait(60000)
 blink.setup {
   cmdline = {
     keymap = { preset = 'inherit' },
@@ -48,40 +69,13 @@ blink.setup {
       winblend = 0,
       max_height = 10,
       max_width = 80,
-      direction_priority = { 's', 'n' }, -- Prefer showing below cursor, fallback to above
+      direction_priority = { 's', 'n' },
     },
   },
 
   appearance = {
     use_nvim_cmp_as_default = false,
     nerd_font_variant = 'mono',
-    -- kind_icons = {
-    --   Text = '󰉿',
-    --   Method = '󰊕',
-    --   Function = '󰊕',
-    --   Constructor = '󰒓',
-    --   Field = '󰜢',
-    --   Variable = '󰀫',
-    --   Property = '󰖷',
-    --   Class = '󰠱',
-    --   Interface = '󰕘',
-    --   Struct = '󰙅',
-    --   Module = '󰏗',
-    --   Unit = '󰑭',
-    --   Value = '󰎠',
-    --   Enum = '󰕘',
-    --   EnumMember = '󰕘',
-    --   Keyword = '󰌋',
-    --   Constant = '󰏿',
-    --   Snippet = '󰩫',
-    --   Color = '󰏘',
-    --   File = '󰈙',
-    --   Reference = '󰈇',
-    --   Folder = '󰉋',
-    --   Event = '󰉒',
-    --   Operator = '󰆕',
-    --   TypeParameter = '󰬛',
-    -- },
   },
 
   completion = {
@@ -102,45 +96,6 @@ blink.setup {
           { 'label', 'label_description', gap = 1 },
           { 'kind' },
         },
-
-        components = {
-          kind_icon = {
-            text = function(ctx)
-              return ctx.kind_icon
-            end,
-            highlight = function(ctx)
-              return 'BlinkCmpKind' .. ctx.kind
-            end,
-          },
-
-          label = {
-            text = function(ctx)
-              return ctx.label
-            end,
-            highlight = function(ctx)
-              return ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel'
-            end,
-          },
-
-          label_description = {
-            width = { max = 30 },
-            text = function(ctx)
-              return ctx.label_detail
-            end,
-            highlight = 'Comment',
-          },
-
-          kind = {
-            width = { fill = true },
-            text = function(ctx)
-              return ctx.kind
-            end,
-            highlight = function(ctx)
-              return 'BlinkCmpKind' .. ctx.kind
-            end,
-          },
-        },
-
         treesitter = { 'lsp' },
       },
     },
@@ -178,51 +133,20 @@ blink.setup {
       dadbod = {
         name = 'Dadbod',
         module = 'vim_dadbod_completion.blink',
-        score_offset = 100, -- Prioritize dadbod suggestions in SQL
+        score_offset = 100,
       },
     },
   },
 
   fuzzy = {
-    -- 'prefer_rust_with_warning' (Recommended) - Auto-download prebuilt binaries, fallback to Lua with warning
-    -- 'prefer_rust' - Use Rust if available, fallback to Lua silently
-    -- 'rust' - Always use Rust, error if not available
-    -- 'lua' - Always use Lua implementation
-    implementation = 'lua',
-    prebuilt_binaries = {
-      -- download = true, -- Auto-download prebuilt binaries from GitHub
-      ignore_version_mismatch = false, -- Set true if building from source manually
-    },
+    -- Use 'prefer_rust_with_warning' to fallback to Lua if Rust lib not available
+    -- Change to 'rust' after building for better performance
+    implementation = has_rust_lib and 'rust' or 'prefer_rust_with_warning',
   },
 }
 
--- High contrast highlights
-local function set_high_contrast_highlights()
-  -- Bold selection with strong contrast
-  local pmenu_sel = vim.api.nvim_get_hl(0, { name = 'PmenuSel' })
-  vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', {
-    bg = pmenu_sel.bg,
-    bold = true,
-  })
-
-  -- Make label match stand out
-  local special = vim.api.nvim_get_hl(0, { name = 'Special' })
-  vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', {
-    bold = true,
-    fg = special.fg,
-  })
-
-  -- Clear background for crisp look
-  vim.api.nvim_set_hl(0, 'BlinkCmpMenu', { link = 'Pmenu' })
-  vim.api.nvim_set_hl(0, 'BlinkCmpDoc', { link = 'NormalFloat' })
-  vim.api.nvim_set_hl(0, 'BlinkCmpSignatureHelp', { link = 'NormalFloat' })
-end
-
--- set_high_contrast_highlights()
---
--- vim.api.nvim_create_autocmd('ColorScheme', {
---   group = vim.api.nvim_create_augroup('BlinkCmpHighContrast', { clear = true }),
---   callback = set_high_contrast_highlights,
--- })
-
-
+-- if has_rust_lib then
+--   vim.notify('blink.cmp: Using Rust fuzzy matcher', vim.log.levels.INFO)
+-- else
+--   vim.notify('blink.cmp: Using Lua fallback (run build for Rust performance)', vim.log.levels.WARN)
+-- end

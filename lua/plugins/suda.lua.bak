@@ -3,11 +3,12 @@
 -- Write files with sudo (handles permission issues)
 -- ============================================================================
 
-vim.pack.add({ 'https://github.com/lambdalisue/suda.vim' })
+vim.pack.add { 'https://github.com/lambdalisue/vim-suda' }
 
-local ok, suda = pcall(require, 'suda')
-if not ok then
+local ok_suda, suda = pcall(require, 'vim-suda')
+if not ok_suda then
+  vim.notify('suda.vim failed to load - plugin may need installation or restart', vim.log.levels.WARN)
   return
 end
 
-suda.setup({})
+suda.setup {}
