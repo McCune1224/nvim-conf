@@ -2,23 +2,11 @@
 
 ## Overview
 
-This guide assists with building a modern Neovim 0.12 configuration from scratch using:
+This guide assists with building a modern Neovim 0.12 configuration using:
 - **vim.pack** - Built-in plugin manager (Neovim 0.12+)
 - **vim.lsp.config/enable** - Native LSP configuration (no lspconfig needed)
 - **mason.nvim** - For installing LSP servers (but NOT for configuring them)
 - Minimal, integrated features over external plugins
-
-## Legacy Configuration Reference
-
-**Previous config location:** `~/.config/nvim.bkup/`
-
-This folder contains the user's old Neovim configuration using lazy.nvim. Reference this when:
-- Migrating plugins from the old setup
-- Looking for specific plugin configurations (snacks, blink, harpoon, etc.)
-- Checking previous keymaps or settings
-- Understanding user's workflow preferences
-
-**Note:** The new config (`~/.config/nvim/`) is a fresh start using vim.pack and native LSP. Do not automatically port everything from nvim.bkup - only migrate specific plugins or configs when explicitly requested.
 
 ## Key Principles
 
@@ -86,6 +74,7 @@ vim.lsp.enable('gopls')
 │   │   ├── keymaps.lua   # Key mappings
 │   │   ├── autocmds.lua  # Autocommands
 │   │   └── lsp.lua       # Centralized LSP setup
+│   │   ...
 │   └── plugins/
 │       ├── mason.lua     # LSP installer
 │       ├── treesitter.lua # Syntax highlighting
@@ -94,6 +83,7 @@ vim.lsp.enable('gopls')
 │       ├── harpoon.lua   # File marks
 │       ├── blink.lua     # Completion
 │       └── colorschemes.lua # Theme collection
+│       ...
 └── lsp/                  # LSP server configs
     ├── gopls.lua
     └── lua_ls.lua
@@ -175,10 +165,6 @@ This pattern ensures:
 - Plugins in `lua/plugins/` are self-contained modules
 - **IMPORTANT: New plugin files must be added to `init.lua`** - Add `require 'plugins.filename'` (without `.lua` extension) to the plugins section
 - All plugin files must use pcall + vim.notify for error handling (see Plugin Error Handling section)
-
----
-
-Last updated: Neovim 0.12-dev
 
 ---
 
