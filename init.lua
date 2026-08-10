@@ -32,6 +32,7 @@ require 'plugins.gitsigns'
 require 'plugins.lualine-style-e-infopro'
 require 'plugins.aerial'
 require 'plugins.which-key'
+require 'plugins.godot-lsp'
 -- require 'plugins.suda'
 
 -- LSP setup (mason-lspconfig handles vim.lsp.enable() via automatic_enable)

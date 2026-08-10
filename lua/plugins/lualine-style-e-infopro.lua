@@ -99,7 +99,7 @@ lualine.setup {
   -- ═══════════════════════════════════════════════════════════════
   winbar = {
     lualine_a = {
-      { 'filetype', icon_only = true, colored = true, padding = { left = 2, right = 2 } },
+      { 'filetype', icon_only = true, colored = false, padding = { left = 2, right = 2 } },
     },
     lualine_b = {},
     lualine_c = {

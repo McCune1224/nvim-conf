@@ -50,6 +50,9 @@ conform.setup({
     svelte = { 'prettierd', 'prettier', stop_after_first = true },
     -- Templ
     templ = { 'templ' },
+    -- GDScript
+    gdscript = { 'gdformat' },
+    gdshader = { 'gdformat' },
     -- Shell
     sh = { 'shfmt' },
     bash = { 'shfmt' },

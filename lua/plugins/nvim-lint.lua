@@ -37,6 +37,8 @@ lint.linters_by_ft = {
   yaml = { 'yamllint' },
   -- Vim
   vim = { 'vint' },
+  -- GDScript
+  gdscript = { 'gdlint' },
   -- C/C++
   c = { 'clangtidy' },
   cpp = { 'clangtidy' },

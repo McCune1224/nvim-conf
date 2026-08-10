@@ -48,23 +48,28 @@ dap.adapters.godot = {
   port = 6006,
 }
 
+-- Godot launch args (verified against Godot's debug_adapter_parser.cpp):
+--   scene  = 'main' (default) | 'current' | 'res://path/to/scene.tscn'
+-- Omit `scene` to play the project's main scene (default). Add a line like
+--   scene = 'res://scenes/main.tscn'
+-- to launch a specific scene instead.
 dap.configurations.gdscript = {
   {
     type = 'godot',
     request = 'launch',
-    name = 'Launch scene',
+    name = 'Launch Main scene',
     project = '${workspaceFolder}',
-    launch_scene = true,
   },
 }
 
+-- Godot launch args: scene = 'main' (default) | 'current' | 'res://path/to/scene.tscn'
+-- Omit `scene` to play the project's main scene (default).
 dap.configurations.cs = {
   {
     type = 'godot',
     request = 'launch',
     name = 'Godot Launch',
     project = '${workspaceFolder}',
-    launch_scene = true,
   },
 }
 

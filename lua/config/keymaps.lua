@@ -153,7 +153,7 @@ vim.keymap.set({ 'n', 't' }, '<C-/>', function() require('snacks').terminal.togg
 
 -- UI toggles
 vim.keymap.set('n', '<leader>ut', function()
-  vim.o.background = (vim.o.background == 'dark') and 'light' or 'dark'
+  require('hearthglass').toggle()
 end, { desc = '[U]I [T]oggle theme' })
 
 vim.keymap.set('n', '<esc><esc>', '<cmd>nohlsearch<cr>', { desc = 'Clear highlights' })

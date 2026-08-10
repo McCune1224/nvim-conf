@@ -70,6 +70,26 @@ vim.defer_fn(function()
 end, 100)
 
 -- ============================================================================
+-- Ensure Godot-specific parsers are installed
+-- ============================================================================
+
+vim.defer_fn(function()
+  local ok_ts, ts = pcall(require, 'nvim-treesitter')
+  if not ok_ts then
+    return
+  end
+
+  local installed = vim.tbl_map(string.lower, ts.get_installed() or {})
+  local gd_parsers = { 'gdscript', 'gdshader', 'godot_resource' }
+  for _, lang in ipairs(gd_parsers) do
+    if not vim.tbl_contains(installed, lang) then
+      vim.notify('Installing treesitter parser: ' .. lang, vim.log.levels.INFO)
+      ts.install(lang)
+    end
+  end
+end, 300)
+
+-- ============================================================================
 -- Text Objects: Modern Explicit API
 -- ============================================================================
 -- Using vim.keymap.set() for full which-key integration and clarity
