@@ -16,6 +16,15 @@ opt.clipboard = vim.env.SSH_TTY and '' or 'unnamedplus'
 
 -- Visuals
 opt.termguicolors = true
+-- Attach highlight groups to the cursor so the colorscheme's Cursor color is
+-- sent to the terminal (OSC 12) instead of falling back to the terminal theme.
+-- Without the "-Cursor/lCursor" groups, Neovim uses the host terminal's cursor.
+opt.guicursor = {
+  'n-v-c-sm:block-Cursor/lCursor',
+  'i-ci-ve:ver25-Cursor/lCursor',
+  'r-cr-o:hor20-Cursor/lCursor',
+  't:block-blinkon500-blinkoff500-TermCursor',
+}
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
